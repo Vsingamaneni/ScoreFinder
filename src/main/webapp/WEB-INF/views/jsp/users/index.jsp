@@ -1,0 +1,197 @@
+<%@ page import="com.sports.cricket.model.Schedule" %>
+<%@ page import="java.util.List" %><%--
+  Created by IntelliJ IDEA.
+  User: v0s004a
+  Date: 4/30/18
+  Time: 12:03 AM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page session="false"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html lang="en">
+    <title>IPL score predictor</title>
+    <meta name="description" content="Cricket" />
+    <meta charset="utf-8">
+    <!--Fav Icon:-->
+    <link rel="shortcut icon" href="/resources/core/images/cricket.ico" />
+
+    <!--CSS Styles:-->
+    <spring:url value="/resources/core/css/home.css" var="homeCss" />
+    <spring:url value="/resources/core/css/clock.css" var="clockCss" />
+    <spring:url value="/resources/core/css/footer.css" var="footerCss" />
+    <spring:url value="/resources/core/css/login.css" var="loginCss" />
+    <link href="${homeCss}" rel="stylesheet" />
+    <link href="${clockCss}" rel="stylesheet" />
+    <link href="${footerCss}" rel="stylesheet" />
+    <link href="${loginCss}" rel="stylesheet" />
+
+    <!-- Urls -->
+    <spring:url value="/" var="homeUrl" />
+
+    <!-- Images -->
+   <%-- <spring:url value="/resources/core/images/teams/srh.jpg" var="homeTeamImage" />
+    <spring:url value="/resources/core/images/teams/dd.jpg" var="awayTeamImage" /> --%>
+   <spring:url value="/resources/core/images/teams/vs.jpg" var="vs" />
+
+    <!-- js -->
+    <spring:url value="/resources/core/js/index.js" var="timerJs" />
+
+
+    <body>
+    <div style="width: 1250px; margin: 0 auto;">
+        <header>
+            <div id="head-top">
+                <ul class="page-width">
+                    <li class="logo">
+                        <a href="${userUrl}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Indian Premier League</a>
+                    </li>
+                    <li class="right">
+                        <a style="text-decoration:none;">
+                            <marquee onmouseover="stop();" onmouseout="start();" scrollAmount="20" scrollDelay="300" direction="side" width="100%"  style="margin-top: 0px auto">
+                                <a href="./index.html" class="new1" style="color:white;font-size:19px;text-decoration:none;font-family:Comic Sans MS">	IPL is live today. &nbsp;&nbsp;&nbsp;  Sign on to find your score.</a></marquee>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <nav style="font-weight:bold;">
+
+                <ul class="navigation">
+                    <li><a href="${userUrl}" class="active">Home</a></li>
+                    <li><a href="ipl_register.html">Registration</a>
+                        <ul>
+                            <li><a href="ipl_register.html">IPL</a></li>
+                            <li><a href="#">Soccer</a></li>
+                            <li><a href="#">Kabadi</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="hofFame.html" class="">My Account</a>
+                        <ul>
+                            <li><a href="login.html">Login</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="faq.html" class="">FAQ's</a></li>
+                    <li><a href="contactus.html" class="">Contact Us</a></li>
+                </ul>
+            </nav>
+
+
+        </header>
+
+        <c:choose>
+            <c:when test="${empty schedules}">
+                I see!  There are no schedules
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="schedule" items="${schedules}">
+                    <table style=" margin: 0px auto;">
+                        <tr>
+                            <td><img src="/resources/core/images/teams/${schedule.homeTeam}.jpg" alt="Home Team Image Missing" style="width:250px;height:250px;"></td>
+                            <td><img style=" display: block; margin-left: auto; margin-right: auto; width: 50px;" src="${vs}" alt="Mountain View" style="width:50px;height:50px;"></td>
+                            <td><img src="/resources/core/images/teams/${schedule.awayTeam}.jpg" alt="Away Team Image Missing" style="width:250px;height:250px;"></td>
+                        </tr>
+                    </table>
+
+                    <ul id="x3-boxes" >
+                        <li class="bg-1"></li>
+                        <li>
+
+                            <h4>COUNTDOWN CLOCK	</h4>
+                            <hr>
+                            <div id="clockdiv">
+
+                                <div>
+                                    <span class="days"></span>
+                                    <div class="smalltext">Days</div>
+                                </div>
+                                <div>
+                                    <span class="hours"></span>
+                                    <div class="smalltext">Hours</div>
+                                </div>
+                                <div>
+                                    <span class="minutes"></span>
+                                    <div class="smalltext">Minutes</div>
+                                </div>
+                                <div>
+                                    <span class="seconds"></span>
+                                    <div class="smalltext">Seconds</div>
+                                </div>
+                            </div>
+
+                            <script src="${timerJs}"></script>
+                        </li>
+
+                    </ul>
+
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+
+
+        <div id="ch-list">
+
+            <h2 style="color:white;">up comming Events</h2>
+            <hr>
+
+        </div>
+
+        <ul id="logos" class="page-width">
+            <li>
+                <p align="center"> IPL tournament 2018 is in progress.
+                    Registrations are open now and will be closed on 10-May.</p>
+            </li>
+
+        </ul>
+
+
+        <footer>
+
+            <div class="top">
+                <ul class="page-width">
+                    <li>
+                        <h4>About Us</h4>
+                        <p>
+                            A fun place for all of our friends to have a common platform to test our cricketing skils. Participate in every match day and predict the winning team and we award you points based on the winner.
+                            If you are an expert in cricket analysis, come give it a try and see where you stand among others.The first placed winner will be awarded with a special prize.
+                        </p>
+                    </li>
+
+                    <li>
+                        <h4>QUERIES ?</h4>
+                        <a href="tel:+1-617-378-1238" class="phone">+1-617-378-1238</a>
+                        <a href="mailto:vamsi.singamaneni@gmail.com" class="mail">vamsi.singamaneni@gmail.com</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="bottom">
+                <ul class="page-width">
+                    <li>
+                        © All rights Reserved @ Vamsi Krishna Singamaneni
+                    </li>
+                    <li>
+                        <a href="#">Copyrights</a>
+                        <a href="#">Terms of Use </a>
+                        <a href="#">Privacy Policy</a>
+                    </li>
+                </ul>
+            </div>
+
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/plugins/ScrollToPlugin.min.js"></script>
+        <script src="resources/js/web.js"></script>
+
+    </div>
+    </div>
+    </body>
+
+</html>

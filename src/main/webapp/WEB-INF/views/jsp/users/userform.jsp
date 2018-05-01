@@ -91,7 +91,7 @@
 		</spring:bind>
 
 		<spring:bind path="framework">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
+			<div class="form-groupch-list ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Web Frameworks</label>
 				<div class="col-sm-10">
 					<form:checkboxes path="framework" items="${frameworkList}" element="label class='checkbox-inline'" />

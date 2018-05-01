@@ -1,0 +1,130 @@
+footer
+{
+	color: #ffffff;
+}
+footer div.top
+{
+	background-color: #18212f;
+}
+footer div.bottom
+{
+	background-color: #101723;
+}
+footer ul,
+footer ul li
+{
+	padding: 0px;
+	list-style: none;
+}
+footer ul li
+{
+	margin: 0px;
+}
+footer div.top ul:after
+{
+	content: "";
+	clear: both;
+	display: block;
+}
+footer div.top ul li
+{
+	padding-bottom: 60px;
+}
+footer div.top ul li:first-child
+{
+	width: 760px;
+	float: left;
+}
+footer div.top ul li:last-child
+{
+	width: 215px;
+	float: right;
+}
+footer div.top ul li h4
+{
+	font-size: 18px;
+	font-family: "agencyfbbold";
+	text-transform: uppercase;
+	margin: 0px;
+	padding-top: 35px;
+	padding-bottom: 30px;
+}
+footer div.top ul li p
+{
+	margin: 0px;
+
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+}
+footer div.top ul li:last-child a
+{
+	color: #ffffff;
+
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 14px;
+	text-decoration: none;
+	display: block;
+	padding-left: 25px;
+
+	background-repeat: no-repeat;
+	background-position: left center;
+
+	line-height: 30px;
+	height: 30px;
+}
+footer div.top ul li:last-child a:hover
+{
+	text-decoration: underline;
+}
+footer div.top ul li:last-child a.phone
+{
+	background-image: url("../img/phone.jpg");
+}
+footer div.top ul li:last-child a.mail
+{
+    background-image: url("../img/mail_2.png");
+}
+footer div.bottom ul:after
+{
+	content: "";
+	clear: both;
+	display: block;
+}
+footer div.bottom ul li
+{
+	height: 120px;
+	line-height: 120px;
+
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+}
+footer div.bottom ul li:first-child
+{
+	float: left;
+}
+footer div.bottom ul li:last-child
+{
+	float: right;
+}
+footer div.bottom ul li:last-child a
+{
+	color: #ffffff;
+	text-decoration: none;
+}
+footer div.bottom ul li:last-child a:hover
+{
+	text-decoration: underline;
+}
+footer div.bottom ul li:last-child a
+{
+	padding: 0px 10px 0px 10px;
+	border-right: solid 1px #ffffff;
+}
+footer div.bottom ul li:last-child a:last-child
+{
+	padding-right: 0px;
+	border-right: none;
+}

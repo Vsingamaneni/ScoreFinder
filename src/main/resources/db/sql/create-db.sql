@@ -13,3 +13,21 @@ CREATE TABLE users (
   COUNTRY VARCHAR(10),
   SKILL VARCHAR(500)
 );
+
+--DROP TABLE teams IF EXISTS;
+
+CREATE TABLE IF NOT EXISTS schedule (
+  matchNumber INT(11) NOT NULL AUTO_INCREMENT,
+  homeTeam VARCHAR(45) DEFAULT NULL,
+  awayTeam VARCHAR(45) DEFAULT NULL,
+  startTime DATETIME DEFAULT NULL,
+  isActive boolean not null DEFAULT FALSE,
+  PRIMARY KEY (matchNumber)
+) ENGINE=InnoDB;
+
+
+insert into schedule values(1,'srh','dd', CURRENT_DATE(),true);
+insert into schedule values(2,'srh','dd', DATE_ADD('2018-04-30',INTERVAL 1 DAY),true);
+
+select * from schedule;
+);
