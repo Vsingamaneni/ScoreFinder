@@ -1,16 +1,14 @@
 */*Set's border, padding and margin to 0 for all values*/
 {
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
 }
 
 body{
 	text-align: center;
-	background: #4D95D1;
-  font-family: sans-serif;
-  font-weight: 100;
-  
+	font-family: sans-serif;
+	font-weight: 100;
 }
 
 .page-width
@@ -28,10 +26,9 @@ header ul li
 }
 header #head-top
 {
-	background-color: #082a3e;
 	background-size: 50% 100%;
-	background-repeat: no-repeat;
-	height: 85px;
+	background: #082a3e no-repeat;
+	height: 52px;
 }
 
 header #head-top ul
@@ -49,8 +46,8 @@ header #head-top ul li
 }
 header #head-top ul li a
 {
-	height: 70px;
-	line-height: 70px;
+	height: 50px;
+	line-height: 50px;
 	display: inline-block;
 }
 
@@ -73,7 +70,6 @@ header #head-top ul li a
 
 #clockdiv{
 	font-family: sans-serif;
-	color: #4D95D1;
 	display: inline-block;
 	font-weight: 100;
 	text-align: center;
@@ -83,7 +79,7 @@ header #head-top ul li a
 #clockdiv > div{
 	padding: 10px;
 	border-radius: 3px;
-	background: green;
+	background: #082a3e;
 	display: inline-block;
 }
 
@@ -97,72 +93,72 @@ header #head-top ul li a
 .smalltext{
 	padding-top: 5px;
 	font-size: 16px;
+	color:white;
 }
 
 
 nav {
-	margin: 30px auto; 
 	text-align: center;
-	
+
 }
 
 nav ul ul {
 	display: none;
 }
 
-	nav ul li:hover  ul {
-		display: block;
-		z-index: 22222;
-	}
+nav ul li:hover  ul {
+	display: block;
+	z-index: 22222;
+}
 
 
 .navigation{
-	background: #efefef; 
-	background: linear-gradient(top, #efefef 0%, #bbbbbb 100%);  
-	background: -moz-linear-gradient(top, #efefef 0%, #bbbbbb 100%); 
-	background: -webkit-linear-gradient(top, #efefef 0%,#bbbbbb 100%); 
+	background: #efefef;
+	background: linear-gradient(top, #efefef 0%, #bbbbbb 100%);
+	background: -moz-linear-gradient(top, #efefef 0%, #bbbbbb 100%);
+	background: -webkit-linear-gradient(top, #efefef 0%,#bbbbbb 100%);
 	box-shadow: 0px 0px 15px rgba(0,0,0,0.15);
 	padding: 0 20px;
-	border-radius: 20px;  
+	border-radius: 20px;
 	list-style: none;
 	position: relative;
 	display: inline-table;
 }
-	nav ul:after {
-		content: ""; clear: both; display: block;
-	}
+nav ul:after {
+	content: ""; clear: both; display: block;
+}
 
-	nav ul li {
-		float: left;
-	}
-		nav ul li:hover {
-			background: #4b545f;
-			background: linear-gradient(top, #4f5964 0%, #5f6975 40%);
-			background: -moz-linear-gradient(top, #4f5964 0%, #5f6975 40%);
-			background: -webkit-linear-gradient(top, #4f5964 0%,#5f6975 40%);
-		}
-			nav ul li:hover a {
-				color: #fff;
-				text-decoration: none;
-			}
-		
-		nav ul li a {
-			display: block; padding: 15px 40px;
-			color: #757575; text-decoration: none;
-		}
-			
-		
-	nav ul ul {
-		background: #5f6975; border-radius: 10px; padding: 10px;
-		position: absolute; 
-		text-decoration: none;
-	}
-		nav ul ul li {
-			float: none; 
-			border-top: 1px solid #6b727c;
-			border-bottom: 1px solid #575f6a; position: auto;
-			text-decoration: none;
-		}
+nav ul li {
+	float: left;
+}
+nav ul li:hover {
+	background: #4b545f;
+	background: linear-gradient(top, #4f5964 0%, #5f6975 40%);
+	background: -moz-linear-gradient(top, #4f5964 0%, #5f6975 40%);
+	background: -webkit-linear-gradient(top, #4f5964 0%,#5f6975 40%);
+}
+nav ul li:hover a {
+	color: #fff;
+	text-decoration: none;
+}
+
+nav ul li a {
+	display: block; padding: 15px 40px;
+	color: #757575; text-decoration: none;
+}
+
+
+nav ul ul {
+	background: #5f6975; border-radius: 10px; padding: 10px;
+	position: absolute;
+	text-decoration: none;
+}
+nav ul ul li {
+	float: none;
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a; position: auto;
+	text-decoration: none;
+}
 	
         
 		

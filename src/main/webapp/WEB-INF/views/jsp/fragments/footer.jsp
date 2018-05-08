@@ -2,7 +2,7 @@
 <div class="container">
 	<hr>
 	<footer>
-		<p>&copy; Mkyong.com 2015</p>
+		<p>&copy; Vamsi Singamaneni 2018</p>
 	</footer>
 </div>
 

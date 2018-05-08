@@ -31,3 +31,37 @@ insert into schedule values(2,'srh','dd', DATE_ADD('2018-04-30',INTERVAL 1 DAY),
 
 select * from schedule;
 );
+
+
+-- Prediction Table schema
+CREATE TABLE IF NOT EXISTS team_list (
+  predictionId INT(11) NOT NULL AUTO_INCREMENT,
+  matchNumber INT(11),
+  userId INT(11),
+  homeTeam VARCHAR(45) DEFAULT NULL,
+  awayTeam VARCHAR(45) DEFAULT NULL,
+  firstName VARCHAR(45) DEFAULT NULL,
+  selected VARCHAR(45) DEFAULT NULL,
+  predictedTime DATETIME DEFAULT NULL,
+  PRIMARY KEY (predictionId),
+  FOREIGN KEY (matchNumber) REFERENCES schedule(matchNumber)
+) ENGINE=InnoDB;
+
+
+--REGISTRATION TABLE SCHEMA
+CREATE TABLE `REGISTER` (
+  memberId INT(11) NOT NULL AUTO_INCREMENT,
+  event VARCHAR(30),
+  title VARCHAR(10),
+  fname varchar(30),
+  lname varchar(30),
+  email  VARCHAR(50),
+  gender VARCHAR(5),
+  mobile VARCHAR(20),
+  country VARCHAR(30),
+  encryptedPass VARCHAR(50),
+  saltKey VARCHAR(50),
+  securityKey VARCHAR(30),
+  isActive BOOLEAN,
+  PRIMARY KEY (memberId)
+) ENGINE=InnoDB;

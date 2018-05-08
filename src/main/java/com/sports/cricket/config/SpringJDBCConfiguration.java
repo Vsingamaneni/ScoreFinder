@@ -2,10 +2,7 @@ package com.sports.cricket.config;
 
 import javax.sql.DataSource;
 
-import com.sports.cricket.dao.ScheduleDao;
-import com.sports.cricket.dao.ScheduleDaoImpl;
-import com.sports.cricket.dao.UserDao;
-import com.sports.cricket.dao.UserDaoImpl;
+import com.sports.cricket.dao.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -46,11 +43,21 @@ public class SpringJDBCConfiguration {
         return userDao;
     }
 
+    @Bean
     public ScheduleDao scheduleDao(){
         ScheduleDaoImpl scheduleDao = new ScheduleDaoImpl();
         scheduleDao.setDataSource(dataSource());
         scheduleDao.setJdbcTemplate(jdbcTemplate());
         return scheduleDao;
     }
+
+    @Bean
+    public RegistrationDao registrationDao(){
+        RegistrationDaoImpl registrationDao = new RegistrationDaoImpl();
+        registrationDao.setDataSource(dataSource());
+        registrationDao.setJdbcTemplate(jdbcTemplate());
+        return registrationDao;
+    }
+
 
 }

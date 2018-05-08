@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <head>
-<title>Spring MVC Form Handling Example</title>
+<title>IPL Score Finder</title>
 
 <spring:url value="/resources/core/css/hello.css" var="coreCss" />
 <spring:url value="/resources/core/css/bootstrap.min.css"
@@ -13,14 +13,14 @@
 <spring:url value="/" var="urlHome" />
 <spring:url value="/users/add" var="urlAddUser" />
 
-<nav class="navbar navbar-inverse ">
+<nav class="navbar navbar-inverse " style="background-color: #082a3e">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="${urlHome}">Indian Premier League</a>
+			<a class="navbar-brand" href="${urlHome}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Indian Premier League</a>
 		</div>
 		<div id="navbar">
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlAddUser}">Add User</a></li>
+				<li class="active"><a href="${urlAddUser}" style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS">Add User</a></li>
 			</ul>
 		</div>
 	</div>

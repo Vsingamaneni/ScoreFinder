@@ -29,20 +29,18 @@ ul#x3-boxes li
 
 ul#x3-boxes li h4
 {
-	padding: 0px;
 	margin: 0 auto;
-	padding-top: 35px;
+	padding: 35px 0px 0px;
 	font-family: "agencyfbbold";
+	color: red;
 	font-size: 20px;
 }
 ul#x3-boxes li hr
 {
 	height: 2px;
 	background-color: #e4203f;
-	margin: 0 auto;
 	width: 95px;
-	margin-top: 10px;
-	margin-bottom: 20px;
+	margin: 10px auto 20px;
 	border:none
 }
 
@@ -55,12 +53,11 @@ div#ch-list
 div#ch-list h2
 {
 	margin: 0px;
-	padding: 0px;
 	text-align: center;
 	font-size: 30px;
-	color: #082a3e;
-	padding-bottom: 15px;
+	padding: 0px 0px 15px;
 	font-family: "agencyfbbold";
+	color:red;
 	text-transform: uppercase;
 }
 div#ch-list hr
@@ -84,12 +81,12 @@ ul#logos li
 }
 ul#logos
 {
-	margin: 0 auto;
-	margin-bottom: 40px;
+	margin: 0 auto 40px;
 	height: 150px;
 	line-height: 150px;
 	text-align: center;
-	background-color: #ffffff;
+	color:white;
+	background-color: #082a3e;
 }
 ul#logos li
 {

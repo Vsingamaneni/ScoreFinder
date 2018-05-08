@@ -50,34 +50,14 @@
                     </li>
                     <li class="right">
                         <a style="text-decoration:none;">
-                            <marquee onmouseover="stop();" onmouseout="start();" scrollAmount="20" scrollDelay="300" direction="side" width="100%"  style="margin-top: 0px auto">
+                            <marquee onmouseover="stop();" onmouseout="start();" scrollAmount="20" scrollDelay="300" direction="side" width="100%"  style="margin-top: 0px">
                                 <a href="./index.html" class="new1" style="color:white;font-size:19px;text-decoration:none;font-family:Comic Sans MS">	IPL is live today. &nbsp;&nbsp;&nbsp;  Sign on to find your score.</a></marquee>
                         </a>
                     </li>
                 </ul>
             </div>
 
-            <nav style="font-weight:bold;">
-
-                <ul class="navigation">
-                    <li><a href="${userUrl}" class="active">Home</a></li>
-                    <li><a href="ipl_register.html">Registration</a>
-                        <ul>
-                            <li><a href="ipl_register.html">IPL</a></li>
-                            <li><a href="#">Soccer</a></li>
-                            <li><a href="#">Kabadi</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="hofFame.html" class="">My Account</a>
-                        <ul>
-                            <li><a href="login.html">Login</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="faq.html" class="">FAQ's</a></li>
-                    <li><a href="contactus.html" class="">Contact Us</a></li>
-                </ul>
-            </nav>
+            <jsp:include page="../fragments/navigation.jsp" />
 
 
         </header>
@@ -134,7 +114,7 @@
 
         <div id="ch-list">
 
-            <h2 style="color:white;">up comming Events</h2>
+            <h2>up comming Events</h2>
             <hr>
 
         </div>
@@ -172,7 +152,7 @@
             <div class="bottom">
                 <ul class="page-width">
                     <li>
-                        © All rights Reserved @ Vamsi Krishna Singamaneni
+                        &copy; All rights Reserved @ Vamsi Krishna Singamaneni
                     </li>
                     <li>
                         <a href="#">Copyrights</a>

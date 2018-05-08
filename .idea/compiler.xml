@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring-mvc-form" />
+        <module name="score-finder" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="spring-mvc-form" target="1.7" />
+      <module name="score-finder" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

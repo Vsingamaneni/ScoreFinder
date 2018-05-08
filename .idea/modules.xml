@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/spring-mvc-form.iml" filepath="$PROJECT_DIR$/spring-mvc-form.iml" />
+      <module fileurl="file://$PROJECT_DIR$/score-finder.iml" filepath="$PROJECT_DIR$/score-finder.iml" />
     </modules>
   </component>
 </project>
