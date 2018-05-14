@@ -1,22 +1,21 @@
 package com.sports.cricket.model;
 
-import java.sql.Date;
-
 public class Schedule {
 
-    Integer matchNumber;
+    private Integer matchNumber;
 
+    private String homeTeam;
 
-    String homeTeam;
+    private String awayTeam;
 
+    private String startDate;
 
-    String awayTeam;
+    private boolean isEvening;
 
+    private boolean isNight;
 
-    Date startTime;
+    private boolean isactive;
 
-
-    boolean isactive;
 
     public Integer getMatchNumber() {
         return matchNumber;
@@ -42,12 +41,28 @@ public class Schedule {
         this.awayTeam = awayTeam;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public boolean isEvening() {
+        return isEvening;
+    }
+
+    public void setEvening(boolean evening) {
+        isEvening = evening;
+    }
+
+    public boolean isNight() {
+        return isNight;
+    }
+
+    public void setNight(boolean night) {
+        isNight = night;
     }
 
     public boolean isIsactive() {

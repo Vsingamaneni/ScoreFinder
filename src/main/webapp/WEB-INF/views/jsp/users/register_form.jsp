@@ -53,7 +53,7 @@
 
     <header>
 
-        <jsp:include page="../fragments/navigation.jsp" />
+        <jsp:include page="../fragments/nav_before_login.jsp" />
 
         <div class='container' style="width: 1000px;">
             <div class='panel panel-primary dialog-panel'>
@@ -156,6 +156,26 @@
                                     <option>England</option>
                                     <option>Other</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='control-label col-md-2 col-md-offset-2' for='id_secuity_question'>Security Question</label>
+                            <div class='col-md-2'>
+                                <select class='form-control' id='id_sec_question' name="securityQuestion">
+                                    <option>Who is your favourite cricketer</option>
+                                    <option>Which cricketer do you resemble</option>
+                                    <option>What is first name of your best friend</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Security Answer</label>
+                            <div class='col-md-6'>
+                                <div class='form-group'>
+                                    <div class='col-md-11'>
+                                        <input class='form-control' id='id_security_answer' placeholder='Security Question Answer' name="securityAnswer" type='text'>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class='form-group'>

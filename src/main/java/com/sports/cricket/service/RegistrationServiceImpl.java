@@ -26,4 +26,14 @@ public class RegistrationServiceImpl implements RegistrationService {
         return registrationDao.loginUser(userLogin);
     }
 
+    @Override
+    public Register getUser(String emailId) {
+        return registrationDao.getUser(emailId);
+    }
+
+    @Override
+    public boolean updateUser(Register register) {
+        return registrationDao.updatePassword(register);
+    }
+
 }

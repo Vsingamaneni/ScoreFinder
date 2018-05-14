@@ -9,4 +9,8 @@ public interface RegistrationDao {
     boolean registerUser(Register registration);
 
     UserLogin loginUser(UserLogin userLogin);
+
+    Register getUser(String emailId);
+
+    boolean updatePassword(Register register);
 }

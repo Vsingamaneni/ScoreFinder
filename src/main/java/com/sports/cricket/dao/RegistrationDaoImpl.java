@@ -1,7 +1,7 @@
 package com.sports.cricket.dao;
 
+import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Register;
-import com.sports.cricket.model.User;
 import com.sports.cricket.model.UserLogin;
 import com.sports.cricket.password.EncryptedPassword;
 import com.sports.cricket.password.ProtectUserPassword;
@@ -45,8 +45,8 @@ public class RegistrationDaoImpl implements RegistrationDao {
             registration.setIsActive("Y");
         }
 
-        String sql = "INSERT INTO REGISTER(event, title, fname, lname, emailId, gender, mobile, country, encryptedPass, saltKey, securityKey, isActive) "
-                    + "VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO REGISTER(event, title, fname, lname, emailId, gender, mobile, country, encryptedPass, saltKey, securityQuestion, securityAnswer, securityKey, isActive) "
+                    + "VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 
         Connection conn = null;
@@ -64,8 +64,10 @@ public class RegistrationDaoImpl implements RegistrationDao {
             ps.setString(8, registration.getCountry());
             ps.setString(9, registration.getEncryptedPass());
             ps.setString(10, registration.getSaltKey());
-            ps.setString(11, registration.getSecurity());
-            ps.setString(12, registration.getIsActive());
+            ps.setString(11, registration.getSecurityQuestion());
+            ps.setString(12, registration.getSecurityAnswer());
+            ps.setString(13, registration.getSecurity());
+            ps.setString(14, registration.getIsActive());
 
             ps.executeUpdate();
             ps.close();
@@ -91,7 +93,7 @@ public class RegistrationDaoImpl implements RegistrationDao {
     public UserLogin loginUser(UserLogin userLogin) {
         System.out.println("Inside Member Login");
 
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("email", userLogin.getEmail());
 
         String selectSQL = "SELECT * FROM REGISTER where emailId = ?";
@@ -102,16 +104,80 @@ public class RegistrationDaoImpl implements RegistrationDao {
             && null != register.getEncryptedPass() && null != register.getSaltKey()){
                if(!VerifyProvidedPassword.decryptPassword(userLogin.getPassword(), register)){
                    System.out.println("Passwords mismatch");
+               }else{
+                   System.out.println("Incorrect Password");
                }
                userLogin.setFirstName(register.getfName());
+               userLogin.setMemberId(register.getMemberId());
                userLogin.setLoginSuccess(true);
            }
 
-
-
-        System.out.println("Successfully Retrieved the member" + register);
-
         return userLogin;
+    }
+
+    @Override
+    public Register getUser(String emailId) {
+        System.out.println("Inside retrieving User");
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("email", emailId);
+
+        String selectSQL = "SELECT * FROM REGISTER where emailId = ?";
+
+        Register register = (Register) jdbcTemplate.queryForObject(selectSQL,new Object[] { emailId }, new BeanPropertyRowMapper(Register.class));
+
+        if(null != register
+                && null != register.getSecurityAnswer()
+                && null != register.getSecurityQuestion()){
+            System.out.println("Retrieved user successfully");
+        }
+
+        return register;
+    }
+
+    @Override
+    public boolean updatePassword(Register register) {
+        System.out.println("Inside Updating Password");
+
+        if(register != null
+                && null != register.getPassword()){
+            EncryptedPassword encryptedPassword = ProtectUserPassword.encryptPassword(register.getPassword());
+            register.setEncryptedPass(encryptedPassword.getEncryptedPassword());
+            register.setSaltKey(encryptedPassword.getSalt());
+        }
+
+        String sql = "UPDATE REGISTER SET encryptedPass = '" +register.getEncryptedPass() +"', saltKey = '" +register.getSaltKey() +"' where emailId = '" + register.getEmailId() +"'";
+
+/*
+
+        Connection conn = null;
+
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, register.getEncryptedPass());
+            ps.setString(2, register.getSaltKey());
+            ps.setString(3, register.getEmailId());
+
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {}
+            }
+        }
+*/
+    int row = jdbcTemplate.update(sql);
+
+        System.out.println("Password Update Done");
+
+        return true;
     }
 
 }

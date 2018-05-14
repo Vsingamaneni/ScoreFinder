@@ -9,4 +9,7 @@ public interface RegistrationService {
 
     UserLogin loginUser(UserLogin userLogin);
 
+    Register getUser(String emailId);
+
+    boolean updateUser(Register register);
 }

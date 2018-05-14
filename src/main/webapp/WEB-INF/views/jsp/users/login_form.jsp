@@ -39,7 +39,7 @@
 
     <header>
 
-        <jsp:include page="../fragments/navigation.jsp" />
+        <jsp:include page="../fragments/nav_before_login.jsp" />
 
         <div class="log-form">
             <h2 style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS">Login to your account</h2>
@@ -47,7 +47,7 @@
                 <input type="text" title="username" placeholder="username" name="email"/>
                 <input type="password" title="username" placeholder="password" name="password"/>
                 <button type="submit" class="btn" onclick="post('${loginUrl}')">Login</button>
-                <a class="forgot" href="#">Forgot Username?</a>
+                <a class="forgot" href="/forget">Forgot Username?</a>
             </form>
         </div><!--end log form -->
         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
@@ -57,7 +57,7 @@
 
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br />
 
     <footer>
 

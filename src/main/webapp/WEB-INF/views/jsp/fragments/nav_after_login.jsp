@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: v0s004a
-  Date: 5/4/18
-  Time: 1:18 AM
+  Date: 5/7/18
+  Time: 11:28 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page session="false"%>
@@ -16,21 +16,17 @@
 
     <ul class="navigation">
         <li><a href="/" class="active">Home</a></li>
-                <li><a href="/register">Registration</a>
-                    <ul>
-                        <li><a href="/register">IPL</a></li>
-                        <li><a href="#">Soccer</a></li>
-                        <li><a href="#">Kabadi</a>
-                        </li>
-                    </ul>
-                </li>
-        <li><a href="/login" class="">My Account</a>
+        <li><a href="#">My Account</a>
             <ul>
-                <li><a href="/login">Login</a></li>
+                <li><a href="/showPredictions">My Predictions</a></li>
+                <li><a href="#">Leader Board</a></li>
+                <li><a href="#">Opt Out</a></li>
             </ul>
         </li>
         <li><a href="faq.html" class="">FAQ's</a></li>
         <li><a href="contactus.html" class="">Contact Us</a></li>
+        <li><a href="/logout" class="">Logout</a></li>
     </ul>
+
 </nav>
 </html>

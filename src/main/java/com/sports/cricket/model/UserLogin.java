@@ -6,9 +6,13 @@ public class UserLogin {
 
    private String password;
 
+   private Integer memberId;
+
    private String firstName;
 
    private boolean isLoginSuccess;
+
+   private String userRole;
 
     public String getEmail() {
         return email;
@@ -26,6 +30,14 @@ public class UserLogin {
         this.password = password;
     }
 
+    public Integer getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -40,5 +52,13 @@ public class UserLogin {
 
     public void setLoginSuccess(boolean loginSuccess) {
         isLoginSuccess = loginSuccess;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 }

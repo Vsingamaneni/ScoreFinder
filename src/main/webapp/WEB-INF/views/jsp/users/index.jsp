@@ -32,13 +32,15 @@
     <spring:url value="/" var="homeUrl" />
 
     <!-- Images -->
-   <%-- <spring:url value="/resources/core/images/teams/srh.jpg" var="homeTeamImage" />
-    <spring:url value="/resources/core/images/teams/dd.jpg" var="awayTeamImage" /> --%>
    <spring:url value="/resources/core/images/teams/vs.jpg" var="vs" />
 
     <!-- js -->
     <spring:url value="/resources/core/js/index.js" var="timerJs" />
 
+    <c:if test="${not empty user}">
+        <c:set var="user_name" value="${user.firstName}"/>
+        <c:set var="role" value="${user.userRole}"/>
+    </c:if>
 
     <body>
     <div style="width: 1250px; margin: 0 auto;">
@@ -48,17 +50,28 @@
                     <li class="logo">
                         <a href="${userUrl}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Indian Premier League</a>
                     </li>
+                    <c:if test="${not empty user_name}">
+                        <li class="right">
+                            <a href="#" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Welcome ${user_name}</a>
+                        </li>
+                    </c:if>
+                    <c:if test="${empty user_name}">
                     <li class="right">
                         <a style="text-decoration:none;">
                             <marquee onmouseover="stop();" onmouseout="start();" scrollAmount="20" scrollDelay="300" direction="side" width="100%"  style="margin-top: 0px">
-                                <a href="./index.html" class="new1" style="color:white;font-size:19px;text-decoration:none;font-family:Comic Sans MS">	IPL is live today. &nbsp;&nbsp;&nbsp;  Sign on to find your score.</a></marquee>
+                                <a href="/" class="new1" style="color:white;font-size:19px;text-decoration:none;font-family:Comic Sans MS">	IPL is live today. &nbsp;&nbsp;&nbsp;  Sign on to find your score.</a></marquee>
                         </a>
                     </li>
+                    </c:if>
                 </ul>
             </div>
 
-            <jsp:include page="../fragments/navigation.jsp" />
-
+        <c:if test="${empty user_name}">
+            <jsp:include page="../fragments/nav_before_login.jsp" />
+        </c:if>
+            <c:if test="${not empty user_name}">
+                <jsp:include page="../fragments/nav_after_login.jsp" />
+            </c:if>
 
         </header>
 

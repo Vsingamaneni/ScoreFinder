@@ -51,42 +51,13 @@ public class UserDaoImpl implements UserDao {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 
-		//String sql = "SELECT * FROM users WHERE id=:id";
-
 		String sql = "SELECT id, name, email FROM users WHERE id = ?";
 
 		User result = null;
 		try {
 
-			/*Connection conn = null;
-
-			try {
-				conn = dataSource.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sql);
-				ps.setInt(1, id);
-				ResultSet rs = ps.executeQuery(sql);
-				result = new User();
-				while (rs.next()) {
-					result.setId(rs.getInt("id"));
-					result.setName(rs.getString("name"));
-					result.setEmail(rs.getString("email"));
-				}
-				ps.close();
-
-			} catch (SQLException e) {
-				throw new RuntimeException(e);
-
-			} finally {
-				if (conn != null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {}
-				}
-			}*/
-
 			result = (User)jdbcTemplate.queryForObject(sql,new Object[] { id }, new BeanPropertyRowMapper(User.class));
 
-			//result = namedParameterJdbcTemplate.queryForObject(sql, params, new UserMapper());
 		} catch (EmptyResultDataAccessException e) {
 			// do nothing, return null
 		}

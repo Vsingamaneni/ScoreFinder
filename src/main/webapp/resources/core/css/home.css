@@ -33,9 +33,7 @@ header #head-top
 
 header #head-top ul
 {
-	background-color: #082a3e;
-	background-repeat: no-repeat;
-	background-position: left center;
+	background: #082a3e no-repeat left center;
 	background-size: 210px 100%;
 }
 

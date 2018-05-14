@@ -912,199 +912,337 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="229" parent="5" name="REGISTER"/>
-    <table id="230" parent="5" name="schedule"/>
-    <table id="231" parent="5" name="team_list"/>
-    <table id="232" parent="5" name="users"/>
-    <column id="233" parent="229" name="memberId">
+    <table id="229" parent="5" name="DEPARTMENT"/>
+    <table id="230" parent="5" name="EMPLOYEE"/>
+    <table id="231" parent="5" name="PREDICTIONS"/>
+    <table id="232" parent="5" name="REGISTER"/>
+    <table id="233" parent="5" name="SCHEDULE"/>
+    <table id="234" parent="5" name="WORKS"/>
+    <table id="235" parent="5" name="users"/>
+    <column id="236" parent="229" name="did">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="237" parent="229" name="dname">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="238" parent="229" name="budget">
+      <Position>3</Position>
+      <DataType>float|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="239" parent="229" name="managerId">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="240" parent="229" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>did</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="241" parent="230" name="eid">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="242" parent="230" name="ename">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="243" parent="230" name="age">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="244" parent="230" name="salary">
+      <Position>4</Position>
+      <DataType>float|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="245" parent="230" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>eid</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="246" parent="231" name="predictionId">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="234" parent="229" name="event">
+    <column id="247" parent="231" name="memberId">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="248" parent="231" name="matchNumber">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="249" parent="231" name="homeTeam">
+      <Position>4</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="250" parent="231" name="awayTeam">
+      <Position>5</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="251" parent="231" name="firstName">
+      <Position>6</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="252" parent="231" name="selected">
+      <Position>7</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="253" parent="231" name="predictedTime">
+      <Position>8</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="254" parent="231" name="memberId">
+      <ColNames>memberId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="255" parent="231" name="matchNumber">
+      <ColNames>matchNumber</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="256" parent="231" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>predictionId</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="257" parent="231" name="predictions_ibfk_1">
+      <ColNames>memberId</ColNames>
+      <RefSchemaName>sports</RefSchemaName>
+      <RefTableName>REGISTER</RefTableName>
+      <RefColNames>memberId</RefColNames>
+    </foreign-key>
+    <foreign-key id="258" parent="231" name="predictions_ibfk_2">
+      <ColNames>matchNumber</ColNames>
+      <RefSchemaName>sports</RefSchemaName>
+      <RefTableName>SCHEDULE</RefTableName>
+      <RefColNames>matchNumber</RefColNames>
+    </foreign-key>
+    <column id="259" parent="232" name="memberId">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="260" parent="232" name="event">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="235" parent="229" name="title">
+    <column id="261" parent="232" name="title">
       <Position>3</Position>
       <DataType>varchar(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="236" parent="229" name="fname">
+    <column id="262" parent="232" name="fname">
       <Position>4</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="237" parent="229" name="lname">
+    <column id="263" parent="232" name="lname">
       <Position>5</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="238" parent="229" name="emailId">
+    <column id="264" parent="232" name="emailId">
       <Position>6</Position>
       <DataType>varchar(150)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="239" parent="229" name="gender">
+    <column id="265" parent="232" name="gender">
       <Position>7</Position>
       <DataType>varchar(5)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="240" parent="229" name="mobile">
+    <column id="266" parent="232" name="mobile">
       <Position>8</Position>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="241" parent="229" name="country">
+    <column id="267" parent="232" name="country">
       <Position>9</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="242" parent="229" name="encryptedPass">
+    <column id="268" parent="232" name="encryptedPass">
       <Position>10</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="243" parent="229" name="saltKey">
+    <column id="269" parent="232" name="saltKey">
       <Position>11</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="244" parent="229" name="securityKey">
+    <column id="270" parent="232" name="securityQuestion">
       <Position>12</Position>
+      <DataType>varchar(1000)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="271" parent="232" name="securityAnswer">
+      <Position>13</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="272" parent="232" name="securityKey">
+      <Position>14</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="245" parent="229" name="isActive">
-      <Position>13</Position>
+    <column id="273" parent="232" name="isActive">
+      <Position>15</Position>
       <DataType>varchar(5)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="246" parent="229" name="PRIMARY">
+    <key id="274" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>memberId</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="247" parent="230" name="matchNumber">
+    <column id="275" parent="233" name="matchNumber">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="248" parent="230" name="homeTeam">
+    <column id="276" parent="233" name="homeTeam">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="249" parent="230" name="awayTeam">
+    <column id="277" parent="233" name="awayTeam">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="250" parent="230" name="startTime">
+    <column id="278" parent="233" name="startDate">
       <Position>4</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="251" parent="230" name="isActive">
+    <column id="279" parent="233" name="isEvening">
       <Position>5</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="252" parent="230" name="PRIMARY">
+    <column id="280" parent="233" name="isNight">
+      <Position>6</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="281" parent="233" name="isActive">
+      <Position>7</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="282" parent="233" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>matchNumber</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="253" parent="231" name="predictionId">
+    <column id="283" parent="234" name="eid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="254" parent="231" name="matchNumber">
+    <column id="284" parent="234" name="did">
       <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="285" parent="234" name="pct_time">
+      <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="255" parent="231" name="homeTeam">
-      <Position>3</Position>
-      <DataType>varchar(45)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="256" parent="231" name="awayTeam">
-      <Position>4</Position>
-      <DataType>varchar(45)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="257" parent="231" name="selected">
-      <Position>5</Position>
-      <DataType>varchar(45)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="258" parent="231" name="predictedTime">
-      <Position>6</Position>
-      <DataType>datetime|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="259" parent="231" name="matchNumber">
-      <ColNames>matchNumber</ColNames>
+    <index id="286" parent="234" name="did">
+      <ColNames>did</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="260" parent="231" name="PRIMARY">
+    <key id="287" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>predictionId</ColNames>
+      <ColNames>eid
+did</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="261" parent="231" name="team_list_ibfk_1">
-      <ColNames>matchNumber</ColNames>
+    <foreign-key id="288" parent="234" name="works_ibfk_1">
+      <ColNames>eid</ColNames>
       <RefSchemaName>sports</RefSchemaName>
-      <RefTableName>schedule</RefTableName>
-      <RefColNames>matchNumber</RefColNames>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefColNames>eid</RefColNames>
     </foreign-key>
-    <column id="262" parent="232" name="id">
+    <foreign-key id="289" parent="234" name="works_ibfk_2">
+      <ColNames>did</ColNames>
+      <RefSchemaName>sports</RefSchemaName>
+      <RefTableName>DEPARTMENT</RefTableName>
+      <RefColNames>did</RefColNames>
+    </foreign-key>
+    <column id="290" parent="235" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="263" parent="232" name="name">
+    <column id="291" parent="235" name="name">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="264" parent="232" name="email">
+    <column id="292" parent="235" name="email">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="265" parent="232" name="address">
+    <column id="293" parent="235" name="address">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="266" parent="232" name="password">
+    <column id="294" parent="235" name="password">
       <Position>5</Position>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="267" parent="232" name="sex">
+    <column id="295" parent="235" name="sex">
       <Position>6</Position>
       <DataType>varchar(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="268" parent="232" name="NUMBER">
+    <column id="296" parent="235" name="NUMBER">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="269" parent="232" name="COUNTRY">
+    <column id="297" parent="235" name="COUNTRY">
       <Position>8</Position>
       <DataType>varchar(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
