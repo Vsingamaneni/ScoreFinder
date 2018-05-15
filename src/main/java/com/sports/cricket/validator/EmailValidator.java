@@ -24,4 +24,9 @@ public class EmailValidator {
 		return matcher.matches();
 
 	}
+
+	/*public static void main(String[] args){
+		EmailValidator emailValidator = new EmailValidator();
+		System.out.println(emailValidator.valid("v@gmail.com"));
+	}*/
 }

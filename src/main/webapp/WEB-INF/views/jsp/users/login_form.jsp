@@ -1,4 +1,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: v0s004a
@@ -41,9 +42,28 @@
 
         <jsp:include page="../fragments/nav_before_login.jsp" />
 
+        <br />
+
+        <c:if test="${not empty msg}">
+            <div class="alert alert-${css} alert-dismissible" role="alert">
+                <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"><strong>${msg}</strong></h2>
+            </div>
+        </c:if>
+
+        <c:if test="${not empty loginErrorDetails}">
+            <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> Please fix the below errors..!!</h2>
+        </c:if>
+        <c:forEach var="loginErrorDetails" items="${loginErrorDetails}">
+            <c:if test="${not empty loginErrorDetails.errorMessage}" >
+                <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> *** ${loginErrorDetails.errorMessage} </h2>
+            </c:if>
+        </c:forEach>
+
+        <br /><br /><br /><br /><br /><br /><br /><br />
+
         <div class="log-form">
             <h2 style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS">Login to your account</h2>
-            <form action="/loginUser" modelAttribute="loginForm" method="POST">
+            <form action="/loginUser" modelAttribute="userLogin" method="POST">
                 <input type="text" title="username" placeholder="username" name="email"/>
                 <input type="password" title="username" placeholder="password" name="password"/>
                 <button type="submit" class="btn" onclick="post('${loginUrl}')">Login</button>
@@ -55,9 +75,7 @@
 
     </header>
 
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-    <br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
     <footer>
 

@@ -101,7 +101,7 @@
                                 <button class='btn-lg btn-primary' type='submit' onclick="post('${resetPasswordUrl}')">Update Password</button>
                             </div>
                             <div class='col-md-3'>
-                                <button class='btn-lg btn-danger' style='float:right' type='submit' <%--onclick="post('${cancelUrl}')"--%>><a href="/index" style="color:white;">Cancel</a></button>
+                                <button class='btn-lg btn-danger' style='float:right' type='submit'><a href="/index" style="color:white;">Cancel</a></button>
                             </div>
                         </div>
                     </form>

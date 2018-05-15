@@ -1,6 +1,5 @@
 package com.sports.cricket.dao;
 
-import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Register;
 import com.sports.cricket.model.UserLogin;
 import com.sports.cricket.password.EncryptedPassword;
@@ -43,10 +42,11 @@ public class RegistrationDaoImpl implements RegistrationDao {
             registration.setEncryptedPass(encryptedPassword.getEncryptedPassword());
             registration.setSaltKey(encryptedPassword.getSalt());
             registration.setIsActive("Y");
+            registration.setRole("member");
         }
 
-        String sql = "INSERT INTO REGISTER(event, title, fname, lname, emailId, gender, mobile, country, encryptedPass, saltKey, securityQuestion, securityAnswer, securityKey, isActive) "
-                    + "VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO REGISTER(event, title, fname, lname, emailId, gender, mobile, country, encryptedPass, saltKey, securityQuestion, securityAnswer, securityKey, isActive, role) "
+                    + "VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 
         Connection conn = null;
@@ -68,6 +68,7 @@ public class RegistrationDaoImpl implements RegistrationDao {
             ps.setString(12, registration.getSecurityAnswer());
             ps.setString(13, registration.getSecurity());
             ps.setString(14, registration.getIsActive());
+            ps.setString(15, registration.getRole());
 
             ps.executeUpdate();
             ps.close();
@@ -105,13 +106,13 @@ public class RegistrationDaoImpl implements RegistrationDao {
                if(!VerifyProvidedPassword.decryptPassword(userLogin.getPassword(), register)){
                    System.out.println("Passwords mismatch");
                }else{
-                   System.out.println("Incorrect Password");
+                   System.out.println("Correct Password");
+                   userLogin.setFirstName(register.getfName());
+                   userLogin.setMemberId(register.getMemberId());
+                   userLogin.setLoginSuccess(true);
+                   userLogin.setRole(register.getRole());
                }
-               userLogin.setFirstName(register.getfName());
-               userLogin.setMemberId(register.getMemberId());
-               userLogin.setLoginSuccess(true);
            }
-
         return userLogin;
     }
 

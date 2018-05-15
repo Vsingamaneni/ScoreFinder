@@ -86,7 +86,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
         boolean isSuccess = false;
 
-        String sql = "INSERT INTO PREDICTIONS(memeberId, matchNumber, homeTeam, awayTeam, firstName, selected, predictedTime)" +
+        String sql = "INSERT INTO PREDICTIONS(memberId, matchNumber, homeTeam, awayTeam, firstName, selected, predictedTime)" +
                     "VALUES (?,?,?,?,?,?,?)";
 
 
@@ -160,7 +160,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
         params.put("memberId", memberId);
         params.put("matchId", matchId);
 
-        String sql = "SELECT * FROM PREDICTIONS where memeberId = ? and matchNumber =?";
+        String sql = "SELECT * FROM PREDICTIONS where memberId = ? and matchNumber =?";
 
         Prediction prediction = null;
         try {

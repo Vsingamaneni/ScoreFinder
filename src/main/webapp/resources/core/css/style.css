@@ -17,7 +17,6 @@ body {
   max-width: 475px;
   background: #082a3e;
   position: absolute;
-  top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);

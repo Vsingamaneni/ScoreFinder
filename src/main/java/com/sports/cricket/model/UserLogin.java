@@ -1,5 +1,7 @@
 package com.sports.cricket.model;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+
 public class UserLogin {
 
    private String email;
@@ -12,7 +14,7 @@ public class UserLogin {
 
    private boolean isLoginSuccess;
 
-   private String userRole;
+   private String role;
 
     public String getEmail() {
         return email;
@@ -54,11 +56,11 @@ public class UserLogin {
         isLoginSuccess = loginSuccess;
     }
 
-    public String getUserRole() {
-        return userRole;
+    public String getRole() {
+        return role;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

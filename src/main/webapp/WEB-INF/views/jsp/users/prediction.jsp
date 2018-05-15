@@ -119,7 +119,7 @@
                                     <button class='btn-lg btn-primary' type='submit' onclick="post('${predictionUrl}')">Lock It!!</button>
                                 </div>
                                 <div class='col-md-3'>
-                                    <button class='btn-lg btn-danger' style='float:right' type='submit' onclick="('${cancelUrl}')">Cancel</button>
+                                    <button class='btn-lg btn-danger' style='float:right' type='submit'><a href="/showPredictions" style="color:white;">Cancel</a></button>
                                 </div>
                             </div>
                         </form>

@@ -40,6 +40,7 @@ public class Register {
 
     private String isActive;
 
+    private String role;
 
     public int getMemberId() {
         return memberId;
@@ -191,5 +192,13 @@ public class Register {
 
     public void setSecurityAnswer(String securityAnswer) {
         this.securityAnswer = securityAnswer;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

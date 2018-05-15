@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -54,6 +56,15 @@
     <header>
 
         <jsp:include page="../fragments/nav_before_login.jsp" />
+
+        <c:if test="${fn:length(registerErrorDetails)} > 0">
+            <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> Please fix the below errors..!!</h2>
+        </c:if>
+        <c:forEach var="registerErrorDetail" items="${registerErrorDetails}">
+            <c:if test="${not empty registerErrorDetail.errorMessage}" >
+                <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> *** ${registerErrorDetail.errorMessage} </h2>
+            </c:if>
+        </c:forEach>
 
         <div class='container' style="width: 1000px;">
             <div class='panel panel-primary dialog-panel'>
@@ -194,7 +205,7 @@
                             <%--@declare id="id_terms"--%><label class='control-label col-md-2 col-md-offset-2' for='id_terms'>Terms & Conditions</label>
                             <div class='col-md-8'>
                                 <div class='make-switch' data-off-label='NO' data-on-label='YES' id='id_agree' style='float:left'>
-                                    <input id='id_agree_terms' type='checkbox' value='chk_hydro' name="terms">
+                                    <input id='id_agree_terms' type='checkbox' value='YES' name="terms">
                                 </div>
                             </div>
                         </div>
@@ -205,7 +216,7 @@
                                 <button class='btn-lg btn-primary' type='submit' onclick="post('${registerUrl}')">Register</button>
                             </div>
                             <div class='col-md-3'>
-                                <button class='btn-lg btn-danger' style='float:right' type='submit' onclick="post('${cancelUrl}')">Cancel</button>
+                                <button class='btn-lg btn-danger' style='float:right' type='submit'><a href="/index" style="color:white;">Cancel</a></button>
                             </div>
                         </div>
                     </form>

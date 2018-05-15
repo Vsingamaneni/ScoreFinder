@@ -13,6 +13,8 @@ import com.sports.cricket.model.*;
 import com.sports.cricket.service.RegistrationService;
 import com.sports.cricket.service.ScheduleService;
 import com.sports.cricket.util.ValidatePredictions;
+import com.sports.cricket.validations.ErrorDetails;
+import com.sports.cricket.validations.FormValidator;
 import com.sports.cricket.validator.LoginValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,12 +46,23 @@ public class UserController {
 	@Autowired
 	LoginValidator loginValidator;
 
-	
-	/*@InitBinder
+    FormValidator formValidator = new FormValidator();
+
+/*
+	@InitBinder("user")
+	protected void initUserBinder(WebDataBinder binder) {
+		binder.setValidator(new UserFormValidator());
+		//binder.setValidator(loginValidator);
+	}
+*/
+
+/*
+	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
-		binder.setValidator(userFormValidator);
-		binder.setValidator(loginValidator);
-	}*/
+		//binder.setValidator(new LoginValidator());
+		binder.addValidators(new LoginValidator());
+	}
+*/
 
 	private UserService userService;
 	private ScheduleService scheduleService;
@@ -80,7 +94,7 @@ public class UserController {
 
 	    if(null != httpSession.getAttribute("user")){
 	        userLogin.setFirstName(httpSession.getAttribute("user").toString());
-	        userLogin.setUserRole(httpSession.getAttribute("role").toString());
+	        userLogin.setRole(httpSession.getAttribute("role").toString());
 	        model.addAttribute("user" , userLogin);
         }
 
@@ -102,11 +116,27 @@ public class UserController {
 
 	// Show login page
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String showLogin(Model model,  HttpSession httpSession) {
-		UserLogin loginForm = new UserLogin();
+	public String showLogin(ModelMap model,  HttpSession httpSession) {
+
+		List<ErrorDetails> loginErrorDetails = (List<ErrorDetails>)httpSession.getAttribute("loginErrorDetails");
+		String loginError = (String)httpSession.getAttribute("msg");
+
+		if(null != loginErrorDetails
+			&& loginErrorDetails.size() > 0 ){
+			model.addAttribute("loginErrorDetails", loginErrorDetails);
+
+            httpSession.removeAttribute("loginErrorDetails");
+		}
+
+		if(null != loginError){
+		    model.addAttribute("msg" , loginError);
+            httpSession.removeAttribute("msg");
+        }
+
+		UserLogin userLogin = new UserLogin();
 
 		logger.debug("showLogin()");
-		model.addAttribute("loginForm" , loginForm);
+		model.addAttribute("userLogin" , userLogin);
 		if(null == httpSession.getAttribute("login")) {
             return "users/login_form";
         }else{
@@ -116,8 +146,27 @@ public class UserController {
 
 	// Validate the login details
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-	public String loginUser(@ModelAttribute("loginForm") @Validated UserLogin userLogin,Model model
-			,final RedirectAttributes redirectAttributes, HttpSession httpSession) {
+	public String loginUser(@ModelAttribute("userLogin") /*@Validated */UserLogin userLogin, ModelMap model
+			,  HttpSession httpSession) {
+
+		model.addAttribute("userLogin" , userLogin);
+
+		if(null != httpSession.getAttribute("loginErrorDetails")) {
+            httpSession.removeAttribute("loginErrorDetails");
+        }
+
+        if(null != model.get("loginErrorDetails")) {
+            model.remove("loginErrorDetails");
+        }
+
+		List<ErrorDetails> loginErrorDetails = formValidator.isLoginValid(userLogin);
+
+		if( null != loginErrorDetails
+			&& loginErrorDetails.size() > 0 ){
+			model.addAttribute("loginErrorDetails" , loginErrorDetails);
+			httpSession.setAttribute("loginErrorDetails", loginErrorDetails);
+			return "redirect:/login";
+		}
 
 		logger.debug("saveOrUpdateLogin() : {}", "");
 		UserLogin loginDetails = registrationService.loginUser(userLogin);
@@ -127,7 +176,7 @@ public class UserController {
 			//model.addAttribute("msg", "User logged in");
 			httpSession.setAttribute("login" , loginDetails);
 			httpSession.setAttribute("user", loginDetails.getFirstName());
-			httpSession.setAttribute("role", "user");
+			httpSession.setAttribute("role", loginDetails.getRole());
 			httpSession.setAttribute("session" , userLogin);
 
 			List<Schedule> schedules = scheduleService.scheduleList();
@@ -139,9 +188,10 @@ public class UserController {
 			model.addAttribute("schedules", finalSchedule);
 
 			httpSession.setMaxInactiveInterval(5*60);
-			//redirectAttributes.addFlashAttribute("msg", "User logged in  successfully!");
 		}else{
-			redirectAttributes.addFlashAttribute("msg", "User Login Failed!");
+			model.addAttribute("msg", "User Login Failed!");
+			httpSession.setAttribute("msg" , "User Login Failed");
+			return "redirect:/login";
 		}
 		return "users/member_login";
 	}
@@ -230,6 +280,13 @@ public class UserController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegister(Model model, HttpSession httpSession) {
 
+        List<ErrorDetails> registerErrorDetails = (List<ErrorDetails>)httpSession.getAttribute("registerErrorDetails");
+
+        if(null != registerErrorDetails
+                && registerErrorDetails.size() > 0 ){
+            model.addAttribute("registerErrorDetails", registerErrorDetails);
+        }
+
 		Register register = new Register();
 
 		logger.debug("showRegister()");
@@ -241,6 +298,34 @@ public class UserController {
             return "redirect:/";
         }
 	}
+
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+    public String registerUser(@ModelAttribute("registerForm") Register register, Model model
+            ,final RedirectAttributes redirectAttributes , HttpSession httpSession) {
+
+        logger.debug("registerUser() : {}", "");
+
+        List<ErrorDetails> registerErrorDetails = formValidator.isRegisterValid(register);
+
+        if( null != registerErrorDetails
+                && registerErrorDetails.size() > 0 ){
+            model.addAttribute("registerErrorDetails" , registerErrorDetails);
+            httpSession.setAttribute("registerErrorDetails", registerErrorDetails);
+            return "redirect:/register";
+        }
+
+        boolean success = registrationService.registerUser(register);
+
+        if(success) {
+            redirectAttributes.addFlashAttribute("msg", "User added successfully!");
+            return "redirect:/login";
+        }else{
+            redirectAttributes.addFlashAttribute("msg", "Registration Failed!");
+            return "redirect:/register";
+        }
+
+    }
+
 
 	// Register User
 	@RequestMapping(value = "/forget", method = RequestMethod.GET)
@@ -254,6 +339,29 @@ public class UserController {
 		if(null == httpSession.getAttribute("login")) {
 			return "users/forget_password";
 		}else{
+			return "redirect:/resetPassword";
+		}
+	}
+
+	// Register User
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+	public String resetPasswordAfterLogin( Model model, HttpSession httpSession) {
+
+		logger.debug("resetPasswordAfterLogin()");
+		Register userDetails = null;
+		if(null != httpSession.getAttribute("login")){
+
+			UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+			userDetails = registrationService.getUser(userLogin.getEmail());
+			Register register = new Register();
+
+			model.addAttribute("registerForm", register);
+			model.addAttribute("userDetails", userDetails);
+
+			return "users/reset_password";
+
+		}
+		else{
 			return "redirect:/";
 		}
 	}
@@ -262,20 +370,22 @@ public class UserController {
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public String resetPassword(@ModelAttribute("registerForm") Register register, Model model, HttpSession httpSession) {
 
+		logger.debug("resetPassword()");
 		Register userDetails = null;
-		if(null != register.getEmailId()){
-			userDetails = registrationService.getUser(register.getEmailId());
-		}
 
-		logger.debug("forgetPassword()");
-		model.addAttribute("registerForm" , register);
-		model.addAttribute("userDetails", userDetails);
+			if (null != register.getEmailId()) {
+				userDetails = registrationService.getUser(register.getEmailId());
+			}
 
-		if(null == httpSession.getAttribute("login")) {
-			return "users/reset_password";
-		}else{
-			return "redirect:/";
-		}
+			logger.debug("forgetPassword()");
+			model.addAttribute("registerForm", register);
+			model.addAttribute("userDetails", userDetails);
+
+			if (null == httpSession.getAttribute("login")) {
+				return "users/reset_password";
+			} else {
+				return "redirect:/";
+			}
 	}
 
 	// Register User
@@ -291,29 +401,13 @@ public class UserController {
 		logger.debug("forgetPassword()");
 		model.addAttribute("registerForm" , register);
 		model.addAttribute("isUpdateSuccess", isUpdateSuccess);
+		model.addAttribute("msg" , "You have successfully Updated your password ..!!");
 
 		if(null == httpSession.getAttribute("login")) {
 			return "redirect:/login";
 		}else{
 			return "redirect:/showPredictions";
 		}
-	}
-
-	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-	public String registerUser(@ModelAttribute("registerForm") @Validated Register register, Model model
-			,final RedirectAttributes redirectAttributes) {
-
-		logger.debug("registerUser() : {}", "");
-		boolean success = registrationService.registerUser(register);
-
-		if(success) {
-			redirectAttributes.addFlashAttribute("msg", "User added successfully!");
-			return "redirect:/login";
-		}else{
-			redirectAttributes.addFlashAttribute("msg", "Registration Failed!");
-			return "redirect:/register";
-		}
-
 	}
 
 	// show update form
