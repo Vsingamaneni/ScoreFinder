@@ -57,7 +57,7 @@
 
         <jsp:include page="../fragments/nav_before_login.jsp" />
 
-        <c:if test="${fn:length(registerErrorDetails)} > 0">
+        <c:if test="${fn:length(registerErrorDetails) > 0}">
             <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> Please fix the below errors..!!</h2>
         </c:if>
         <c:forEach var="registerErrorDetail" items="${registerErrorDetails}">

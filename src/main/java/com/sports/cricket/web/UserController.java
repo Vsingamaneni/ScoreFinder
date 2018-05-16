@@ -48,22 +48,6 @@ public class UserController {
 
     FormValidator formValidator = new FormValidator();
 
-/*
-	@InitBinder("user")
-	protected void initUserBinder(WebDataBinder binder) {
-		binder.setValidator(new UserFormValidator());
-		//binder.setValidator(loginValidator);
-	}
-*/
-
-/*
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		//binder.setValidator(new LoginValidator());
-		binder.addValidators(new LoginValidator());
-	}
-*/
-
 	private UserService userService;
 	private ScheduleService scheduleService;
 	private RegistrationService registrationService;
@@ -213,7 +197,7 @@ public class UserController {
 			}
 			httpSession.setAttribute("login" , userLogin);
 			httpSession.setAttribute("user", userLogin.getFirstName());
-			httpSession.setAttribute("role", "user");
+			httpSession.setAttribute("role", userLogin.getRole());
 			httpSession.setAttribute("session" , userLogin);
 
 			List<Schedule> schedules = scheduleService.scheduleList();
@@ -240,7 +224,7 @@ public class UserController {
 			model.addAttribute("session", userLogin);
 			httpSession.setAttribute("login" , userLogin);
 			httpSession.setAttribute("user", userLogin.getFirstName());
-			httpSession.setAttribute("role", "user");
+			httpSession.setAttribute("role", userLogin.getRole());
 			httpSession.setAttribute("session" , userLogin);
 
 			List<Schedule> schedules = scheduleService.scheduleList();
@@ -278,13 +262,14 @@ public class UserController {
 
 	// Register User
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String showRegister(Model model, HttpSession httpSession) {
+	public String showRegisterForm(Model model, HttpSession httpSession) {
 
         List<ErrorDetails> registerErrorDetails = (List<ErrorDetails>)httpSession.getAttribute("registerErrorDetails");
 
         if(null != registerErrorDetails
                 && registerErrorDetails.size() > 0 ){
             model.addAttribute("registerErrorDetails", registerErrorDetails);
+            httpSession.removeAttribute("registerErrorDetails");
         }
 
 		Register register = new Register();
@@ -300,10 +285,18 @@ public class UserController {
 	}
 
     @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-    public String registerUser(@ModelAttribute("registerForm") Register register, Model model
+    public String registerUser(@ModelAttribute("registerForm") Register register, ModelMap model
             ,final RedirectAttributes redirectAttributes , HttpSession httpSession) {
 
         logger.debug("registerUser() : {}", "");
+
+        if(null != httpSession.getAttribute("registerErrorDetails")) {
+            httpSession.removeAttribute("registerErrorDetails");
+        }
+
+        if(null != model.get("registerErrorDetails")) {
+            model.remove("registerErrorDetails");
+        }
 
         List<ErrorDetails> registerErrorDetails = formValidator.isRegisterValid(register);
 
@@ -326,8 +319,23 @@ public class UserController {
 
     }
 
+	// Forget Password
+	@RequestMapping(value = "/showAllUsers", method = RequestMethod.GET)
+	public String showAllUsers(Model model, HttpSession httpSession) {
 
-	// Register User
+		logger.debug("showAllUsers()");
+
+		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+		model.addAttribute("session" , userLogin);
+		model.addAttribute("login", userLogin);
+		model.addAttribute("userLogin", userLogin);
+		List<Register> registerList = registrationService.getAllUsers();
+		model.addAttribute("registerList", registerList);
+
+		return "users/members_list";
+	}
+
+	// Forget Password
 	@RequestMapping(value = "/forget", method = RequestMethod.GET)
 	public String forgetPassword(Model model, HttpSession httpSession) {
 
@@ -343,7 +351,7 @@ public class UserController {
 		}
 	}
 
-	// Register User
+	// Rest Password
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
 	public String resetPasswordAfterLogin( Model model, HttpSession httpSession) {
 
@@ -388,7 +396,7 @@ public class UserController {
 			}
 	}
 
-	// Register User
+	// Update Password
 	@RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
 	public String updatePassword(@ModelAttribute("registerForm") Register register, Model model, HttpSession httpSession) {
 

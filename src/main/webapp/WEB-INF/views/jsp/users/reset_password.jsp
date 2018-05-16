@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -41,16 +42,36 @@
     <script src='https://davidstutz.github.io/bootstrap-multiselect/js/bootstrap-multiselect.js' type='text/javascript'></script>
 
     <spring:url value="/updatePassword" var="resetPasswordUrl" />
-
+    <c:if test="${not empty userDetails}">
+        <c:set var="user_name" value="${userDetails.fName}"/>
+        <c:set var="role" value="${userDetails.role}"/>
+    </c:if>
 </head>
 
 <body>
 
 <div style="width: 1250px; margin: 0 auto;">
-
-    <jsp:include page="../fragments/header.jsp" />
-
     <header>
+        <div id="head-top">
+            <ul class="page-width">
+                <li class="logo">
+                    <a href="${userUrl}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Indian Premier League</a>
+                </li>
+                <c:if test="${not empty user_name}">
+                    <li class="right">
+                        <a href="#" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Welcome ${user_name}</a>
+                    </li>
+                </c:if>
+                <c:if test="${empty user_name}">
+                    <li class="right">
+                        <a style="text-decoration:none;">
+                            <marquee onmouseover="stop();" onmouseout="start();" scrollAmount="20" scrollDelay="300" direction="side" width="100%"  style="margin-top: 0px">
+                                <a href="/" class="new1" style="color:white;font-size:19px;text-decoration:none;font-family:Comic Sans MS">	IPL is live today. &nbsp;&nbsp;&nbsp;  Sign on to find your score.</a></marquee>
+                        </a>
+                    </li>
+                </c:if>
+            </ul>
+        </div>
 
         <jsp:include page="../fragments/nav_before_login.jsp" />
 
@@ -101,7 +122,7 @@
                                 <button class='btn-lg btn-primary' type='submit' onclick="post('${resetPasswordUrl}')">Update Password</button>
                             </div>
                             <div class='col-md-3'>
-                                <button class='btn-lg btn-danger' style='float:right' type='submit'><a href="/index" style="color:white;">Cancel</a></button>
+                                <button class='btn-lg btn-danger' style='float:right' type='submit'><a href="/" style="color:white;">Cancel</a></button>
                             </div>
                         </div>
                     </form>

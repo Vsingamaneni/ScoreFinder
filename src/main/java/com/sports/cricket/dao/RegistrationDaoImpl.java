@@ -1,5 +1,6 @@
 package com.sports.cricket.dao;
 
+import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Register;
 import com.sports.cricket.model.UserLogin;
 import com.sports.cricket.password.EncryptedPassword;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegistrationDaoImpl implements RegistrationDao {
@@ -149,36 +151,22 @@ public class RegistrationDaoImpl implements RegistrationDao {
 
         String sql = "UPDATE REGISTER SET encryptedPass = '" +register.getEncryptedPass() +"', saltKey = '" +register.getSaltKey() +"' where emailId = '" + register.getEmailId() +"'";
 
-/*
-
-        Connection conn = null;
-
-        try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, register.getEncryptedPass());
-            ps.setString(2, register.getSaltKey());
-            ps.setString(3, register.getEmailId());
-
-            ps.executeUpdate();
-            ps.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {}
-            }
-        }
-*/
-    int row = jdbcTemplate.update(sql);
+        int row = jdbcTemplate.update(sql);
 
         System.out.println("Password Update Done");
 
         return true;
+    }
+
+    @Override
+    public List<Register> getAllUsers() {
+        System.out.println("Inside get All Users");
+
+        String sql = "Select * from REGISTER";
+
+        List<Register> register = jdbcTemplate.query(sql,new BeanPropertyRowMapper(Register.class));
+
+        return register;
     }
 
 }

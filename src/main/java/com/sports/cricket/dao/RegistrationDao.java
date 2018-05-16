@@ -4,6 +4,8 @@ package com.sports.cricket.dao;
 import com.sports.cricket.model.Register;
 import com.sports.cricket.model.UserLogin;
 
+import java.util.List;
+
 public interface RegistrationDao {
 
     boolean registerUser(Register registration);
@@ -13,4 +15,6 @@ public interface RegistrationDao {
     Register getUser(String emailId);
 
     boolean updatePassword(Register register);
+
+    List<Register> getAllUsers();
 }

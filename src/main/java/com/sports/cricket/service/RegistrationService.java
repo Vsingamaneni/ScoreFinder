@@ -3,6 +3,8 @@ package com.sports.cricket.service;
 import com.sports.cricket.model.Register;
 import com.sports.cricket.model.UserLogin;
 
+import java.util.List;
+
 public interface RegistrationService {
 
     boolean registerUser(Register registration);
@@ -12,4 +14,6 @@ public interface RegistrationService {
     Register getUser(String emailId);
 
     boolean updateUser(Register register);
+
+    List<Register> getAllUsers();
 }

@@ -6,6 +6,8 @@ import com.sports.cricket.model.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("registrationService")
 public class RegistrationServiceImpl implements RegistrationService {
 
@@ -34,6 +36,11 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public boolean updateUser(Register register) {
         return registrationDao.updatePassword(register);
+    }
+
+    @Override
+    public List<Register> getAllUsers() {
+        return registrationDao.getAllUsers();
     }
 
 }

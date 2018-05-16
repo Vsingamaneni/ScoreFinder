@@ -39,7 +39,7 @@
 
     <c:if test="${not empty user}">
         <c:set var="user_name" value="${user.firstName}"/>
-        <c:set var="role" value="${user.userRole}"/>
+        <c:set var="role" value="${user.role}"/>
     </c:if>
 
     <body>
@@ -66,11 +66,16 @@
                 </ul>
             </div>
 
-        <c:if test="${empty user_name}">
-            <jsp:include page="../fragments/nav_before_login.jsp" />
-        </c:if>
-            <c:if test="${not empty user_name}">
-                <jsp:include page="../fragments/nav_after_login.jsp" />
+            <c:if test="${empty user_name}">
+                <jsp:include page="../fragments/nav_before_login.jsp"/>
+            </c:if>
+
+            <c:if test="${not empty user_name && role.equals('member')}">
+                <jsp:include page="../fragments/nav_after_login.jsp"/>
+            </c:if>
+
+            <c:if test="${not empty user_name && role.equals('admin')}">
+                <jsp:include page="../fragments/nav_admin.jsp"/>
             </c:if>
 
         </header>
