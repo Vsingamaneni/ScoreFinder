@@ -2,7 +2,9 @@ package com.sports.cricket.util;
 
 import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Schedule;
+import org.springframework.util.CollectionUtils;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,5 +29,25 @@ public class ValidatePredictions {
         }
 
         return finalSchedule;
+    }
+
+    public static List<Schedule> validateSchedule(List<Schedule> scheduleList) throws ParseException {
+
+        List<Schedule> validSchedule = new ArrayList<>();
+
+        if(!CollectionUtils.isEmpty(scheduleList)){
+            for(Schedule schedule : scheduleList){
+                if(null != schedule.getStartDate()){
+                    if(ValidateDeadline.isPredictionValid(schedule.getStartDate())){
+                        schedule.setCanPredict(true);
+                    }else{
+                        schedule.setCanPredict(false);
+                    }
+                    validSchedule.add(schedule);
+                }
+            }
+        }
+
+        return validSchedule;
     }
 }

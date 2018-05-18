@@ -36,6 +36,7 @@
 
     <c:if test="${not empty session}">
        <c:set var="user_name" value="${session.firstName}"/>
+       <c:set var="role" value="${session.role}"/>
     </c:if>
 
     <spring:url value="/logout" var="logoutUrl" />
@@ -59,7 +60,10 @@
 
     <header>
 
-        <c:if test="${not empty session}">
+        <c:if test="${role.equalsIgnoreCase('admin')}">
+            <jsp:include page="../fragments/nav_admin.jsp"/>
+        </c:if>
+        <c:if test="${role.equalsIgnoreCase('member')}">
             <jsp:include page="../fragments/nav_after_login.jsp"/>
         </c:if>
 
@@ -78,7 +82,6 @@
             <thead>
             <tr>
                 <th>#Game</th>
-                <th>Deadline</th>
                 <th>Fixture</th>
                 <th>My Prediction</th>
                 <th>Predicted Time</th>
@@ -89,7 +92,6 @@
             <c:forEach var="predictions" items="${predictions}">
                 <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
                     <td style="text-align:left;"> ${predictions.matchNumber}</td>
-                    <td style="text-align:left;"></td>
                     <td style="text-align:left;">${predictions.homeTeam} vs ${predictions.awayTeam}</td>
                     <td style="text-align:left;">${predictions.selected}</td>
                     <td style="text-align:left;">${predictions.predictedTime}</td>
@@ -115,7 +117,6 @@
             <tr>
                 <th>#Game</th>
                 <th>Deadline</th>
-                <th>Time</th>
                 <th>Fixture</th>
                 <th>Action</th>
             </tr>
@@ -123,13 +124,18 @@
 
             <c:forEach var="schedule" items="${schedules}">
                 <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                    <td style="text-align:left;"> ${schedule.matchNumber}</td>
-                    <td style="text-align:left;"> 18 May, 2018</td>
-                    <td style="text-align:left;"> 3PM </td>
+                    <td style="text-align:left;">${schedule.matchNumber}</td>
+                    <td style="text-align:left;">${schedule.startDate}</td>
                     <td style="text-align:left;">${schedule.homeTeam} vs ${schedule.awayTeam}</td>
                     <td style="text-align:left;">
                         <spring:url value="/match/${session.memberId}/${schedule.matchNumber}/predict" var="predictUrl" />
-                        <button class="btn btn-primary" onclick="location.href='${predictUrl}'">Predict</button>
+                        <c:if test="${schedule.canPredict}">
+                            <button class="btn btn-primary" onclick="location.href='${predictUrl}'">Predict</button>
+                        </c:if>
+                         <c:if test="${!schedule.canPredict}">
+                            <button class="btn btn-danger" onclick="location.href='#'">You Missed it</button>
+                         </c:if>
+
                 </tr>
             </c:forEach>
         </table>

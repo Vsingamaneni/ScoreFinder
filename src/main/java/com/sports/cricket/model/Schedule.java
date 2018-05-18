@@ -10,12 +10,9 @@ public class Schedule {
 
     private String startDate;
 
-    private boolean isEvening;
-
-    private boolean isNight;
-
     private boolean isactive;
 
+    private boolean canPredict;
 
     public Integer getMatchNumber() {
         return matchNumber;
@@ -49,27 +46,19 @@ public class Schedule {
         this.startDate = startDate;
     }
 
-    public boolean isEvening() {
-        return isEvening;
-    }
-
-    public void setEvening(boolean evening) {
-        isEvening = evening;
-    }
-
-    public boolean isNight() {
-        return isNight;
-    }
-
-    public void setNight(boolean night) {
-        isNight = night;
-    }
-
     public boolean isIsactive() {
         return isactive;
     }
 
     public void setIsactive(boolean isactive) {
         this.isactive = isactive;
+    }
+
+    public boolean isCanPredict() {
+        return canPredict;
+    }
+
+    public void setCanPredict(boolean canPredict) {
+        this.canPredict = canPredict;
     }
 }

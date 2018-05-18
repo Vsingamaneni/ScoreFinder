@@ -58,4 +58,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleDao.deletePrediction(predictionId);
     }
 
+    @Override
+    public boolean authorizeMember(Integer memberId) {
+        return scheduleDao.authorizeMember(memberId);
+    }
+
+    @Override
+    public List<Prediction> getPredictionsByMatch(Integer matchId) {
+        return scheduleDao.getPredictionsByMatch(matchId);
+    }
+
 }

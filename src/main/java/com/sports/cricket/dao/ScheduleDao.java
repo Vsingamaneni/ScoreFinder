@@ -23,4 +23,8 @@ public interface ScheduleDao {
 
     boolean deletePrediction(Integer predictionId);
 
+    boolean authorizeMember(Integer memberID);
+
+    List<Prediction> getPredictionsByMatch(Integer matchId);
+
 }

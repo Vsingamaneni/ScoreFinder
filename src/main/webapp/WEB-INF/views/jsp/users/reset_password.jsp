@@ -73,8 +73,22 @@
             </ul>
         </div>
 
-        <jsp:include page="../fragments/nav_before_login.jsp" />
 
+        <c:if test="${not empty role}">
+            <c:if test="${role.equalsIgnoreCase('admin')}">
+                <jsp:include page="../fragments/nav_admin.jsp"/>
+            </c:if>
+
+            <c:if test="${role.equalsIgnoreCase('member')}">
+                <jsp:include page="../fragments/nav_after_login.jsp"/>
+            </c:if>
+        </c:if>
+
+        <c:if test="${empty role}">
+        <jsp:include page="../fragments/nav_before_login.jsp" />
+        </c:if>
+
+        <br />
         <div class='container' style="width: 1000px;">
             <div class='panel panel-primary dialog-panel'>
                 <div class='panel-heading' style="background-color: #082a3e;">

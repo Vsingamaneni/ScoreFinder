@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: v0s004a
-  Date: 5/15/18
-  Time: 9:30 PM
+  Date: 5/17/18
+  Time: 11:07 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page session="false" %>
@@ -32,10 +32,10 @@
     <link href="${coreCss}" rel="stylesheet" />
 
     <spring:url value="/" var="urlHome" />
-    <spring:url value="/users/add" var="urlAddUser" />
 
     <c:if test="${not empty session}">
         <c:set var="user_name" value="${session.firstName}"/>
+        <c:set var="role" value="${session.role}"/>
     </c:if>
 
     <spring:url value="/logout" var="logoutUrl" />
@@ -59,8 +59,11 @@
 
     <header>
 
-        <c:if test="${not empty session}">
+        <c:if test="${role.equalsIgnoreCase('admin')}">
             <jsp:include page="../fragments/nav_admin.jsp"/>
+        </c:if>
+        <c:if test="${role.equalsIgnoreCase('member')}">
+            <jsp:include page="../fragments/nav_after_login.jsp"/>
         </c:if>
 
         <br />
@@ -72,81 +75,73 @@
         </c:if>
 
         <div style="width: 1000px; margin: 0 auto;">
-            <h1>Active Users</h1>
+            <h1>Current Predictions</h1>
 
+
+            <c:forEach var="schedule" items="${currentSchedule}">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Member #</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Is Active</th>
+                    <th>#Game</th>
+                    <th>Fixture</th>
+                    <th>My Prediction</th>
+                    <th>Predicted Time</th>
                     <th>Action</th>
                 </tr>
                 </thead>
 
-                <c:forEach var="register" items="${registerList}">
-                    <c:if test="${register.isActive.equalsIgnoreCase('Y')}">
+                <c:if test="${not empty 'PL-'+schedule.getMatchNumber()}">
+                <c:forEach var="predictions" items="${'PL-'+schedule.getMatchNumber()}">
                     <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                        <td style="text-align:left;"> ${register.memberId}</td>
-                        <td style="text-align:left;">${register.fName}</td>
-                        <td style="text-align:left;">${register.lName}</td>
-                        <td style="text-align:left;">${register.isActive}</td>
+                        <td style="text-align:left;"> ${predictions.matchNumber}</td>
+                        <td style="text-align:left;">${predictions.homeTeam} vs ${predictions.awayTeam}</td>
+                        <td style="text-align:left;">${predictions.selected}</td>
+                        <td style="text-align:left;">${predictions.predictedTime}</td>
                         <td style="text-align:left;">
-                                <spring:url value="/member/${register.memberId}/authorize" var="userUrl" />
-                                <%--<c:if test="${!register.isActive.equalsIgnoreCase('Y')}">
-                                    <button class="btn btn-info" onclick="location.href='${userUrl}'">Authorize</button>
-                                </c:if>--%>
-                                <%--<spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/view" var="userUrl" />
-                                <spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/update" var="updateUrl" />
-                                <spring:url value="/prediction/${predictions.predictionId}/delete" var="deleteUrl" />
-
-                                <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                                <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                                <button class="btn btn-danger" onclick="location.href=('${deleteUrl}')">Delete</button></td>--%>
-                    </tr>
-                    </c:if>
-                </c:forEach>
-            </table>
-
-
-            <br /><br /><br /><br /><br />
-
-            <h1>Inactive/ Opted out Users</h1>
-
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Member #</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Is Active</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-
-                <c:forEach var="register" items="${registerList}">
-                    <c:if test="${register.isActive.equalsIgnoreCase('N')}">
-                    <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                        <td style="text-align:left;"> ${register.memberId}</td>
-                        <td style="text-align:left;">${register.fName}</td>
-                        <td style="text-align:left;">${register.lName}</td>
-                        <td style="text-align:left;">${register.isActive}</td>
-                        <td style="text-align:left;">
-                            <spring:url value="/member/${register.memberId}/authorize" var="userUrl" />
-                            <button class="btn btn-info" onclick="location.href='${userUrl}'">Authorize</button>
-
-                            <%--<spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/view" var="userUrl" />
+                            <spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/view" var="userUrl" />
                             <spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/update" var="updateUrl" />
                             <spring:url value="/prediction/${predictions.predictionId}/delete" var="deleteUrl" />
 
                             <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
                             <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                            <button class="btn btn-danger" onclick="location.href=('${deleteUrl}')">Delete</button></td>--%>
+                            <button class="btn btn-danger" onclick="location.href=('${deleteUrl}')">Delete</button></td>
                     </tr>
-                    </c:if>
                 </c:forEach>
+                </c:if>
             </table>
+            </c:forEach>
+
+           <%-- <br /><br /><br /><br /><br />
+
+            <h1>Upcoming Matches</h1>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#Game</th>
+                    <th>Deadline</th>
+                    <th>Fixture</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <c:forEach var="schedule" items="${schedules}">
+                    <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
+                        <td style="text-align:left;">${schedule.matchNumber}</td>
+                        <td style="text-align:left;">${schedule.startDate}</td>
+                        <td style="text-align:left;">${schedule.homeTeam} vs ${schedule.awayTeam}</td>
+                        <td style="text-align:left;">
+                                <spring:url value="/match/${session.memberId}/${schedule.matchNumber}/predict" var="predictUrl" />
+                            <c:if test="${schedule.canPredict}">
+                            <button class="btn btn-primary" onclick="location.href='${predictUrl}'">Predict</button>
+                            </c:if>
+                            <c:if test="${!schedule.canPredict}">
+                            <button class="btn btn-danger" onclick="location.href='#'">You Missed it</button>
+                            </c:if>
+
+                    </tr>
+                </c:forEach>
+            </table>--%>
 
         </div>
 

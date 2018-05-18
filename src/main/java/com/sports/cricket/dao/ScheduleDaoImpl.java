@@ -202,6 +202,52 @@ public class ScheduleDaoImpl implements ScheduleDao {
         return isSuccess;
     }
 
+    @Override
+    public boolean authorizeMember(Integer memberID) {
+
+        String sql = "UPDATE REGISTER SET isActive = 'Y' where memberId = ?";
+
+
+        Connection conn = null;
+        int rows = 0;
+
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, memberID);
+
+            rows = ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {}
+            }
+        }
+
+        return (rows == 1 ? true : false);
+    }
+
+    @Override
+    public List<Prediction> getPredictionsByMatch(Integer matchId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("matchId", matchId);
+
+        String sql = "SELECT * FROM PREDICTIONS where matchNumber =?";
+
+        List<Prediction> predictionList= null;
+        try {
+            predictionList = (List<Prediction>) jdbcTemplate.queryForObject(sql, new Object[]{matchId}, new BeanPropertyRowMapper(Prediction.class));
+        } catch (EmptyResultDataAccessException e) {
+        }
+
+        return predictionList;
+    }
+
     private SqlParameterSource getSqlParameterByModel(Prediction prediction) {
 
         MapSqlParameterSource paramSource = new MapSqlParameterSource();

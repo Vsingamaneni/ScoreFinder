@@ -1147,107 +1147,91 @@
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="280" parent="233" name="isEvening">
+    <column id="280" parent="233" name="isActive">
       <Position>5</Position>
       <DataType>tinyint(1)|0s</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="281" parent="233" name="isNight">
-      <Position>6</Position>
-      <DataType>tinyint(1)|0s</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="282" parent="233" name="isActive">
-      <Position>7</Position>
-      <DataType>tinyint(1)|0s</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="283" parent="233" name="PRIMARY">
+    <key id="281" parent="233" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>matchNumber</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="284" parent="234" name="eid">
+    <column id="282" parent="234" name="eid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="285" parent="234" name="did">
+    <column id="283" parent="234" name="did">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="286" parent="234" name="pct_time">
+    <column id="284" parent="234" name="pct_time">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="287" parent="234" name="did">
+    <index id="285" parent="234" name="did">
       <ColNames>did</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="288" parent="234" name="PRIMARY">
+    <key id="286" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>eid
 did</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="289" parent="234" name="works_ibfk_1">
+    <foreign-key id="287" parent="234" name="works_ibfk_1">
       <ColNames>eid</ColNames>
       <RefSchemaName>sports</RefSchemaName>
       <RefTableName>EMPLOYEE</RefTableName>
       <RefColNames>eid</RefColNames>
     </foreign-key>
-    <foreign-key id="290" parent="234" name="works_ibfk_2">
+    <foreign-key id="288" parent="234" name="works_ibfk_2">
       <ColNames>did</ColNames>
       <RefSchemaName>sports</RefSchemaName>
       <RefTableName>DEPARTMENT</RefTableName>
       <RefColNames>did</RefColNames>
     </foreign-key>
-    <column id="291" parent="235" name="id">
+    <column id="289" parent="235" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="292" parent="235" name="name">
+    <column id="290" parent="235" name="name">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="293" parent="235" name="email">
+    <column id="291" parent="235" name="email">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="294" parent="235" name="address">
+    <column id="292" parent="235" name="address">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="295" parent="235" name="password">
+    <column id="293" parent="235" name="password">
       <Position>5</Position>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="296" parent="235" name="sex">
+    <column id="294" parent="235" name="sex">
       <Position>6</Position>
       <DataType>varchar(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="297" parent="235" name="NUMBER">
+    <column id="295" parent="235" name="NUMBER">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="298" parent="235" name="COUNTRY">
+    <column id="296" parent="235" name="COUNTRY">
       <Position>8</Position>
       <DataType>varchar(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>

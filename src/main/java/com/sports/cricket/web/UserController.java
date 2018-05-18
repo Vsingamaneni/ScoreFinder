@@ -1,5 +1,6 @@
 package com.sports.cricket.web;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -163,7 +164,7 @@ public class UserController {
 			httpSession.setAttribute("role", loginDetails.getRole());
 			httpSession.setAttribute("session" , userLogin);
 
-			List<Schedule> schedules = scheduleService.scheduleList();
+			/*List<Schedule> schedules = scheduleService.scheduleList();
 			List<Prediction> predictions = scheduleService.findPredictions(loginDetails.getMemberId());
 
 			List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
@@ -171,18 +172,19 @@ public class UserController {
 			model.addAttribute("predictions", predictions);
 			model.addAttribute("schedules", finalSchedule);
 
-			httpSession.setMaxInactiveInterval(5*60);
+			httpSession.setMaxInactiveInterval(5*60);*/
+
+			return "redirect:/showPredictions";
 		}else{
 			model.addAttribute("msg", "User Login Failed!");
 			httpSession.setAttribute("msg" , "User Login Failed");
 			return "redirect:/login";
 		}
-		return "users/member_login";
 	}
 
 	// Display predictions
 	@RequestMapping(value = "/showPredictions", method = RequestMethod.GET)
-	public String showPredictions(Model model, HttpSession httpSession) {
+	public String showPredictions(Model model, HttpSession httpSession) throws ParseException {
 
 		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
 
@@ -200,7 +202,7 @@ public class UserController {
 			httpSession.setAttribute("role", userLogin.getRole());
 			httpSession.setAttribute("session" , userLogin);
 
-			List<Schedule> schedules = scheduleService.scheduleList();
+			List<Schedule> schedules = ValidatePredictions.validateSchedule(scheduleService.scheduleList());
 			List<Prediction> predictions = scheduleService.findPredictions(userLogin.getMemberId());
 			List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
 
@@ -214,30 +216,8 @@ public class UserController {
 
 	// Display predictions
 	@RequestMapping(value = "/showPredictions", method = RequestMethod.POST)
-	public String showAllPredictions(Model model, HttpSession httpSession) {
-
-		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
-
-		if(null == userLogin){
-			return "redirect:/";
-		}else {
-			model.addAttribute("session", userLogin);
-			httpSession.setAttribute("login" , userLogin);
-			httpSession.setAttribute("user", userLogin.getFirstName());
-			httpSession.setAttribute("role", userLogin.getRole());
-			httpSession.setAttribute("session" , userLogin);
-
-			List<Schedule> schedules = scheduleService.scheduleList();
-			List<Prediction> predictions = scheduleService.findPredictions(userLogin.getMemberId());
-
-			List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
-
-			model.addAttribute("predictions", predictions);
-			model.addAttribute("schedules", finalSchedule);
-
-			httpSession.setMaxInactiveInterval(5*60);
-			return "users/member_login";
-		}
+	public String showAllPredictions(ModelMap model, HttpSession httpSession) {
+			return "redirect:/showPredictions";
 	}
 
 	// Display predictions
@@ -319,13 +299,38 @@ public class UserController {
 
     }
 
-	// Forget Password
+	// Display predictions
+	@RequestMapping(value = "/member/{memberId}/authorize", method = RequestMethod.GET)
+	public String authorizeMember(@PathVariable("memberId") Integer memberId, Model model, HttpSession httpSession) {
+
+		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+
+		if(null == userLogin){
+			return "redirect:/";
+		}else {
+			boolean isAuthSuccess = scheduleService.authorizeMember(memberId);
+
+			model.addAttribute("session", userLogin);
+			model.addAttribute("isAuthSuccess", isAuthSuccess);
+			httpSession.setAttribute("login" , userLogin);
+
+			return "redirect:/showAllUsers";
+		}
+	}
+
+
+	// Show All Users
 	@RequestMapping(value = "/showAllUsers", method = RequestMethod.GET)
 	public String showAllUsers(Model model, HttpSession httpSession) {
 
 		logger.debug("showAllUsers()");
 
 		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+
+		if(null != userLogin.getRole() && !userLogin.getRole().equalsIgnoreCase("admin")){
+			httpSession.setAttribute("msg", "You need to be an admin to view this page.!");
+			return "redirect:/showPredictions";
+		}
 		model.addAttribute("session" , userLogin);
 		model.addAttribute("login", userLogin);
 		model.addAttribute("userLogin", userLogin);
@@ -333,6 +338,40 @@ public class UserController {
 		model.addAttribute("registerList", registerList);
 
 		return "users/members_list";
+	}
+
+	// Show Current Predictions
+	@RequestMapping(value = "/currentPredictions", method = RequestMethod.GET)
+	public String showCurrentPredictions(Model model, HttpSession httpSession) {
+
+		logger.debug("showCurrentPredictions()");
+
+		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+
+		if(null != userLogin.getRole() && !userLogin.getRole().equalsIgnoreCase("admin")){
+			httpSession.setAttribute("msg", "You need to be an admin to view this page.!");
+			return "redirect:/showPredictions";
+		}
+		model.addAttribute("session" , userLogin);
+		model.addAttribute("login", userLogin);
+		model.addAttribute("userLogin", userLogin);
+		List<Schedule> currentSchedule = scheduleService.findAll();
+		model.addAttribute("currentSchedule" , currentSchedule);
+
+
+		List<Prediction> predictionsList = null;
+		for(Schedule schedule : currentSchedule){
+			predictionsList =  scheduleService.getPredictionsByMatch(schedule.getMatchNumber());
+			model.addAttribute("PL-"+schedule.getMatchNumber() , predictionsList);
+		}
+
+/*
+
+		List<Register> registerList = registrationService.getAllUsers();
+		model.addAttribute("registerList", registerList);
+*/
+
+		return "users/prediction_list";
 	}
 
 	// Forget Password
