@@ -43,7 +43,7 @@ public class RegistrationDaoImpl implements RegistrationDao {
             EncryptedPassword encryptedPassword = ProtectUserPassword.encryptPassword(registration.getPassword());
             registration.setEncryptedPass(encryptedPassword.getEncryptedPassword());
             registration.setSaltKey(encryptedPassword.getSalt());
-            registration.setIsActive("Y");
+            registration.setIsActive("N");
             registration.setRole("member");
         }
 

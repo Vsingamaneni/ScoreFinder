@@ -13,10 +13,12 @@ import javax.servlet.http.HttpSession;
 import com.sports.cricket.model.*;
 import com.sports.cricket.service.RegistrationService;
 import com.sports.cricket.service.ScheduleService;
+import com.sports.cricket.util.ValidateDeadline;
 import com.sports.cricket.util.ValidatePredictions;
 import com.sports.cricket.validations.ErrorDetails;
 import com.sports.cricket.validations.FormValidator;
 import com.sports.cricket.validator.LoginValidator;
+import com.sports.cricket.validator.ValidateDeadLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,35 +184,35 @@ public class UserController {
 		}
 	}
 
-	// Display predictions
-	@RequestMapping(value = "/showPredictions", method = RequestMethod.GET)
-	public String showPredictions(Model model, HttpSession httpSession) throws ParseException {
+	// Update Result
+	@RequestMapping(value = "/updateResult", method = RequestMethod.GET)
+	public String updateResult(ModelMap model, HttpSession httpSession) throws ParseException {
 
 		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+		if(null != model.get("msg")) {
+            model.remove("msg");
+        }
 
 		if(null == userLogin){
 			return "redirect:/";
 		}else {
 			model.addAttribute("session", userLogin);
-			//model.addAttribute("msg", "User logged in");
 			String value = (String)httpSession.getAttribute("msg");
 			if(null != value){
 				model.addAttribute("msg" , value);
 			}
+			httpSession.removeAttribute("msg");
 			httpSession.setAttribute("login" , userLogin);
 			httpSession.setAttribute("user", userLogin.getFirstName());
 			httpSession.setAttribute("role", userLogin.getRole());
 			httpSession.setAttribute("session" , userLogin);
 
-			List<Schedule> schedules = ValidatePredictions.validateSchedule(scheduleService.scheduleList());
-			List<Prediction> predictions = scheduleService.findPredictions(userLogin.getMemberId());
-			List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
+			List<Schedule> schedules = scheduleService.findAll();
 
-			model.addAttribute("predictions", predictions);
-			model.addAttribute("schedules", finalSchedule);
+			model.addAttribute("schedules", schedules);
 
 			httpSession.setMaxInactiveInterval(5*60);
-			return "users/member_login";
+			return "users/update_result";
 		}
 	}
 
@@ -220,9 +222,45 @@ public class UserController {
 			return "redirect:/showPredictions";
 	}
 
+    // Display predictions
+    @RequestMapping(value = "/showPredictions", method = RequestMethod.GET)
+    public String showPredictions(ModelMap model, HttpSession httpSession) throws ParseException {
+
+        UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+        if(null != model.get("msg")) {
+            model.remove("msg");
+        }
+
+        if(null == userLogin){
+            return "redirect:/";
+        }else {
+            model.addAttribute("session", userLogin);
+            //model.addAttribute("msg", "User logged in");
+            String value = (String)httpSession.getAttribute("msg");
+            if(null != value){
+                model.addAttribute("msg" , value);
+            }
+            httpSession.removeAttribute("msg");
+            httpSession.setAttribute("login" , userLogin);
+            httpSession.setAttribute("user", userLogin.getFirstName());
+            httpSession.setAttribute("role", userLogin.getRole());
+            httpSession.setAttribute("session" , userLogin);
+
+            List<Schedule> schedules = ValidatePredictions.validateSchedule(scheduleService.scheduleList());
+            List<Prediction> predictions = scheduleService.findPredictions(userLogin.getMemberId());
+            List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
+
+            model.addAttribute("predictions", predictions);
+            model.addAttribute("schedules", finalSchedule);
+
+            httpSession.setMaxInactiveInterval(5*60);
+            return "users/member_login";
+        }
+    }
+
 	// Display predictions
-	@RequestMapping(value = "/prediction/{memberId}/{matchNumber}/view", method = RequestMethod.GET)
-	public String showMemberSelected(@PathVariable("memberId") Integer memberId, @PathVariable("matchNumber") Integer matchNumber, Model model, HttpSession httpSession) {
+	@RequestMapping(value = "/prediction/{predictionId}/{matchNumber}/view", method = RequestMethod.GET)
+	public String showMemberSelected(@PathVariable("predictionId") Integer predictionId, @PathVariable("matchNumber") Integer matchNumber, Model model, HttpSession httpSession) {
 
 		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
 
@@ -230,7 +268,7 @@ public class UserController {
 			return "redirect:/";
 		}else {
 
-			Prediction prediction = scheduleService.getPrediction(memberId,matchNumber);
+			Prediction prediction = scheduleService.getPrediction(predictionId,matchNumber);
 
 			model.addAttribute("session", userLogin);
 			model.addAttribute("prediction", prediction);
@@ -356,20 +394,21 @@ public class UserController {
 		model.addAttribute("login", userLogin);
 		model.addAttribute("userLogin", userLogin);
 		List<Schedule> currentSchedule = scheduleService.findAll();
-		model.addAttribute("currentSchedule" , currentSchedule);
 
-
-		List<Prediction> predictionsList = null;
+		List<Prediction> predictionsList;
+		List<SchedulePrediction> schedulePredictionsList = new ArrayList<>();
+		SchedulePrediction schedulePrediction;
 		for(Schedule schedule : currentSchedule){
+		    schedulePrediction = new SchedulePrediction();
+		    schedulePrediction.setSchedule(schedule);
 			predictionsList =  scheduleService.getPredictionsByMatch(schedule.getMatchNumber());
-			model.addAttribute("PL-"+schedule.getMatchNumber() , predictionsList);
+			List<Register> userLoginList = registrationService.getAllUsers();
+			predictionsList = ValidateDeadLine.validatePredictions(schedule, predictionsList, userLoginList);
+			schedulePrediction.setPrediction(predictionsList);
+            schedulePredictionsList.add(schedulePrediction);
 		}
 
-/*
-
-		List<Register> registerList = registrationService.getAllUsers();
-		model.addAttribute("registerList", registerList);
-*/
+        model.addAttribute("schedulePredictions" , schedulePredictionsList);
 
 		return "users/prediction_list";
 	}

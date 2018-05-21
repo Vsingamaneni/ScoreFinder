@@ -28,7 +28,7 @@
                 <li><a href="/showPredictions">My Predictions</a></li>
                 <li><a href="/showAllUsers">Members List</a></li>
                 <li><a href="/currentPredictions">Member Predictions</a></li>
-                <li><a href="#">Update Result</a></li>
+                <li><a href="/updateResult">Update Result</a></li>
                 <li><a href="/#">Standings</a></li>
                 <li><a href="/forget">Change Password</a></li>
             </ul>

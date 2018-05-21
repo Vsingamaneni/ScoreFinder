@@ -49,8 +49,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Prediction getPrediction(Integer memberId, Integer matchId) {
-        return scheduleDao.getPrediction(memberId, matchId);
+    public Prediction getPrediction(Integer predictionId, Integer matchId) {
+        return scheduleDao.getPrediction(predictionId, matchId);
     }
 
     @Override

@@ -5,9 +5,11 @@ import com.sports.cricket.model.Schedule;
 import com.sports.cricket.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -15,12 +17,10 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class ScheduleDaoImpl implements ScheduleDao {
@@ -155,16 +155,16 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     @Override
-    public Prediction getPrediction(Integer memberId, Integer matchId) {
+    public Prediction getPrediction(Integer predictionId, Integer matchId) {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("memberId", memberId);
+        params.put("predictionId", predictionId);
         params.put("matchId", matchId);
 
-        String sql = "SELECT * FROM PREDICTIONS where memberId = ? and matchNumber =?";
+        String sql = "SELECT * FROM PREDICTIONS where predictionId = ? and matchNumber =?";
 
         Prediction prediction = null;
         try {
-            prediction = (Prediction) jdbcTemplate.queryForObject(sql, new Object[]{memberId, matchId}, new BeanPropertyRowMapper(Prediction.class));
+            prediction = (Prediction) jdbcTemplate.queryForObject(sql, new Object[]{predictionId, matchId}, new BeanPropertyRowMapper(Prediction.class));
         } catch (EmptyResultDataAccessException e) {
         }
 
@@ -239,11 +239,34 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
         String sql = "SELECT * FROM PREDICTIONS where matchNumber =?";
 
+        List<Prediction> predictionList = jdbcTemplate.query(sql, new Object[]{matchId}, new ResultSetExtractor<List<Prediction>>(){
+            public List<Prediction> extractData(
+                    ResultSet rs) throws SQLException, DataAccessException {
+
+                List<Prediction> predictionList = new ArrayList<Prediction>();
+                while(rs.next()){
+                    Prediction prediction = new Prediction();
+
+                    prediction.setPredictionId(rs.getInt("predictionId"));
+                    prediction.setMemberId(rs.getInt("memberId"));
+                    prediction.setMatchNumber(rs.getInt("matchNumber"));
+                    prediction.setHomeTeam(rs.getString("homeTeam"));
+                    prediction.setAwayTeam(rs.getString("awayTeam"));
+                    prediction.setFirstName(rs.getString("firstName"));
+                    prediction.setSelected(rs.getString("selected"));
+                    prediction.setPredictedTime(rs.getString("predictedTime"));
+
+                    predictionList.add(prediction);
+                }
+                return predictionList;
+            }
+        });
+/*
         List<Prediction> predictionList= null;
         try {
             predictionList = (List<Prediction>) jdbcTemplate.queryForObject(sql, new Object[]{matchId}, new BeanPropertyRowMapper(Prediction.class));
         } catch (EmptyResultDataAccessException e) {
-        }
+        }*/
 
         return predictionList;
     }

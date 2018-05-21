@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: v0s004a
-  Date: 5/17/18
-  Time: 11:07 PM
+  Date: 5/19/18
+  Time: 1:46 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page session="false" %>
@@ -10,6 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,10 +33,10 @@
     <link href="${coreCss}" rel="stylesheet" />
 
     <spring:url value="/" var="urlHome" />
+    <spring:url value="/users/add" var="urlAddUser" />
 
     <c:if test="${not empty session}">
         <c:set var="user_name" value="${session.firstName}"/>
-        <c:set var="role" value="${session.role}"/>
     </c:if>
 
     <spring:url value="/logout" var="logoutUrl" />
@@ -59,11 +60,9 @@
 
     <header>
 
-        <c:if test="${role.equalsIgnoreCase('admin')}">
+
+        <c:if test="${not empty session}">
             <jsp:include page="../fragments/nav_admin.jsp"/>
-        </c:if>
-        <c:if test="${role.equalsIgnoreCase('member')}">
-            <jsp:include page="../fragments/nav_after_login.jsp"/>
         </c:if>
 
         <br />
@@ -75,77 +74,37 @@
         </c:if>
 
         <div style="width: 1000px; margin: 0 auto;">
-            <h1>Current Predictions</h1>
+            <h1>Update Match Result</h1>
 
 
-            <c:forEach var="schedulePrediction" items="${schedulePredictions}">
-             <c:if test="${not empty schedulePrediction.schedule}">
-                 <h1>Deadline : ${schedulePrediction.schedule.startDate}</h1>
-             </c:if>
+            <c:forEach var="schedule" items="${schedules}">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>#Game</th>
-                    <th>Name</th>
+                    <th>Match#</th>
                     <th>Fixture</th>
-                    <th>Prediction</th>
-                    <th>Predicted Time</th>
+                    <th>Winner</th>
                     <th>Action</th>
                 </tr>
                 </thead>
-
-                <c:if test="${not empty schedulePrediction}">
-                <c:forEach var="predictions" items="${schedulePrediction.prediction}">
-                    <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                        <td style="text-align:left;"> ${predictions.matchNumber}</td>
-                        <td style="text-align:left;"> ${predictions.firstName}</td>
-                        <td style="text-align:left;">${predictions.homeTeam} vs ${predictions.awayTeam}</td>
-                        <td style="text-align:left;">${predictions.selected}</td>
-                        <td style="text-align:left;">${predictions.predictedTime}</td>
-                        <td style="text-align:left;">
-                            <spring:url value="/prediction/${predictions.predictionId}/${predictions.matchNumber}/view" var="userUrl" />
-                            <spring:url value="/prediction/${predictions.predictionId}/${predictions.matchNumber}/update" var="updateUrl" />
-
-                            <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                            <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                    </tr>
-                </c:forEach>
-                </c:if>
+                        <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
+                            <td style="text-align:left;"> ${schedule.matchNumber}</td>
+                            <td style="text-align:left;">${fn:toUpperCase(schedule.homeTeam)} vs ${fn:toUpperCase(schedule.awayTeam)}</td>
+                            <td style="text-align:left;"><select class='form-control' id='id_winner' name="selected">
+                                <option></option>
+                                <option>${fn:toUpperCase(schedule.homeTeam)}</option>
+                                <option>${fn:toUpperCase(schedule.awayTeam)}</option>
+                                <option>DRAW</option>
+                            </select></td>
+                            <td style="text-align:left;">
+                                <spring:url value="/updateResult/${schedule.matchNumber}/authorize" var="userUrl" />
+                            </td>
+                        </tr>
             </table>
-             <br /><br /><br />
             </c:forEach>
 
-           <%-- <br /><br /><br /><br /><br />
+            <br /><br />
 
-            <h1>Upcoming Matches</h1>
-
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>#Game</th>
-                    <th>Deadline</th>
-                    <th>Fixture</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-
-                <c:forEach var="schedule" items="${schedules}">
-                    <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                        <td style="text-align:left;">${schedule.matchNumber}</td>
-                        <td style="text-align:left;">${schedule.startDate}</td>
-                        <td style="text-align:left;">${schedule.homeTeam} vs ${schedule.awayTeam}</td>
-                        <td style="text-align:left;">
-                                <spring:url value="/match/${session.memberId}/${schedule.matchNumber}/predict" var="predictUrl" />
-                            <c:if test="${schedule.canPredict}">
-                            <button class="btn btn-primary" onclick="location.href='${predictUrl}'">Predict</button>
-                            </c:if>
-                            <c:if test="${!schedule.canPredict}">
-                            <button class="btn btn-danger" onclick="location.href='#'">You Missed it</button>
-                            </c:if>
-
-                    </tr>
-                </c:forEach>
-            </table>--%>
 
         </div>
 

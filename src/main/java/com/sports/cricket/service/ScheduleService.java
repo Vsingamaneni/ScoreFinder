@@ -19,7 +19,7 @@ public interface ScheduleService {
 
     boolean updatePrediction(Prediction prediction);
 
-    Prediction getPrediction(Integer memberId, Integer matchId);
+    Prediction getPrediction(Integer predictionId, Integer matchId);
 
     boolean deletePrediction(Integer predictionId);
 

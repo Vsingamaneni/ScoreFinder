@@ -1,7 +1,5 @@
 package com.sports.cricket.model;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-
 public class UserLogin {
 
    private String email;

@@ -96,8 +96,8 @@
                     <td style="text-align:left;">${predictions.selected}</td>
                     <td style="text-align:left;">${predictions.predictedTime}</td>
                     <td style="text-align:left;">
-                        <spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/view" var="userUrl" />
-                        <spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/update" var="updateUrl" />
+                        <spring:url value="/prediction/${predictions.predictionId}/${predictions.matchNumber}/view" var="userUrl" />
+                        <spring:url value="/prediction/${predictions.predictionId}/${predictions.matchNumber}/update" var="updateUrl" />
                         <spring:url value="/prediction/${predictions.predictionId}/delete" var="deleteUrl" />
 
                         <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
