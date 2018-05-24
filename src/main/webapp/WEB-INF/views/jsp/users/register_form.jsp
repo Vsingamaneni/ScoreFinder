@@ -149,7 +149,7 @@
                             </div>
                         </div>
                         <div class='form-group'>
-                            <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Country </label>
+                            <label class='control-label col-md-2 col-md-offset-2' for='id_mobile'>Mobile # </label>
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     <div class='col-md-11'>
@@ -172,7 +172,8 @@
                         <div class='form-group'>
                             <label class='control-label col-md-2 col-md-offset-2' for='id_secuity_question'>Security Question</label>
                             <div class='col-md-2'>
-                                <select class='form-control' id='id_sec_question' name="securityQuestion">
+                                <select class='form-control' id='id_sec_question' name="securityQuestion" style=" width:300px;">
+                                    <option>      -- SELECT --     </option>
                                     <option>Who is your favourite cricketer</option>
                                     <option>Which cricketer do you resemble</option>
                                     <option>What is first name of your best friend</option>
@@ -180,7 +181,7 @@
                             </div>
                         </div>
                         <div class='form-group'>
-                            <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Security Answer</label>
+                            <label class='control-label col-md-2 col-md-offset-2' for='id_security_answer'>Security Answer</label>
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     <div class='col-md-11'>
@@ -190,7 +191,7 @@
                             </div>
                         </div>
                         <div class='form-group'>
-                            <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Security Code</label>
+                            <label class='control-label col-md-2 col-md-offset-2' for='id_secuirty_code'>Security Code</label>
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     <div class='col-md-11'>

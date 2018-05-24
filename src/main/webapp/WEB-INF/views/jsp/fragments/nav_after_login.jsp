@@ -19,7 +19,7 @@
         <li><a href="#">My Account</a>
             <ul>
                 <li><a href="/showPredictions">My Predictions</a></li>
-                <li><a href="#">Leader Board</a></li>
+                <li><a href="#">Standings</a></li>
                 <li><a href="#">Opt Out</a></li>
                 <li><a href="/forget">Change Password</a></li>
             </ul>

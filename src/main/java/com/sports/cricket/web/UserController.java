@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import com.sports.cricket.model.*;
 import com.sports.cricket.service.RegistrationService;
 import com.sports.cricket.service.ScheduleService;
-import com.sports.cricket.util.ValidateDeadline;
 import com.sports.cricket.util.ValidatePredictions;
 import com.sports.cricket.validations.ErrorDetails;
 import com.sports.cricket.validations.FormValidator;
@@ -133,7 +132,7 @@ public class UserController {
 
 	// Validate the login details
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
-	public String loginUser(@ModelAttribute("userLogin") /*@Validated */UserLogin userLogin, ModelMap model
+	public String loginUser(@ModelAttribute("userLogin") UserLogin userLogin, ModelMap model
 			,  HttpSession httpSession) {
 
 		model.addAttribute("userLogin" , userLogin);
@@ -201,11 +200,13 @@ public class UserController {
 			if(null != value){
 				model.addAttribute("msg" , value);
 			}
+			Schedule schedule = new Schedule();
 			httpSession.removeAttribute("msg");
 			httpSession.setAttribute("login" , userLogin);
 			httpSession.setAttribute("user", userLogin.getFirstName());
 			httpSession.setAttribute("role", userLogin.getRole());
 			httpSession.setAttribute("session" , userLogin);
+			model.addAttribute("schedule" , schedule);
 
 			List<Schedule> schedules = scheduleService.findAll();
 
@@ -216,6 +217,54 @@ public class UserController {
 		}
 	}
 
+
+	@RequestMapping(value = "/matchResult/update", method = RequestMethod.POST)
+	public String updateMatchResult(@ModelAttribute("schedule") Schedule schedule, ModelMap model, HttpSession httpSession) throws ParseException {
+
+		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+		if(null != model.get("msg")) {
+			model.remove("msg");
+		}
+
+		if(null == userLogin){
+			return "redirect:/";
+		} else if(!userLogin.getRole().equalsIgnoreCase("admin")){
+			return "redirect:/";
+		}
+		else {
+			model.addAttribute("session", userLogin);
+			String value = (String)httpSession.getAttribute("msg");
+
+			if(null != value){
+				model.addAttribute("msg" , value);
+			}
+
+			httpSession.removeAttribute("msg");
+			httpSession.setAttribute("login" , userLogin);
+			httpSession.setAttribute("user", userLogin.getFirstName());
+			httpSession.setAttribute("session" , userLogin);
+			httpSession.setAttribute("role", userLogin.getRole());
+
+			boolean isUpdateSuccess = false;
+			boolean isUpdateMatchDaySuccess = false;
+
+			if(null != schedule
+					&& null != schedule.getWinner()) {
+				Integer totalMatches = scheduleService.totalMatches(schedule.getMatchDay());
+				isUpdateSuccess = scheduleService.updateMatchResult(schedule);
+				if(totalMatches == 1){
+					isUpdateMatchDaySuccess = scheduleService.updateMatchDay(schedule.getMatchDay()+1);
+				}
+			}
+
+			if(isUpdateSuccess){
+				httpSession.setAttribute("msg" , "Match result is updated successfully ..!!");
+			}
+
+			httpSession.setMaxInactiveInterval(5*60);
+			return "redirect:/updateResult";
+		}
+	}
 	// Display predictions
 	@RequestMapping(value = "/showPredictions", method = RequestMethod.POST)
 	public String showAllPredictions(ModelMap model, HttpSession httpSession) {
@@ -405,6 +454,7 @@ public class UserController {
 			List<Register> userLoginList = registrationService.getAllUsers();
 			predictionsList = ValidateDeadLine.validatePredictions(schedule, predictionsList, userLoginList);
 			schedulePrediction.setPrediction(predictionsList);
+			schedulePrediction = ValidatePredictions.setCount(schedule, predictionsList, schedulePrediction);
             schedulePredictionsList.add(schedulePrediction);
 		}
 

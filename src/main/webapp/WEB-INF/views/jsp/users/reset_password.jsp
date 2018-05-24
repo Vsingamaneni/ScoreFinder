@@ -101,13 +101,14 @@
                         <div class='form-group'>
                             <label class='control-label col-md-2 col-md-offset-2' for='id_secuity_question'>Security Question</label>
                             <div class='col-md-2'>
-                                <select class='form-control' id='id_sec_question' name="securityQuestion">
+                                <select class='form-control' id='id_sec_question' name="securityQuestion" style=" width:300px;">
+                                    <option>      -- SELECT --     </option>
                                     <option>${userDetails.securityQuestion}</option>
                                 </select>
                             </div>
                         </div>
                         <div class='form-group'>
-                            <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Email ID</label>
+                            <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Security Answer</label>
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     <div class='col-md-11'>
@@ -117,7 +118,7 @@
                             </div>
                         </div>
                         <div class='form-group'>
-                            <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Password</label>
+                            <label class='control-label col-md-2 col-md-offset-2' for='id_password'>Password</label>
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     <div class='col-md-11'>

@@ -10,9 +10,13 @@ public class Schedule {
 
     private String startDate;
 
+    private String winner;
+
     private boolean isactive;
 
     private boolean canPredict;
+
+    private Integer matchDay;
 
     public Integer getMatchNumber() {
         return matchNumber;
@@ -46,6 +50,14 @@ public class Schedule {
         this.startDate = startDate;
     }
 
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
     public boolean isIsactive() {
         return isactive;
     }
@@ -60,5 +72,13 @@ public class Schedule {
 
     public void setCanPredict(boolean canPredict) {
         this.canPredict = canPredict;
+    }
+
+    public Integer getMatchDay() {
+        return matchDay;
+    }
+
+    public void setMatchDay(Integer matchDay) {
+        this.matchDay = matchDay;
     }
 }

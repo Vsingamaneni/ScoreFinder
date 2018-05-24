@@ -2,6 +2,7 @@ package com.sports.cricket.util;
 
 import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Schedule;
+import com.sports.cricket.model.SchedulePrediction;
 import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
@@ -49,5 +50,41 @@ public class ValidatePredictions {
         }
 
         return validSchedule;
+    }
+
+    public static SchedulePrediction setCount(Schedule schedule, List<Prediction> predictionList, SchedulePrediction schedulePrediction){
+
+        String homeTeam = schedule.getHomeTeam();
+        String awayTeam = schedule.getAwayTeam();
+        String notSelected = "default";
+
+        Integer homeTeamCount = 0;
+        Integer awayTeamCount = 0;
+        Integer notSelectedCount = 0;
+
+
+        for(Prediction prediction : predictionList){
+            if(prediction.getSelected().equalsIgnoreCase(homeTeam)){
+                homeTeamCount = homeTeamCount+1;
+            }else if(prediction.getSelected().equalsIgnoreCase(awayTeam)){
+                awayTeamCount = awayTeamCount+1;
+            }else if(prediction.getSelected().equalsIgnoreCase(notSelected)){
+                notSelectedCount = notSelectedCount+1;
+            }
+        }
+
+        schedulePrediction.setHomeTeamCount(homeTeamCount);
+        schedulePrediction.setAwayTeamCount(awayTeamCount);
+        schedulePrediction.setNotPredicted(notSelectedCount);
+
+        try {
+            if(ValidateDeadline.isDeadLineReached(schedule.getStartDate())){
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return  schedulePrediction;
     }
 }

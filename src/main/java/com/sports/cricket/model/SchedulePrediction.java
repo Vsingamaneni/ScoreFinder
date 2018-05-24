@@ -8,6 +8,16 @@ public class SchedulePrediction {
 
     private List<Prediction> prediction;
 
+    private Integer homeTeamCount;
+
+    private Integer awayTeamCount;
+
+    private Integer notPredicted;
+
+    private double homeWinAmount;
+
+    private double awayWinAmount;
+
     public Schedule getSchedule() {
         return schedule;
     }
@@ -22,5 +32,45 @@ public class SchedulePrediction {
 
     public void setPrediction(List<Prediction> prediction) {
         this.prediction = prediction;
+    }
+
+    public Integer getHomeTeamCount() {
+        return homeTeamCount;
+    }
+
+    public void setHomeTeamCount(Integer homeTeamCount) {
+        this.homeTeamCount = homeTeamCount;
+    }
+
+    public Integer getAwayTeamCount() {
+        return awayTeamCount;
+    }
+
+    public void setAwayTeamCount(Integer awayTeamCount) {
+        this.awayTeamCount = awayTeamCount;
+    }
+
+    public Integer getNotPredicted() {
+        return notPredicted;
+    }
+
+    public void setNotPredicted(Integer notPredicted) {
+        this.notPredicted = notPredicted;
+    }
+
+    public double getHomeWinAmount() {
+        return homeWinAmount;
+    }
+
+    public void setHomeWinAmount(double homeWinAmount) {
+        this.homeWinAmount = homeWinAmount;
+    }
+
+    public double getAwayWinAmount() {
+        return awayWinAmount;
+    }
+
+    public void setAwayWinAmount(double awayWinAmount) {
+        this.awayWinAmount = awayWinAmount;
     }
 }

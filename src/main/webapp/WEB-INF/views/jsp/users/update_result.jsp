@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: v0s004a
-  Date: 5/19/18
-  Time: 1:46 PM
+  Date: 5/22/18
+  Time: 3:29 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page session="false" %>
@@ -76,32 +76,98 @@
         <div style="width: 1000px; margin: 0 auto;">
             <h1>Update Match Result</h1>
 
-
             <c:forEach var="schedule" items="${schedules}">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Match#</th>
-                    <th>Fixture</th>
-                    <th>Winner</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                        <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                            <td style="text-align:left;"> ${schedule.matchNumber}</td>
-                            <td style="text-align:left;">${fn:toUpperCase(schedule.homeTeam)} vs ${fn:toUpperCase(schedule.awayTeam)}</td>
-                            <td style="text-align:left;"><select class='form-control' id='id_winner' name="selected">
-                                <option></option>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Match#</th>
+                        <th>Fixture</th>
+                        <th>Winner</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
+                        <form action="/matchResult/update/" modelAttribute="schedule" method="POST" class='form-horizontal' role='form'>
+                        <td style="text-align:left;"> ${schedule.matchNumber}</td>
+                        <td style="text-align:left;">${fn:toUpperCase(schedule.homeTeam)} vs ${fn:toUpperCase(schedule.awayTeam)}</td>
+                        <input type=hidden id="matchNumber" name="matchNumber" value="${schedule.matchNumber}">
+                        <input type=hidden id="matchDay" name="matchDay" value="${schedule.matchDay}">
+                        <td style="text-align:left;">
+                            <select class='form-control' id='id_winner' name="winner" style=" width:100px;">
+                                <option>--SELECT--</option>
                                 <option>${fn:toUpperCase(schedule.homeTeam)}</option>
                                 <option>${fn:toUpperCase(schedule.awayTeam)}</option>
                                 <option>DRAW</option>
-                            </select></td>
-                            <td style="text-align:left;">
-                                <spring:url value="/updateResult/${schedule.matchNumber}/authorize" var="userUrl" />
-                            </td>
-                        </tr>
-            </table>
+                            </select>
+                        </td>
+                        <td style="text-align:left;">
+                            <button type="submit" class="btn-lg btn-primary"><a style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS">Update</a></button>
+                        </td>
+                        </form>
+                    </tr>
+                </table>
+                <br /><br />
             </c:forEach>
+
+
+          <%--  <c:forEach var="schedule" items="${schedules}">
+            <div class='container' style="width: 1000px;">
+                <div class='panel panel-primary dialog-panel'>
+                    <div class='panel-heading' style="background-color: #082a3e;">
+                        <h5 style="text-align: left;">Hello ${userDetails.fName}, Answer your security question.! </h5>
+                    </div>
+                    <div class='panel-body'>
+                        <form action="/updatePassword" modelAttribute="registerForm" method="POST" class='form-horizontal' role='form'>
+                            <br />
+                            <input type=hidden id="emailId" name="emailId" value="${userDetails.emailId}">
+                            <div class='form-group'>
+                                <label class='control-label col-md-2 col-md-offset-2' for='id_secuity_question'>Security Question</label>
+                                <div class='col-md-2'>
+                                    <select class='form-control' id='id_sec_question' name="securityQuestion" style=" width:300px;">
+                                        <option>      -- SELECT --     </option>
+                                        <option>${userDetails.securityQuestion}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Security Answer</label>
+                                <div class='col-md-6'>
+                                    <div class='form-group'>
+                                        <div class='col-md-11'>
+                                            <input class='form-control' id='id_security_answer' placeholder='Security Question Answer' name="securityAnswer" type='text'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <label class='control-label col-md-2 col-md-offset-2' for='id_password'>Password</label>
+                                <div class='col-md-6'>
+                                    <div class='form-group'>
+                                        <div class='col-md-11'>
+                                            <input class='form-control' id='id_password' placeholder='password' name="password" type='text'>
+                                        </div>
+                                    </div>
+                                    <div class='form-group internal'>
+                                        <div class='col-md-11'>
+                                            <input class='form-control' id='id_confirm_password' placeholder='Confirm Password' name="confirmPassword" type='text'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='form-group'>
+                                <div class='col-md-offset-4 col-md-3'>
+                                    <button class='btn-lg btn-primary' type='submit' onclick="post('${resetPasswordUrl}')">Update Password</button>
+                                </div>
+                                <div class='col-md-3'>
+                                    <button class='btn-lg btn-danger' style='float:right' type='submit'><a href="/" style="color:white;">Cancel</a></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+                <br /><br />
+            </c:forEach>--%>
 
             <br /><br />
 

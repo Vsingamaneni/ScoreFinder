@@ -46,9 +46,9 @@ public class ValidateDeadLine {
         }
 
         List<Integer> copyMemeberList = new ArrayList<>(memberList);
-        List<Integer> copypPredictionMemberList = new ArrayList<>(predictionMemberList);
+        List<Integer> copyPredictionMemberList = new ArrayList<>(predictionMemberList);
 
-        copyMemeberList.removeAll(copypPredictionMemberList);
+        copyMemeberList.removeAll(copyPredictionMemberList);
 
         if(!CollectionUtils.isEmpty(copyMemeberList)) {
             for (Register register : registerList) {

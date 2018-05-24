@@ -2,14 +2,10 @@ package com.sports.cricket.dao;
 
 import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Schedule;
-import com.sports.cricket.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -17,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -239,36 +234,103 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
         String sql = "SELECT * FROM PREDICTIONS where matchNumber =?";
 
-        List<Prediction> predictionList = jdbcTemplate.query(sql, new Object[]{matchId}, new ResultSetExtractor<List<Prediction>>(){
-            public List<Prediction> extractData(
-                    ResultSet rs) throws SQLException, DataAccessException {
+        List<Prediction> predictionList = jdbcTemplate.query(sql, new Object[]{matchId}, rs -> {
 
-                List<Prediction> predictionList = new ArrayList<Prediction>();
-                while(rs.next()){
-                    Prediction prediction = new Prediction();
+            List<Prediction> predictionList1 = new ArrayList<>();
+            while(rs.next()){
+                Prediction prediction = new Prediction();
 
-                    prediction.setPredictionId(rs.getInt("predictionId"));
-                    prediction.setMemberId(rs.getInt("memberId"));
-                    prediction.setMatchNumber(rs.getInt("matchNumber"));
-                    prediction.setHomeTeam(rs.getString("homeTeam"));
-                    prediction.setAwayTeam(rs.getString("awayTeam"));
-                    prediction.setFirstName(rs.getString("firstName"));
-                    prediction.setSelected(rs.getString("selected"));
-                    prediction.setPredictedTime(rs.getString("predictedTime"));
+                prediction.setPredictionId(rs.getInt("predictionId"));
+                prediction.setMemberId(rs.getInt("memberId"));
+                prediction.setMatchNumber(rs.getInt("matchNumber"));
+                prediction.setHomeTeam(rs.getString("homeTeam"));
+                prediction.setAwayTeam(rs.getString("awayTeam"));
+                prediction.setFirstName(rs.getString("firstName"));
+                prediction.setSelected(rs.getString("selected"));
+                prediction.setPredictedTime(rs.getString("predictedTime"));
 
-                    predictionList.add(prediction);
-                }
-                return predictionList;
+                predictionList1.add(prediction);
             }
+            return predictionList1;
         });
-/*
-        List<Prediction> predictionList= null;
-        try {
-            predictionList = (List<Prediction>) jdbcTemplate.queryForObject(sql, new Object[]{matchId}, new BeanPropertyRowMapper(Prediction.class));
-        } catch (EmptyResultDataAccessException e) {
-        }*/
 
         return predictionList;
+    }
+
+    @Override
+    public boolean updateMatchResult(Schedule schedule) {
+        String sql = "UPDATE SCHEDULE SET winner = ?, isActive = ? where matchNumber = ?";
+
+
+        Connection conn = null;
+        int rows;
+
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, schedule.getWinner());
+            ps.setInt(2, schedule.getMatchNumber());
+            ps.setBoolean(3, false);
+
+            rows = ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {}
+            }
+        }
+
+        return (rows == 1 ? true : false);
+    }
+
+    @Override
+    public Integer totalMatches(Integer matchDay) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("matchDay", matchDay);
+
+        String sql = "SELECT count(*) as matchTotal FROM SCHEDULE where matchDay = ?  and isActive = true";
+
+        Integer matchDays = jdbcTemplate.query(sql, new Object[]{matchDay}, rs -> {
+
+            Integer totalMatches = 0;
+            while(rs.next()){
+                totalMatches = rs.getInt("matchTotal");
+            }
+            return totalMatches;
+        });
+
+        return matchDays;
+    }
+
+    @Override
+    public boolean updateMatchDay(Integer matchDay) {
+        String sql = "UPDATE SCHEDULE SET  isActive = true where matchDay = " + matchDay;
+
+        Connection conn = null;
+        int rows;
+
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            rows = ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                }
+            }
+        }
+
+        return (rows > 0 ? true : false);
     }
 
     private SqlParameterSource getSqlParameterByModel(Prediction prediction) {

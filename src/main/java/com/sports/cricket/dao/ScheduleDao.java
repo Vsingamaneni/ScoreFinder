@@ -27,4 +27,10 @@ public interface ScheduleDao {
 
     List<Prediction> getPredictionsByMatch(Integer matchId);
 
+    boolean updateMatchResult(Schedule schedule);
+
+    Integer totalMatches(Integer matchDay);
+
+    boolean updateMatchDay(Integer matchDay);
+
 }
