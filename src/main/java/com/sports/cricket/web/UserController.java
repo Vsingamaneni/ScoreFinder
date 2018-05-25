@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.sports.cricket.model.*;
 import com.sports.cricket.service.RegistrationService;
 import com.sports.cricket.service.ScheduleService;
+import com.sports.cricket.util.MatchUpdates;
 import com.sports.cricket.util.ValidatePredictions;
 import com.sports.cricket.validations.ErrorDetails;
 import com.sports.cricket.validations.FormValidator;
@@ -49,6 +50,8 @@ public class UserController {
 	LoginValidator loginValidator;
 
     FormValidator formValidator = new FormValidator();
+
+    MatchUpdates matchUpdates = new MatchUpdates();
 
 	private UserService userService;
 	private ScheduleService scheduleService;
@@ -246,14 +249,40 @@ public class UserController {
 			httpSession.setAttribute("role", userLogin.getRole());
 
 			boolean isUpdateSuccess = false;
-			boolean isUpdateMatchDaySuccess = false;
 
 			if(null != schedule
 					&& null != schedule.getWinner()) {
 				Integer totalMatches = scheduleService.totalMatches(schedule.getMatchDay());
 				isUpdateSuccess = scheduleService.updateMatchResult(schedule);
 				if(totalMatches == 1){
-					isUpdateMatchDaySuccess = scheduleService.updateMatchDay(schedule.getMatchDay()+1);
+                    boolean isUpdateMatchDaySuccess = scheduleService.updateMatchDay(schedule.getMatchDay()+1);
+					if(isUpdateMatchDaySuccess){
+					    SchedulePrediction schedulePrediction = matchUpdates.setUpdates(schedule, scheduleService, registrationService);
+						Result result = new Result();
+						result.setMatchNumber(schedulePrediction.getSchedule().getMatchNumber());
+						result.setHomeTeam(schedule.getHomeTeam());
+						result.setAwayTeam(schedule.getAwayTeam());
+						result.setStartDate(schedule.getStartDate());
+						result.setWinner(schedule.getWinner());
+
+						if (schedule.getWinner().equalsIgnoreCase(schedule.getHomeTeam())) {
+							result.setWinningAmount(schedulePrediction.getHomeWinAmount());
+						} else if (schedule.getWinner().equalsIgnoreCase(schedule.getAwayTeam())) {
+							result.setWinningAmount(schedulePrediction.getAwayWinAmount());
+						} else if (schedule.getWinner().equalsIgnoreCase("default")) {
+							result.setWinningAmount((new Integer(10)).doubleValue());
+						}
+
+						result.setHomeTeamCount(schedulePrediction.getHomeTeamCount());
+						result.setAwayTeamCount(schedulePrediction.getAwayTeamCount());
+						result.setNotPredictedCount(schedulePrediction.getNotPredicted());
+						result.setMatchDay(schedule.getMatchDay());
+
+						boolean isUpdateResultSuccess = scheduleService.addResult(result);
+
+						
+
+					}
 				}
 			}
 
@@ -444,18 +473,18 @@ public class UserController {
 		model.addAttribute("userLogin", userLogin);
 		List<Schedule> currentSchedule = scheduleService.findAll();
 
-		List<Prediction> predictionsList;
 		List<SchedulePrediction> schedulePredictionsList = new ArrayList<>();
-		SchedulePrediction schedulePrediction;
 		for(Schedule schedule : currentSchedule){
-		    schedulePrediction = new SchedulePrediction();
+
+			SchedulePrediction matchDetails = matchUpdates.setUpdates(schedule, scheduleService, registrationService);
+		   /* schedulePrediction = new SchedulePrediction();
 		    schedulePrediction.setSchedule(schedule);
 			predictionsList =  scheduleService.getPredictionsByMatch(schedule.getMatchNumber());
 			List<Register> userLoginList = registrationService.getAllUsers();
 			predictionsList = ValidateDeadLine.validatePredictions(schedule, predictionsList, userLoginList);
 			schedulePrediction.setPrediction(predictionsList);
-			schedulePrediction = ValidatePredictions.setCount(schedule, predictionsList, schedulePrediction);
-            schedulePredictionsList.add(schedulePrediction);
+			schedulePrediction = ValidatePredictions.setCount(schedule, predictionsList, schedulePrediction);*/
+            schedulePredictionsList.add(matchDetails);
 		}
 
         model.addAttribute("schedulePredictions" , schedulePredictionsList);

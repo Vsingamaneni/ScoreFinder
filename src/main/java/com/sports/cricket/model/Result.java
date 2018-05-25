@@ -1,6 +1,6 @@
 package com.sports.cricket.model;
 
-public class Schedule {
+public class Result {
 
     private Integer matchNumber;
 
@@ -12,11 +12,13 @@ public class Schedule {
 
     private String winner;
 
-    private boolean isactive;
+    private Double winningAmount;
 
-    private Integer matchFee;
+    private Integer homeTeamCount;
 
-    private boolean canPredict;
+    private Integer awayTeamCount;
+
+    private Integer notPredictedCount;
 
     private Integer matchDay;
 
@@ -60,29 +62,36 @@ public class Schedule {
         this.winner = winner;
     }
 
-    public boolean isIsactive() {
-        return isactive;
+    public Double getWinningAmount() {
+        return winningAmount;
     }
 
-    public void setIsactive(boolean isactive) {
-        this.isactive = isactive;
+    public void setWinningAmount(Double winningAmount) {
+        this.winningAmount = winningAmount;
     }
 
-
-    public Integer getMatchFee() {
-        return matchFee;
+    public Integer getHomeTeamCount() {
+        return homeTeamCount;
     }
 
-    public void setMatchFee(Integer matchFee) {
-        this.matchFee = matchFee;
+    public void setHomeTeamCount(Integer homeTeamCount) {
+        this.homeTeamCount = homeTeamCount;
     }
 
-    public boolean isCanPredict() {
-        return canPredict;
+    public Integer getAwayTeamCount() {
+        return awayTeamCount;
     }
 
-    public void setCanPredict(boolean canPredict) {
-        this.canPredict = canPredict;
+    public void setAwayTeamCount(Integer awayTeamCount) {
+        this.awayTeamCount = awayTeamCount;
+    }
+
+    public Integer getNotPredictedCount() {
+        return notPredictedCount;
+    }
+
+    public void setNotPredictedCount(Integer notPredictedCount) {
+        this.notPredictedCount = notPredictedCount;
     }
 
     public Integer getMatchDay() {

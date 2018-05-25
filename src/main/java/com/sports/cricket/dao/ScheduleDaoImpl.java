@@ -1,6 +1,7 @@
 package com.sports.cricket.dao;
 
 import com.sports.cricket.model.Prediction;
+import com.sports.cricket.model.Result;
 import com.sports.cricket.model.Schedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -269,8 +270,8 @@ public class ScheduleDaoImpl implements ScheduleDao {
             conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, schedule.getWinner());
-            ps.setInt(2, schedule.getMatchNumber());
-            ps.setBoolean(3, false);
+            ps.setBoolean(2, false);
+            ps.setInt(3, schedule.getMatchNumber());
 
             rows = ps.executeUpdate();
             ps.close();
@@ -331,6 +332,48 @@ public class ScheduleDaoImpl implements ScheduleDao {
         }
 
         return (rows > 0 ? true : false);
+    }
+
+    @Override
+    public boolean addResult(Result result) {
+
+        boolean isSuccess = false;
+
+        String sql = "INSERT INTO RESULTS(matchNumber, homeTeam, awayTeam, startDate, winner, winningAmount, homeTeamCount, awayTeamCount, notPredictedCount, matchDay)" +
+                "VALUES (?,?,?,?,?,?,?,?,?,?)";
+
+
+        Connection conn = null;
+
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, result.getMatchNumber());
+            ps.setString(2, result.getHomeTeam());
+            ps.setString(3, result.getAwayTeam());
+            ps.setString(4, result.getStartDate());
+            ps.setString(5, result.getWinner());
+            ps.setInt(6, result.getWinningAmount());
+            ps.setInt(7, result.getHomeTeamCount());
+            ps.setInt(8, result.getAwayTeamCount());
+            ps.setInt(9, result.getNotPredictedCount());
+            ps.setInt(10, result.getMatchNumber());
+
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                    isSuccess = true;
+                } catch (SQLException e) {}
+            }
+        }
+
+        return isSuccess;
     }
 
     private SqlParameterSource getSqlParameterByModel(Prediction prediction) {

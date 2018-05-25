@@ -16,6 +16,8 @@ public class SchedulePrediction {
 
     private double homeWinAmount;
 
+    private boolean isDeadlinReached;
+
     private double awayWinAmount;
 
     public Schedule getSchedule() {
@@ -72,5 +74,13 @@ public class SchedulePrediction {
 
     public void setAwayWinAmount(double awayWinAmount) {
         this.awayWinAmount = awayWinAmount;
+    }
+
+    public boolean isDeadlinReached() {
+        return isDeadlinReached;
+    }
+
+    public void setDeadlinReached(boolean deadlinReached) {
+        isDeadlinReached = deadlinReached;
     }
 }

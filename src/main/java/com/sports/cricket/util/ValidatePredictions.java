@@ -62,7 +62,6 @@ public class ValidatePredictions {
         Integer awayTeamCount = 0;
         Integer notSelectedCount = 0;
 
-
         for(Prediction prediction : predictionList){
             if(prediction.getSelected().equalsIgnoreCase(homeTeam)){
                 homeTeamCount = homeTeamCount+1;
@@ -79,7 +78,18 @@ public class ValidatePredictions {
 
         try {
             if(ValidateDeadline.isDeadLineReached(schedule.getStartDate())){
+                schedulePrediction.setDeadlinReached(true);
+                if (homeTeamCount == 0 ){
+                    schedulePrediction.setHomeWinAmount(0);
+                }else {
+                    schedulePrediction.setHomeWinAmount((schedule.getMatchFee() * (awayTeamCount + notSelectedCount)) / homeTeamCount);
+                }
 
+                if (awayTeamCount == 0 ) {
+                    schedulePrediction.setAwayWinAmount(0);
+                }else {
+                    schedulePrediction.setAwayWinAmount((schedule.getMatchFee() * (homeTeamCount + notSelectedCount)) / awayTeamCount);
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();

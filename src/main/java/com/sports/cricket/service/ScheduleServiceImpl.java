@@ -2,6 +2,7 @@ package com.sports.cricket.service;
 
 import com.sports.cricket.dao.ScheduleDao;
 import com.sports.cricket.model.Prediction;
+import com.sports.cricket.model.Result;
 import com.sports.cricket.model.Schedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,6 +82,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public boolean updateMatchDay(Integer matchDay) {
         return scheduleDao.updateMatchDay(matchDay);
+    }
+
+    @Override
+    public boolean addResult(Result result) {
+        return scheduleDao.addResult(result);
     }
 
 }
