@@ -18,6 +18,8 @@ public class Prediction {
 
     private String predictedTime;
 
+    private boolean canPredict;
+
     public Integer getPredictionId() {
         return predictionId;
     }
@@ -80,5 +82,13 @@ public class Prediction {
 
     public void setPredictedTime(String predictedTime) {
         this.predictedTime = predictedTime;
+    }
+
+    public boolean isCanPredict() {
+        return canPredict;
+    }
+
+    public void setCanPredict(boolean canPredict) {
+        this.canPredict = canPredict;
     }
 }

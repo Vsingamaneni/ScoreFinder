@@ -38,22 +38,24 @@ public class ValidateDeadLine {
         List<Integer> predictionMemberList = new ArrayList<>();
 
         for(Register register : registerList){
-            memberList.add(register.getMemberId());
+            if(register.getIsActive().equalsIgnoreCase("y")) {
+                memberList.add(register.getMemberId());
+            }
         }
 
         for(Prediction prediction : predictionList){
             predictionMemberList.add(prediction.getMemberId());
         }
 
-        List<Integer> copyMemeberList = new ArrayList<>(memberList);
+        List<Integer> copyMemberList = new ArrayList<>(memberList);
         List<Integer> copyPredictionMemberList = new ArrayList<>(predictionMemberList);
 
-        copyMemeberList.removeAll(copyPredictionMemberList);
+        copyMemberList.removeAll(copyPredictionMemberList);
 
-        if(!CollectionUtils.isEmpty(copyMemeberList)) {
+        if(!CollectionUtils.isEmpty(copyMemberList)) {
             for (Register register : registerList) {
-                if(!CollectionUtils.isEmpty(copyMemeberList)) {
-                    if (register.getMemberId() == copyMemeberList.get(0)) {
+                if(!CollectionUtils.isEmpty(copyMemberList)) {
+                    if (register.getMemberId() == copyMemberList.get(0)) {
                         defaultPrediction = new Prediction();
                         defaultPrediction.setMemberId(register.getMemberId());
                         defaultPrediction.setPredictedTime("N/A");
@@ -63,7 +65,7 @@ public class ValidateDeadLine {
                         defaultPrediction.setAwayTeam(schedule.getAwayTeam());
                         defaultPrediction.setMatchNumber(schedule.getMatchNumber());
                         finalPredictionList.add(defaultPrediction);
-                        copyMemeberList.remove(0);
+                        copyMemberList.remove(0);
                     }
                 }
             }

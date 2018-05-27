@@ -3,8 +3,10 @@ package com.sports.cricket.dao;
 import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Result;
 import com.sports.cricket.model.Schedule;
+import com.sports.cricket.model.Standings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -353,7 +355,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
             ps.setString(3, result.getAwayTeam());
             ps.setString(4, result.getStartDate());
             ps.setString(5, result.getWinner());
-            ps.setInt(6, result.getWinningAmount());
+            ps.setDouble(6, result.getWinningAmount());
             ps.setInt(7, result.getHomeTeamCount());
             ps.setInt(8, result.getAwayTeamCount());
             ps.setInt(9, result.getNotPredictedCount());
@@ -374,6 +376,47 @@ public class ScheduleDaoImpl implements ScheduleDao {
         }
 
         return isSuccess;
+    }
+
+    @Override
+    public boolean insertPredictions(List<Standings> standingsList) {
+
+        String sql = "INSERT INTO STANDINGS (memberId, matchNumber, homeTeam, awayTeam, matchDate, predictedDate, selected, winner, wonAmount, lostAmount) " +
+                "           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                Standings standings = standingsList.get(i);
+                ps.setInt(1, standings.getMemberId());
+                ps.setInt(2, standings.getMatchNumber());
+                ps.setString(3, standings.getHomeTeam());
+                ps.setString(4, standings.getAwayTeam());
+                ps.setString(5, standings.getMatchDate());
+                ps.setString(6, standings.getPredictedDate());
+                ps.setString(7, standings.getSelected());
+                ps.setString(8, standings.getWinner());
+                ps.setDouble(9, standings.getWonAmount());
+                ps.setDouble(10, standings.getLostAmount());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return standingsList.size();
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public List<Standings> getLeaderBoard() {
+        String sql = "SELECT * FROM STANDINGS";
+
+        List<Standings> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Standings.class));
+
+        return result;
     }
 
     private SqlParameterSource getSqlParameterByModel(Prediction prediction) {

@@ -13,12 +13,12 @@ import javax.servlet.http.HttpSession;
 import com.sports.cricket.model.*;
 import com.sports.cricket.service.RegistrationService;
 import com.sports.cricket.service.ScheduleService;
+import com.sports.cricket.util.LeaderBoardDetails;
 import com.sports.cricket.util.MatchUpdates;
 import com.sports.cricket.util.ValidatePredictions;
 import com.sports.cricket.validations.ErrorDetails;
 import com.sports.cricket.validations.FormValidator;
 import com.sports.cricket.validator.LoginValidator;
-import com.sports.cricket.validator.ValidateDeadLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -92,16 +90,6 @@ public class UserController {
         return "users/index";
 
     }
-
-	// Remove this
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public String showAllUsers(Model model) {
-
-		logger.debug("showAllUsers()");
-		model.addAttribute("users", userService.findAll());
-		return "users/list";
-
-	}
 
 	// Show login page
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -249,51 +237,36 @@ public class UserController {
 			httpSession.setAttribute("role", userLogin.getRole());
 
 			boolean isUpdateSuccess = false;
+			boolean isUpdateResultSuccess = false;
 
 			if(null != schedule
 					&& null != schedule.getWinner()) {
 				Integer totalMatches = scheduleService.totalMatches(schedule.getMatchDay());
 				isUpdateSuccess = scheduleService.updateMatchResult(schedule);
+
+				SchedulePrediction schedulePrediction = matchUpdates.setUpdates(schedule, scheduleService, registrationService);
+				Result result = MatchUpdates.mapResult(schedule, schedulePrediction);
+
+				isUpdateResultSuccess = scheduleService.addResult(result);
+
+				List<Standings> standingsList = MatchUpdates.updateStandings(schedulePrediction);
+
+				scheduleService.insertPredictions(standingsList);
+
 				if(totalMatches == 1){
-                    boolean isUpdateMatchDaySuccess = scheduleService.updateMatchDay(schedule.getMatchDay()+1);
-					if(isUpdateMatchDaySuccess){
-					    SchedulePrediction schedulePrediction = matchUpdates.setUpdates(schedule, scheduleService, registrationService);
-						Result result = new Result();
-						result.setMatchNumber(schedulePrediction.getSchedule().getMatchNumber());
-						result.setHomeTeam(schedule.getHomeTeam());
-						result.setAwayTeam(schedule.getAwayTeam());
-						result.setStartDate(schedule.getStartDate());
-						result.setWinner(schedule.getWinner());
-
-						if (schedule.getWinner().equalsIgnoreCase(schedule.getHomeTeam())) {
-							result.setWinningAmount(schedulePrediction.getHomeWinAmount());
-						} else if (schedule.getWinner().equalsIgnoreCase(schedule.getAwayTeam())) {
-							result.setWinningAmount(schedulePrediction.getAwayWinAmount());
-						} else if (schedule.getWinner().equalsIgnoreCase("default")) {
-							result.setWinningAmount((new Integer(10)).doubleValue());
-						}
-
-						result.setHomeTeamCount(schedulePrediction.getHomeTeamCount());
-						result.setAwayTeamCount(schedulePrediction.getAwayTeamCount());
-						result.setNotPredictedCount(schedulePrediction.getNotPredicted());
-						result.setMatchDay(schedule.getMatchDay());
-
-						boolean isUpdateResultSuccess = scheduleService.addResult(result);
-
-						
-
-					}
+                   scheduleService.updateMatchDay(schedule.getMatchDay()+1);
 				}
 			}
 
-			if(isUpdateSuccess){
-				httpSession.setAttribute("msg" , "Match result is updated successfully ..!!");
+			if(isUpdateSuccess && isUpdateResultSuccess){
+				httpSession.setAttribute("msg" , "Match result and standings are updated successfully ..!!");
 			}
 
 			httpSession.setMaxInactiveInterval(5*60);
 			return "redirect:/updateResult";
 		}
 	}
+
 	// Display predictions
 	@RequestMapping(value = "/showPredictions", method = RequestMethod.POST)
 	public String showAllPredictions(ModelMap model, HttpSession httpSession) {
@@ -301,40 +274,106 @@ public class UserController {
 	}
 
     // Display predictions
-    @RequestMapping(value = "/showPredictions", method = RequestMethod.GET)
-    public String showPredictions(ModelMap model, HttpSession httpSession) throws ParseException {
+    @RequestMapping(value = "/history", method = RequestMethod.GET)
+    public String showHistory(ModelMap model, HttpSession httpSession) {
 
-        UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
-        if(null != model.get("msg")) {
-            model.remove("msg");
-        }
+		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+		if(null != model.get("msg")) {
+			model.remove("msg");
+		}
 
-        if(null == userLogin){
-            return "redirect:/";
-        }else {
-            model.addAttribute("session", userLogin);
-            //model.addAttribute("msg", "User logged in");
-            String value = (String)httpSession.getAttribute("msg");
-            if(null != value){
-                model.addAttribute("msg" , value);
-            }
-            httpSession.removeAttribute("msg");
-            httpSession.setAttribute("login" , userLogin);
-            httpSession.setAttribute("user", userLogin.getFirstName());
-            httpSession.setAttribute("role", userLogin.getRole());
-            httpSession.setAttribute("session" , userLogin);
+		if(null == userLogin){
+			return "redirect:/";
+		}else {
+			model.addAttribute("session", userLogin);
+			//model.addAttribute("msg", "User logged in");
+			String value = (String)httpSession.getAttribute("msg");
+			if(null != value){
+				model.addAttribute("msg" , value);
+			}
+			httpSession.removeAttribute("msg");
+			httpSession.setAttribute("login" , userLogin);
+			httpSession.setAttribute("session" , userLogin);
 
-            List<Schedule> schedules = ValidatePredictions.validateSchedule(scheduleService.scheduleList());
-            List<Prediction> predictions = scheduleService.findPredictions(userLogin.getMemberId());
-            List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
+			List<Standings> standingsList = LeaderBoardDetails.getStandings(scheduleService.getLeaderBoard(), userLogin.getMemberId());
 
-            model.addAttribute("predictions", predictions);
-            model.addAttribute("schedules", finalSchedule);
+			model.addAttribute("standingsList", standingsList);
 
-            httpSession.setMaxInactiveInterval(5*60);
-            return "users/member_login";
-        }
+			httpSession.setMaxInactiveInterval(5*60);
+			return "users/standings";
+		}
     }
+
+	// Display predictions
+	@RequestMapping(value = "/showPredictions", method = RequestMethod.GET)
+	public String showPredictions(ModelMap model, HttpSession httpSession) throws ParseException {
+
+		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+		if(null != model.get("msg")) {
+			model.remove("msg");
+		}
+
+		if(null == userLogin){
+			return "redirect:/";
+		}else {
+			model.addAttribute("session", userLogin);
+			//model.addAttribute("msg", "User logged in");
+			String value = (String)httpSession.getAttribute("msg");
+			if(null != value){
+				model.addAttribute("msg" , value);
+			}
+			httpSession.removeAttribute("msg");
+			httpSession.setAttribute("login" , userLogin);
+			httpSession.setAttribute("user", userLogin.getFirstName());
+			httpSession.setAttribute("role", userLogin.getRole());
+			httpSession.setAttribute("session" , userLogin);
+
+			List<Schedule> schedules = ValidatePredictions.validateSchedule(scheduleService.scheduleList());
+			List<Prediction> predictions = scheduleService.findPredictions(userLogin.getMemberId());
+			List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
+
+			model.addAttribute("predictions", predictions);
+			model.addAttribute("schedules", finalSchedule);
+
+			httpSession.setMaxInactiveInterval(5*60);
+			return "users/member_login";
+		}
+	}
+
+	// Display predictions
+	@RequestMapping(value = "/standings", method = RequestMethod.GET)
+	public String standings(ModelMap model, HttpSession httpSession) {
+
+		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+		if(null != model.get("msg")) {
+			model.remove("msg");
+		}
+
+		if(null == userLogin){
+			return "redirect:/";
+		}else {
+			model.addAttribute("session", userLogin);
+
+			String value = (String)httpSession.getAttribute("msg");
+
+			if(null != value){
+				model.addAttribute("msg" , value);
+			}
+			httpSession.removeAttribute("msg");
+			httpSession.setAttribute("login" , userLogin);
+			httpSession.setAttribute("session" , userLogin);
+
+			List<Register> registerList = registrationService.getAllUsers();
+			List<Standings> standingsList = scheduleService.getLeaderBoard();
+
+			List<LeaderBoard> leaderBoardList = LeaderBoardDetails.mapLeaderBoard(standingsList, registerList);
+
+			model.addAttribute("leaderBoardList", leaderBoardList);
+
+			httpSession.setMaxInactiveInterval(5*60);
+			return "users/leaderboard";
+		}
+	}
 
 	// Display predictions
 	@RequestMapping(value = "/prediction/{predictionId}/{matchNumber}/view", method = RequestMethod.GET)
@@ -434,7 +473,6 @@ public class UserController {
 		}
 	}
 
-
 	// Show All Users
 	@RequestMapping(value = "/showAllUsers", method = RequestMethod.GET)
 	public String showAllUsers(Model model, HttpSession httpSession) {
@@ -477,13 +515,6 @@ public class UserController {
 		for(Schedule schedule : currentSchedule){
 
 			SchedulePrediction matchDetails = matchUpdates.setUpdates(schedule, scheduleService, registrationService);
-		   /* schedulePrediction = new SchedulePrediction();
-		    schedulePrediction.setSchedule(schedule);
-			predictionsList =  scheduleService.getPredictionsByMatch(schedule.getMatchNumber());
-			List<Register> userLoginList = registrationService.getAllUsers();
-			predictionsList = ValidateDeadLine.validatePredictions(schedule, predictionsList, userLoginList);
-			schedulePrediction.setPrediction(predictionsList);
-			schedulePrediction = ValidatePredictions.setCount(schedule, predictionsList, schedulePrediction);*/
             schedulePredictionsList.add(matchDetails);
 		}
 
@@ -697,166 +728,6 @@ public class UserController {
         httpSession.invalidate();
         return "pages/logout";
     }
-
-	// save or update user
-	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	public String saveOrUpdateUser(@ModelAttribute("userForm") @Validated User user,
-			BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
-
-		logger.debug("saveOrUpdateUser() : {}", user);
-
-		if (result.hasErrors()) {
-			populateDefaultModel(model);
-			return "users/userform" +
-					"";
-		} else {
-
-			redirectAttributes.addFlashAttribute("css", "success");
-			if(user.isNew()){
-				redirectAttributes.addFlashAttribute("msg", "User added successfully!");
-			}else{
-				redirectAttributes.addFlashAttribute("msg", "User updated successfully!");
-			}
-			
-			userService.saveOrUpdate(user);
-			
-			// POST/REDIRECT/GET
-			return "redirect:/users/" + user.getId();
-
-			// POST/FORWARD/GET
-			// return "user/list";
-
-		}
-
-	}
-
-	// show add user form
-	@RequestMapping(value = "/users/add", method = RequestMethod.GET)
-	public String showAddUserForm(Model model) {
-
-		logger.debug("showAddUserForm()");
-
-		User user = new User();
-
-		// set default value
-		user.setName("mkyong123");
-		user.setEmail("test@gmail.com");
-		user.setAddress("abc 88");
-		//user.setPassword("123");
-		//user.setConfirmPassword("123");
-		user.setNewsletter(true);
-		user.setSex("M");
-		user.setFramework(new ArrayList<String>(Arrays.asList("Spring MVC", "GWT")));
-		user.setSkill(new ArrayList<String>(Arrays.asList("Spring", "Grails", "Groovy")));
-		user.setCountry("SG");
-		user.setNumber(2);
-
-		model.addAttribute("userForm", user);
-
-		populateDefaultModel(model);
-
-		return "users/userform";
-
-	}
-
-	// show update form
-	@RequestMapping(value = "/users/{id}/update", method = RequestMethod.GET)
-	public String showUpdateUserForm(@PathVariable("id") int id, Model model) {
-
-		logger.debug("showUpdateUserForm() : {}", id);
-
-		User user = userService.findById(id);
-		model.addAttribute("userForm", user);
-		
-		populateDefaultModel(model);
-		
-		return "users/userform";
-
-	}
-
-	// delete user
-	@RequestMapping(value = "/users/{id}/delete", method = RequestMethod.POST)
-	public String deleteUser(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
-
-		logger.debug("deleteUser() : {}", id);
-
-		userService.delete(id);
-		
-		redirectAttributes.addFlashAttribute("css", "success");
-		redirectAttributes.addFlashAttribute("msg", "User is deleted!");
-		
-		return "redirect:/users";
-
-	}
-
-	// show user
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-	public String showUser(@PathVariable("id") int id, Model model) {
-
-		logger.debug("showUser() id: {}", id);
-
-		User user = userService.findById(id);
-		if (user == null) {
-			model.addAttribute("css", "danger");
-			model.addAttribute("msg", "User not found");
-		}
-		model.addAttribute("user", user);
-
-		return "users/show";
-
-	}
-
-	@RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
-	public String showRegister(@PathVariable("id") String name, Model model) {
-
-		logger.debug("showRegister() id: {}", name);
-
-		/*User user = userService.findById(name);
-		if (user == null) {
-			model.addAttribute("css", "danger");
-			model.addAttribute("msg", "User not found");
-		}
-		model.addAttribute("user", user);*/
-
-		return "users/show";
-
-	}
-
-	private void populateDefaultModel(Model model) {
-
-		List<String> frameworksList = new ArrayList<String>();
-		frameworksList.add("Spring MVC");
-		frameworksList.add("Struts 2");
-		frameworksList.add("JSF 2");
-		frameworksList.add("GWT");
-		frameworksList.add("Play");
-		frameworksList.add("Apache Wicket");
-		model.addAttribute("frameworkList", frameworksList);
-
-		Map<String, String> skill = new LinkedHashMap<String, String>();
-		skill.put("Hibernate", "Hibernate");
-		skill.put("Spring", "Spring");
-		skill.put("Struts", "Struts");
-		skill.put("Groovy", "Groovy");
-		skill.put("Grails", "Grails");
-		model.addAttribute("javaSkillList", skill);
-
-		List<Integer> numbers = new ArrayList<Integer>();
-		numbers.add(1);
-		numbers.add(2);
-		numbers.add(3);
-		numbers.add(4);
-		numbers.add(5);
-		model.addAttribute("numberList", numbers);
-
-		Map<String, String> country = new LinkedHashMap<String, String>();
-		country.put("US", "United Stated");
-		country.put("CN", "China");
-		country.put("SG", "Singapore");
-		country.put("MY", "Malaysia");
-		model.addAttribute("countryList", country);
-
-	}
 
 	@ExceptionHandler(EmptyResultDataAccessException.class)
 	public ModelAndView handleEmptyData(HttpServletRequest req, Exception ex) {

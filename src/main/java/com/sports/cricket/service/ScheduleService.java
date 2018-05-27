@@ -3,6 +3,7 @@ package com.sports.cricket.service;
 import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Result;
 import com.sports.cricket.model.Schedule;
+import com.sports.cricket.model.Standings;
 
 import java.util.List;
 
@@ -35,5 +36,9 @@ public interface ScheduleService {
     boolean updateMatchDay(Integer matchDay);
 
     boolean addResult(Result result);
+
+    boolean insertPredictions(List<Standings> standingsList);
+
+    List<Standings> getLeaderBoard();
 
 }

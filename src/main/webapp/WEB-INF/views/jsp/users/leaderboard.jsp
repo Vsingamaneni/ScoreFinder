@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: v0s004a
-  Date: 5/22/18
-  Time: 3:29 PM
+  Date: 5/26/18
+  Time: 9:56 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page session="false" %>
@@ -33,10 +33,10 @@
     <link href="${coreCss}" rel="stylesheet" />
 
     <spring:url value="/" var="urlHome" />
-    <spring:url value="/users/add" var="urlAddUser" />
 
     <c:if test="${not empty session}">
         <c:set var="user_name" value="${session.firstName}"/>
+        <c:set var="role" value="${session.role}"/>
     </c:if>
 
     <spring:url value="/logout" var="logoutUrl" />
@@ -60,9 +60,11 @@
 
     <header>
 
-
-        <c:if test="${not empty session}">
+        <c:if test="${role.equalsIgnoreCase('admin')}">
             <jsp:include page="../fragments/nav_admin.jsp"/>
+        </c:if>
+        <c:if test="${role.equalsIgnoreCase('member')}">
+            <jsp:include page="../fragments/nav_after_login.jsp"/>
         </c:if>
 
         <br />
@@ -74,48 +76,43 @@
         </c:if>
 
         <div style="width: 1000px; margin: 0 auto;">
-            <h1>Update Match Result</h1>
+            <h1>Leader Board</h1>
 
-            <c:forEach var="schedule" items="${schedules}">
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Match#</th>
-                        <th>Fixture</th>
-                        <th>Winner</th>
-                        <th>Action</th>
+                        <th>Member#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Won</th>
+                        <th>Lost</th>
+                        <th>Net</th>
+                        <th>Member</th>
                     </tr>
                     </thead>
-                    <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                        <form action="/matchResult/update/" modelAttribute="schedule" method="POST" class='form-horizontal' role='form'>
-                        <td style="text-align:left;"> ${schedule.matchNumber}</td>
-                        <td style="text-align:left;">${fn:toUpperCase(schedule.homeTeam)} vs ${fn:toUpperCase(schedule.awayTeam)}</td>
-                        <input type=hidden id="matchNumber" name="matchNumber" value="${schedule.matchNumber}">
-                        <input type=hidden id="homeTeam" name="homeTeam" value="${schedule.homeTeam}">
-                        <input type=hidden id="awayTeam" name="awayTeam" value="${schedule.awayTeam}">
-                        <input type=hidden id="matchDay" name="matchDay" value="${schedule.matchDay}">
-                        <input type=hidden id="matchFee" name="matchFee" value="${schedule.matchFee}">
-                        <input type=hidden id="startDate" name="startDate" value="${schedule.startDate}">
-                        <td style="text-align:left;">
-                            <select class='form-control' id='id_winner' name="winner" style=" width:100px;">
-                                <option>--SELECT--</option>
-                                <option>${fn:toUpperCase(schedule.homeTeam)}</option>
-                                <option>${fn:toUpperCase(schedule.awayTeam)}</option>
-                                <option>DRAW</option>
-                            </select>
-                        </td>
-                        <td style="text-align:left;">
-                            <button type="submit" class="btn-lg btn-primary"><a style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS">Update</a></button>
-                        </td>
-                        </form>
-                    </tr>
+
+                    <c:if test="${not empty leaderBoardList}">
+                        <c:forEach var="leaderBoard" items="${leaderBoardList}">
+                            <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
+                                <td style="text-align:left;"> ${leaderBoard.memberId}</td>
+                                <td style="text-align:left;"> ${leaderBoard.firstName}</td>
+                                <td style="text-align:left;"> ${leaderBoard.lastName}</td>
+                                <td style="text-align:left;">${leaderBoard.wonAmount}</td>
+                                <td style="text-align:left;">${leaderBoard.lostAmount}</td>
+                                <td style="text-align:left;">${leaderBoard.total}</td>
+                                <td style="text-align:left;">
+                                    <c:if test="${fn:containsIgnoreCase(leaderBoard.isActive, 'y')}">
+                                        <button class="btn btn-info">ACTIVE</button>
+                                    </c:if>
+                                        <c:if test="${!fn:containsIgnoreCase(leaderBoard.isActive, 'y')}">
+                                        <button class="btn btn-danger">NOT ACTIVE</button>
+                                    </c:if>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                 </table>
-                <br /><br />
-            </c:forEach>
-
-            <br /><br />
-
-
+                <br /><br /><br />
         </div>
 
     </header>

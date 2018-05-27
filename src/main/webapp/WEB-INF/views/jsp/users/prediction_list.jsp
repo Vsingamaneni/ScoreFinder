@@ -82,18 +82,16 @@
             <c:forEach var="schedulePrediction" items="${schedulePredictions}">
              <c:if test="${not empty schedulePrediction.schedule}">
                  <h1>Deadline : ${schedulePrediction.schedule.startDate}</h1>
-             </c:if>
-             <c:if test="${not empty schedulePrediction.deadlinReached}">
+                 <br />
                  <button class="btn btn-info">${fn:toUpperCase(schedulePrediction.schedule.homeTeam)} : ${schedulePrediction.homeTeamCount}</button>
-                 <button class="btn btn-primary">${fn:toUpperCase(schedulePrediction.schedule.awayTeam)} : ${schedulePrediction.homeTeamCount}</button>
+                 <button class="btn btn-primary">${fn:toUpperCase(schedulePrediction.schedule.awayTeam)} : ${schedulePrediction.awayTeamCount}</button>
                  <button class="btn btn-danger">DEFAULT : ${schedulePrediction.notPredicted}</button>
                  <br /><br />
+             </c:if>
+             <c:if test="${schedulePrediction.deadlinReached}">
                  <button class="btn btn-info">${fn:toUpperCase(schedulePrediction.schedule.homeTeam)} win: ${schedulePrediction.homeWinAmount}</button>
                  <button class="btn btn-primary">${fn:toUpperCase(schedulePrediction.schedule.awayTeam)} win : ${schedulePrediction.awayWinAmount}</button>
                  <br /><br />
-                <%-- <h1> ${fn:toUpperCase(schedulePrediction.schedule.homeTeam)} : ${schedulePrediction.homeTeamCount},  Winning Amount : ${schedulePrediction.homeWinAmount}</h1>
-                 <h1> ${schedulePrediction.schedule.awayTeam} : ${schedulePrediction.awayTeamCount},  Winning Amount : ${schedulePrediction.awayWinAmount}</h1>
-                 <br />--%>
 
              </c:if>
             <table class="table table-striped">

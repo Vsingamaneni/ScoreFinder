@@ -14,7 +14,7 @@
 	<servlet-mapping>
 		<servlet-name>spring-web</servlet-name>
 		<url-pattern>/</url-pattern>
-	</servlet-mapping>com.sports.cricket
+	</servlet-mapping>
 
 	<error-page>
 		<error-code>500</error-code>

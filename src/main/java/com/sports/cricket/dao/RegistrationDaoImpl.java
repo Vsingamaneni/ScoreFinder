@@ -160,7 +160,6 @@ public class RegistrationDaoImpl implements RegistrationDao {
 
     @Override
     public List<Register> getAllUsers() {
-        System.out.println("Inside get All Users");
 
         String sql = "Select * from REGISTER";
 

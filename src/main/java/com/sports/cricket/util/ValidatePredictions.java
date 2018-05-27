@@ -97,4 +97,18 @@ public class ValidatePredictions {
 
         return  schedulePrediction;
     }
+
+    public static List<Prediction> appendDeadline(List<Schedule> scheduleList, List<Prediction> predictionList){
+
+        for(Schedule schedule : scheduleList){
+            for(Prediction prediction : predictionList){
+                if(prediction.getMatchNumber() == schedule.getMatchNumber()){
+                    prediction.setCanPredict(schedule.isCanPredict());
+                }
+            }
+        }
+
+
+        return predictionList;
+    }
 }

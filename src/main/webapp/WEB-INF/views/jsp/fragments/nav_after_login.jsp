@@ -16,11 +16,11 @@
 
     <ul class="navigation">
         <li><a href="/" class="active">Home</a></li>
-        <li><a href="#">My Account</a>
+        <li><a href="/profile">My Account</a>
             <ul>
                 <li><a href="/showPredictions">My Predictions</a></li>
-                <li><a href="#">Standings</a></li>
-                <li><a href="#">Opt Out</a></li>
+                <li><a href="/standings">Standings</a></li>
+                <li><a href="/history">History</a></li>
                 <li><a href="/forget">Change Password</a></li>
             </ul>
         </li>

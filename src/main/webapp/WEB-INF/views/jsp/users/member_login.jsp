@@ -101,8 +101,10 @@
                         <spring:url value="/prediction/${predictions.predictionId}/delete" var="deleteUrl" />
 
                         <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                        <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                        <button class="btn btn-danger" onclick="location.href=('${deleteUrl}')">Delete</button></td>
+                        <c:if test="${predictions.canPredict}">
+                            <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
+                            <button class="btn btn-danger" onclick="location.href=('${deleteUrl}')">Delete</button></td>
+                        </c:if>
                 </tr>
             </c:forEach>
         </table>

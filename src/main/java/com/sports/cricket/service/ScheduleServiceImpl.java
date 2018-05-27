@@ -4,6 +4,7 @@ import com.sports.cricket.dao.ScheduleDao;
 import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Result;
 import com.sports.cricket.model.Schedule;
+import com.sports.cricket.model.Standings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,6 +88,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public boolean addResult(Result result) {
         return scheduleDao.addResult(result);
+    }
+
+    @Override
+    public boolean insertPredictions(List<Standings> standingsList) {
+       return scheduleDao.insertPredictions(standingsList);
+    }
+
+    @Override
+    public List<Standings> getLeaderBoard() {
+        return scheduleDao.getLeaderBoard();
     }
 
 }
