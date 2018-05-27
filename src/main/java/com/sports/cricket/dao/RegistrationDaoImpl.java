@@ -2,6 +2,7 @@ package com.sports.cricket.dao;
 
 import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Register;
+import com.sports.cricket.model.Restrictions;
 import com.sports.cricket.model.UserLogin;
 import com.sports.cricket.password.EncryptedPassword;
 import com.sports.cricket.password.ProtectUserPassword;
@@ -110,8 +111,10 @@ public class RegistrationDaoImpl implements RegistrationDao {
                }else{
                    System.out.println("Correct Password");
                    userLogin.setFirstName(register.getfName());
+                   userLogin.setLastName(register.getlName());
                    userLogin.setMemberId(register.getMemberId());
                    userLogin.setLoginSuccess(true);
+                   userLogin.setIsActive(register.getIsActive());
                    userLogin.setRole(register.getRole());
                }
            }
@@ -166,6 +169,15 @@ public class RegistrationDaoImpl implements RegistrationDao {
         List<Register> register = jdbcTemplate.query(sql,new BeanPropertyRowMapper(Register.class));
 
         return register;
+    }
+
+    @Override
+    public List<Restrictions> getRestrictions() {
+        String sql = "Select * from RESTRICTIONS";
+
+        List<Restrictions> restrictions = jdbcTemplate.query(sql,new BeanPropertyRowMapper(Restrictions.class));
+
+        return restrictions;
     }
 
 }

@@ -2,6 +2,7 @@ package com.sports.cricket.dao;
 
 
 import com.sports.cricket.model.Register;
+import com.sports.cricket.model.Restrictions;
 import com.sports.cricket.model.UserLogin;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface RegistrationDao {
     boolean updatePassword(Register register);
 
     List<Register> getAllUsers();
+
+    List<Restrictions> getRestrictions();
 }

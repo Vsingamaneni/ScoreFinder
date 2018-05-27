@@ -83,6 +83,7 @@
                 <tr>
                     <th>Member#</th>
                     <th>Fixture</th>
+                    <th>Selected</th>
                     <th>Winner</th>
                     <th>Won</th>
                     <th>Lost</th>
@@ -95,6 +96,7 @@
                         <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
                             <td style="text-align:left;"> ${standings.memberId}</td>
                             <td style="text-align:left;"> ${standings.homeTeam} vs ${standings.awayTeam}</td>
+                            <td style="text-align:left;"> ${standings.selected}</td>
                             <td style="text-align:left;"> ${standings.winner}</td>
                             <td style="text-align:left;">${standings.wonAmount}</td>
                             <td style="text-align:left;">${standings.lostAmount}</td>

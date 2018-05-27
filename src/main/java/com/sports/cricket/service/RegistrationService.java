@@ -1,6 +1,7 @@
 package com.sports.cricket.service;
 
 import com.sports.cricket.model.Register;
+import com.sports.cricket.model.Restrictions;
 import com.sports.cricket.model.UserLogin;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface RegistrationService {
     boolean updateUser(Register register);
 
     List<Register> getAllUsers();
+
+    List<Restrictions> getRestrictions();
 }

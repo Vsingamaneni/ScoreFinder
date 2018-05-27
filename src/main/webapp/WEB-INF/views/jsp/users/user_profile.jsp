@@ -1,17 +1,15 @@
 <%--
-&lt;%&ndash;
   Created by IntelliJ IDEA.
   User: v0s004a
-  Date: 5/19/18
-  Time: 1:46 PM
+  Date: 5/27/18
+  Time: 9:31 AM
   To change this template use File | Settings | File Templates.
-&ndash;%&gt;
+--%>
 <%@ page session="false" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +36,7 @@
 
     <c:if test="${not empty session}">
         <c:set var="user_name" value="${session.firstName}"/>
+        <c:set var="role" value="${session.role}"/>
     </c:if>
 
     <spring:url value="/logout" var="logoutUrl" />
@@ -61,9 +60,11 @@
 
     <header>
 
-
-        <c:if test="${not empty session}">
+        <c:if test="${role.equalsIgnoreCase('admin')}">
             <jsp:include page="../fragments/nav_admin.jsp"/>
+        </c:if>
+        <c:if test="${role.equalsIgnoreCase('member')}">
+            <jsp:include page="../fragments/nav_after_login.jsp"/>
         </c:if>
 
         <br />
@@ -75,43 +76,46 @@
         </c:if>
 
         <div style="width: 1000px; margin: 0 auto;">
-            <h1>Update Match Result</h1>
+            <h1>Hello ${user_name}, Here is your profile .. !</h1>
+            <br />
 
-            <c:forEach var="schedule" items="${schedules}">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Match#</th>
-                    <th>Fixture</th>
-                    <th>Winner</th>
+                    <th>Member #</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Id</th>
+                    <th>Role</th>
                     <th>Action</th>
                 </tr>
                 </thead>
+
+                    <c:if test="${not empty userLogin}">
                         <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                            <td style="text-align:left;"> ${schedule.matchNumber}</td>
-                            <td style="text-align:left;">${fn:toUpperCase(schedule.homeTeam)} vs ${fn:toUpperCase(schedule.awayTeam)}</td>
-                            <td style="text-align:left;"><select class='form-control' id='id_winner' name="selected" style=" width:100px;">
-                                <option>--SELECT--</option>
-                                <option>${fn:toUpperCase(schedule.homeTeam)}</option>
-                                <option>${fn:toUpperCase(schedule.awayTeam)}</option>
-                                <option>DRAW</option>
-                            </select></td>
+                            <td style="text-align:left;"> ${userLogin.memberId}</td>
+                            <td style="text-align:left;">${userLogin.firstName}</td>
+                            <td style="text-align:left;">${userLogin.lastName}</td>
+                            <td style="text-align:left;">${userLogin.email}</td>
+                            <td style="text-align:left;">${userLogin.role}</td>
                             <td style="text-align:left;">
-                                <spring:url value="/matchResult/${schedule.matchNumber}/update/" var="updateUrl" />
-                                <button type="submit" class="btn-lg btn-primary"><a href="${updateUrl}" style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS">Update</a></button>
-                            </td>
+                               <spring:url value="/member/${userLogin.memberId}/optOut" var="optOutUrl" />
+                               <c:if test="${userLogin.limitReached}">
+                                   <button class="btn btn-danger" onclick="location.href='${optOutUrl}'">Opt Out</button>
+                               </c:if>
+                               <c:if test="${!userLogin.limitReached}">
+                                   <button class="btn btn-info">Active</button>
+                               </c:if>
                         </tr>
+                    </c:if>
             </table>
-            </c:forEach>
 
-            <br /><br />
 
+            <br /><br /><br /><br /><br />
 
         </div>
 
     </header>
-
-    <br /><br /><br /><br /><br /><br />
 
     <footer>
 
@@ -151,4 +155,4 @@
 
 </div>
 </body>
-</html>--%>
+</html>

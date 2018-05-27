@@ -49,4 +49,23 @@ public class LeaderBoardDetails {
         return userStandingsList;
     }
 
+    public static boolean isLimitReached(List<Standings> standingsList, Integer memberId, Integer maxLimit){
+
+        double lostAmount = 0;
+        double maxLimitValue = (double)maxLimit;
+
+        for(Standings standings : standingsList){
+            if(standings.getMemberId() == memberId)
+            {
+                lostAmount = lostAmount + standings.getLostAmount();
+            }
+        }
+
+        if(lostAmount > maxLimitValue){
+            return true;
+        }
+
+        return false;
+    }
+
 }

@@ -2,10 +2,7 @@ package com.sports.cricket.web;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -81,6 +78,7 @@ public class UserController {
 
 	    if(null != httpSession.getAttribute("user")){
 	        userLogin.setFirstName(httpSession.getAttribute("user").toString());
+	        userLogin.setLastName(httpSession.getAttribute("userLastName").toString());
 	        userLogin.setRole(httpSession.getAttribute("role").toString());
 	        model.addAttribute("user" , userLogin);
         }
@@ -121,6 +119,43 @@ public class UserController {
         }
 	}
 
+	// Show login page
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	public String showProfile(ModelMap model, HttpSession httpSession) {
+
+		UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
+		if(null != model.get("msg")) {
+			model.remove("msg");
+		}
+
+		if(null == userLogin){
+			return "redirect:/";
+		}else {
+
+			String value = (String)httpSession.getAttribute("msg");
+			if(null != value){
+				model.addAttribute("msg" , value);
+			}
+
+			httpSession.removeAttribute("msg");
+			httpSession.setAttribute("login" , userLogin);
+			httpSession.setAttribute("user", userLogin.getFirstName());
+			httpSession.setAttribute("role", userLogin.getRole());
+			httpSession.setAttribute("session" , userLogin);
+
+			List<Standings> standingsList = scheduleService.getLeaderBoard();
+			List<Restrictions> restrictions = registrationService.getRestrictions();
+
+			userLogin.setLimitReached(LeaderBoardDetails.isLimitReached(standingsList, userLogin.getMemberId(), restrictions.get(0).getMaxLimit()));
+
+			model.addAttribute("session", userLogin);
+			model.addAttribute("userLogin", userLogin);
+
+			httpSession.setMaxInactiveInterval(5*60);
+			return "users/user_profile";
+		}
+	}
+
 	// Validate the login details
 	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
 	public String loginUser(@ModelAttribute("userLogin") UserLogin userLogin, ModelMap model
@@ -153,18 +188,9 @@ public class UserController {
 			//model.addAttribute("msg", "User logged in");
 			httpSession.setAttribute("login" , loginDetails);
 			httpSession.setAttribute("user", loginDetails.getFirstName());
+			httpSession.setAttribute("userLastName", loginDetails.getLastName());
 			httpSession.setAttribute("role", loginDetails.getRole());
 			httpSession.setAttribute("session" , userLogin);
-
-			/*List<Schedule> schedules = scheduleService.scheduleList();
-			List<Prediction> predictions = scheduleService.findPredictions(loginDetails.getMemberId());
-
-			List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
-
-			model.addAttribute("predictions", predictions);
-			model.addAttribute("schedules", finalSchedule);
-
-			httpSession.setMaxInactiveInterval(5*60);*/
 
 			return "redirect:/showPredictions";
 		}else{
@@ -207,7 +233,6 @@ public class UserController {
 			return "users/update_result";
 		}
 	}
-
 
 	@RequestMapping(value = "/matchResult/update", method = RequestMethod.POST)
 	public String updateMatchResult(@ModelAttribute("schedule") Schedule schedule, ModelMap model, HttpSession httpSession) throws ParseException {

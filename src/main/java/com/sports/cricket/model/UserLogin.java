@@ -10,9 +10,15 @@ public class UserLogin {
 
    private String firstName;
 
+   private String lastName;
+
    private boolean isLoginSuccess;
 
    private String role;
+
+   private boolean isLimitReached;
+
+   private String isActive;
 
     public String getEmail() {
         return email;
@@ -46,6 +52,14 @@ public class UserLogin {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public boolean isLoginSuccess() {
         return isLoginSuccess;
     }
@@ -60,5 +74,21 @@ public class UserLogin {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public boolean isLimitReached() {
+        return isLimitReached;
+    }
+
+    public void setLimitReached(boolean limitReached) {
+        isLimitReached = limitReached;
+    }
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
     }
 }

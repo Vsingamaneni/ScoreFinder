@@ -2,6 +2,7 @@ package com.sports.cricket.service;
 
 import com.sports.cricket.dao.RegistrationDao;
 import com.sports.cricket.model.Register;
+import com.sports.cricket.model.Restrictions;
 import com.sports.cricket.model.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,11 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public List<Register> getAllUsers() {
         return registrationDao.getAllUsers();
+    }
+
+    @Override
+    public List<Restrictions> getRestrictions() {
+        return registrationDao.getRestrictions();
     }
 
 }
