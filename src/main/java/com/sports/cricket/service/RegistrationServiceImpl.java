@@ -49,4 +49,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         return registrationDao.getRestrictions();
     }
 
+    @Override
+    public boolean optOutUser(Integer memberId, String optOut) {
+        return registrationDao.optOutUser(memberId, optOut);
+    }
+
 }

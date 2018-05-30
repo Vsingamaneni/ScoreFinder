@@ -37,6 +37,7 @@
     <c:if test="${not empty session}">
         <c:set var="user_name" value="${session.firstName}"/>
         <c:set var="role" value="${session.role}"/>
+        <c:set var="memberId" value="${session.memberId}"/>
     </c:if>
 
     <spring:url value="/logout" var="logoutUrl" />
@@ -76,12 +77,52 @@
         </c:if>
 
         <div style="width: 1000px; margin: 0 auto;">
+            <h1>Your Position</h1>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Won</th>
+                    <th>Lost</th>
+                    <th>Net</th>
+                    <th>Member</th>
+                </tr>
+                </thead>
+
+                <c:if test="${not empty leaderBoardList}">
+                    <c:forEach var="leaderBoard" items="${leaderBoardList}">
+                        <c:if test="${leaderBoard.memberId == memberId}">
+                        <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
+                            <td style="text-align:left;"> ${leaderBoard.rank}</td>
+                            <td style="text-align:left;"> ${leaderBoard.firstName}</td>
+                            <td style="text-align:left;"> ${leaderBoard.lastName}</td>
+                            <td style="text-align:left;">${leaderBoard.wonAmount}</td>
+                            <td style="text-align:left;">${leaderBoard.lostAmount}</td>
+                            <td style="text-align:left;">${leaderBoard.total}</td>
+                            <td style="text-align:left;">
+                                <c:if test="${fn:containsIgnoreCase(leaderBoard.isActive, 'y')}">
+                                    <button class="btn btn-info">ACTIVE</button>
+                                </c:if>
+                                <c:if test="${!fn:containsIgnoreCase(leaderBoard.isActive, 'y')}">
+                                    <button class="btn btn-danger">NOT ACTIVE</button>
+                                </c:if>
+                            </td>
+                        </tr>
+                        </c:if>
+                    </c:forEach>
+                </c:if>
+            </table>
+
+            <br /><br /><br /><br />
             <h1>Leader Board</h1>
 
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Member#</th>
+                        <th>#</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Won</th>
@@ -94,7 +135,7 @@
                     <c:if test="${not empty leaderBoardList}">
                         <c:forEach var="leaderBoard" items="${leaderBoardList}">
                             <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                                <td style="text-align:left;"> ${leaderBoard.memberId}</td>
+                                <td style="text-align:left;"> ${leaderBoard.rank}</td>
                                 <td style="text-align:left;"> ${leaderBoard.firstName}</td>
                                 <td style="text-align:left;"> ${leaderBoard.lastName}</td>
                                 <td style="text-align:left;">${leaderBoard.wonAmount}</td>

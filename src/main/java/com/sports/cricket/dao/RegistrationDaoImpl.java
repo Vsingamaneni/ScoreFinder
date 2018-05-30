@@ -143,7 +143,6 @@ public class RegistrationDaoImpl implements RegistrationDao {
 
     @Override
     public boolean updatePassword(Register register) {
-        System.out.println("Inside Updating Password");
 
         if(register != null
                 && null != register.getPassword()){
@@ -156,9 +155,7 @@ public class RegistrationDaoImpl implements RegistrationDao {
 
         int row = jdbcTemplate.update(sql);
 
-        System.out.println("Password Update Done");
-
-        return true;
+        return (row ==1) ? true : false;
     }
 
     @Override
@@ -178,6 +175,16 @@ public class RegistrationDaoImpl implements RegistrationDao {
         List<Restrictions> restrictions = jdbcTemplate.query(sql,new BeanPropertyRowMapper(Restrictions.class));
 
         return restrictions;
+    }
+
+    @Override
+    public boolean optOutUser(Integer memberId, String optOut) {
+
+        String sql = "UPDATE REGISTER SET isActive = '" + optOut + "' where memberId = " + memberId;
+
+        int row = jdbcTemplate.update(sql);
+
+        return (row ==1) ? true : false;
     }
 
 }

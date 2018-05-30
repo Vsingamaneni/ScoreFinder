@@ -10,6 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +38,8 @@
     <c:if test="${not empty session}">
         <c:set var="user_name" value="${session.firstName}"/>
         <c:set var="role" value="${session.role}"/>
+        <c:set var="action_out" value="disable"/>
+        <c:set var="action_in" value="enable"/>
     </c:if>
 
     <spring:url value="/logout" var="logoutUrl" />
@@ -99,12 +102,20 @@
                             <td style="text-align:left;">${userLogin.email}</td>
                             <td style="text-align:left;">${userLogin.role}</td>
                             <td style="text-align:left;">
-                               <spring:url value="/member/${userLogin.memberId}/optOut" var="optOutUrl" />
-                               <c:if test="${userLogin.limitReached}">
-                                   <button class="btn btn-danger" onclick="location.href='${optOutUrl}'">Opt Out</button>
+                               <spring:url value="/member/${userLogin.memberId}/optOut/${action_out}" var="optOutUrl" />
+                               <spring:url value="/member/${userLogin.memberId}/optOut/${action_in}" var="optInUrl" />
+                               <c:if test="${fn:containsIgnoreCase(userLogin.isActive, 'Y')}">
+                                   <c:if test="${userLogin.limitReached}">
+                                       <button class="btn btn-info">Active</button>
+                                       <button class="btn btn-danger" onclick="location.href='${optOutUrl}'">Opt Out</button>
+                                   </c:if>
+                                   <c:if test="${!userLogin.limitReached}">
+                                       <button class="btn btn-info">Active</button>
+                                   </c:if>
                                </c:if>
-                               <c:if test="${!userLogin.limitReached}">
-                                   <button class="btn btn-info">Active</button>
+                               <c:if test="${fn:containsIgnoreCase(userLogin.isActive, 'N')}">
+                                   <button class="btn btn-danger"> In Active</button>
+                                   <button class="btn btn-info" onclick="location.href='${optInUrl}'">Activate</button>
                                </c:if>
                         </tr>
                     </c:if>

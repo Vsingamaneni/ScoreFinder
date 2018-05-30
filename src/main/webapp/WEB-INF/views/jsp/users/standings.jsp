@@ -81,7 +81,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Member#</th>
+                    <th>Match#</th>
                     <th>Fixture</th>
                     <th>Selected</th>
                     <th>Winner</th>
@@ -94,7 +94,7 @@
                 <c:if test="${not empty standingsList}">
                     <c:forEach var="standings" items="${standingsList}">
                         <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
-                            <td style="text-align:left;"> ${standings.memberId}</td>
+                            <td style="text-align:left;"> ${standings.matchNumber}</td>
                             <td style="text-align:left;"> ${standings.homeTeam} vs ${standings.awayTeam}</td>
                             <td style="text-align:left;"> ${standings.selected}</td>
                             <td style="text-align:left;"> ${standings.winner}</td>

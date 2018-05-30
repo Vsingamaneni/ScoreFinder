@@ -25,7 +25,8 @@
         <li><a href="/" class="active">Home</a></li>
         <li><a href="/profile">My Account</a>
             <ul>
-                <li><a href="/showPredictions">My Predictions</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/showPredictions">Predictions</a></li>
                 <li><a href="/showAllUsers">Members List</a></li>
                 <li><a href="/currentPredictions">Member Predictions</a></li>
                 <li><a href="/updateResult">Update Result</a></li>

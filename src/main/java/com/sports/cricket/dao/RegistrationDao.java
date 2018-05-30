@@ -20,4 +20,6 @@ public interface RegistrationDao {
     List<Register> getAllUsers();
 
     List<Restrictions> getRestrictions();
+
+    boolean optOutUser(Integer memberId, String optOut);
 }

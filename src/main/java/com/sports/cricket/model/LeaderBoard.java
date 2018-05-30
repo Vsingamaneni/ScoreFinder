@@ -2,6 +2,8 @@ package com.sports.cricket.model;
 
 public class LeaderBoard {
 
+    private Integer rank;
+
     private Integer memberId;
 
     private String firstName;
@@ -15,6 +17,14 @@ public class LeaderBoard {
     private double total;
 
     private String isActive;
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
 
     public Integer getMemberId() {
         return memberId;

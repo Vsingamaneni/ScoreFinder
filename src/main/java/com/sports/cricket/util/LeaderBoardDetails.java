@@ -3,8 +3,11 @@ package com.sports.cricket.util;
 import com.sports.cricket.model.LeaderBoard;
 import com.sports.cricket.model.Register;
 import com.sports.cricket.model.Standings;
+import org.hsqldb.lib.Collection;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LeaderBoardDetails {
@@ -33,6 +36,14 @@ public class LeaderBoardDetails {
             leaderBoardList.add(leaderBoard);
         }
 
+        Collections.sort(leaderBoardList, new LeaderBoardComp());
+
+        int count = 1;
+
+        for(LeaderBoard leader : leaderBoardList){
+            leader.setRank(count);
+            count++;
+        }
         return leaderBoardList;
     }
 
@@ -66,6 +77,18 @@ public class LeaderBoardDetails {
         }
 
         return false;
+    }
+
+    static class LeaderBoardComp implements Comparator<LeaderBoard> {
+
+        @Override
+        public int compare(LeaderBoard l1, LeaderBoard l2) {
+            if(l1.getWonAmount() < l2.getWonAmount()){
+                return 1;
+            } else {
+                return -1;
+            }
+        }
     }
 
 }
