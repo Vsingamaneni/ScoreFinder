@@ -35,7 +35,7 @@
                 <li><a href="/forget">Change Password</a></li>
             </ul>
         </li>
-        <li><a href="faq.html" class="">FAQ's</a></li>
+        <li><a href="/faq" class="">FAQ's</a></li>
         <li><a href="contactus.html" class="">Contact Us</a></li>
         <li><a href="/logout" class="">Logout</a></li>
     </ul>

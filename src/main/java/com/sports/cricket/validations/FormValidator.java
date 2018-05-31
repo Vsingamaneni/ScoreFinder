@@ -1,6 +1,7 @@
 package com.sports.cricket.validations;
 
 import com.sports.cricket.model.Register;
+import com.sports.cricket.model.Restrictions;
 import com.sports.cricket.model.UserLogin;
 import com.sports.cricket.validator.EmailValidator;
 
@@ -51,7 +52,7 @@ public class FormValidator {
         return errorsList;
     }
 
-    public List<ErrorDetails> isRegisterValid(Register register){
+    public List<ErrorDetails> isRegisterValid(Register register, Restrictions restrictions){
         errorsList = new ArrayList<>();
         ErrorDetails errorDetails = null;
 
@@ -133,6 +134,14 @@ public class FormValidator {
                     errorDetails = new ErrorDetails();
                     errorDetails.setErrorField("password");
                     errorDetails.setErrorMessage("Both Password and Confirm Password didn't match!!");
+                    errorsList.add(errorDetails);
+                }
+            }
+
+            if ( null != restrictions){
+                if( !restrictions.getSecurityCode().equalsIgnoreCase(register.getSecurity())){
+                    errorDetails.setErrorField("securityCode");
+                    errorDetails.setErrorMessage("Security Code didn't match. Contact admin to get the right code");
                     errorsList.add(errorDetails);
                 }
             }

@@ -3,7 +3,8 @@ package com.sports.cricket.util;
 import com.sports.cricket.model.*;
 import com.sports.cricket.service.RegistrationService;
 import com.sports.cricket.service.ScheduleService;
-import com.sports.cricket.validator.ValidateDeadLine;
+import com.sports.cricket.validations.ResultValidator;
+import com.sports.cricket.validations.ValidateDeadLine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,8 @@ public class MatchUpdates {
             result.setWinningAmount(schedulePrediction.getHomeWinAmount());
         } else if (schedule.getWinner().equalsIgnoreCase(schedule.getAwayTeam())) {
             result.setWinningAmount(schedulePrediction.getAwayWinAmount());
+        } else if (schedule.getWinner().equalsIgnoreCase("draw")) {
+            result.setWinningAmount((new Integer(0)).doubleValue());
         } else if (schedule.getWinner().equalsIgnoreCase("default")) {
             result.setWinningAmount((new Integer(0)).doubleValue());
         }

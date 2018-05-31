@@ -1,4 +1,4 @@
-package com.sports.cricket.validator;
+package com.sports.cricket.validations;
 
 import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Register;

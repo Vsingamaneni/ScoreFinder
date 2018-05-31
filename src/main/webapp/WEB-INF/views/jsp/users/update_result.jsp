@@ -73,6 +73,15 @@
             </div>
         </c:if>
 
+        <c:if test="${fn:length(errorDetailsList) > 0}">
+            <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> Please fix the below errors..!!</h2>
+        </c:if>
+        <c:forEach var="errorDetail" items="${errorDetailsList}">
+            <c:if test="${not empty errorDetail.errorField}" >
+                <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> *** ${errorDetail.errorMessage} </h2>
+            </c:if>
+        </c:forEach>
+
         <div style="width: 1000px; margin: 0 auto;">
             <h1>Update Match Result</h1>
 

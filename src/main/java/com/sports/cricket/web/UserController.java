@@ -15,6 +15,7 @@ import com.sports.cricket.util.MatchUpdates;
 import com.sports.cricket.util.ValidatePredictions;
 import com.sports.cricket.validations.ErrorDetails;
 import com.sports.cricket.validations.FormValidator;
+import com.sports.cricket.validations.ResultValidator;
 import com.sports.cricket.validator.LoginValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +87,23 @@ public class UserController {
         logger.debug("showHomePage()");
         model.addAttribute("schedules", scheduleService.findAll());
         return "users/index";
+
+    }
+
+    @RequestMapping(value = "/faq", method = RequestMethod.GET)
+    public String showFaqs(Model model, HttpSession httpSession) {
+
+        if (null != httpSession.getAttribute("user")) {
+            userLogin.setFirstName(httpSession.getAttribute("user").toString());
+            userLogin.setLastName(httpSession.getAttribute("userLastName").toString());
+            userLogin.setRole(httpSession.getAttribute("role").toString());
+            model.addAttribute("user", userLogin);
+            model.addAttribute("session", userLogin);
+        }
+
+        logger.debug("showFaqs()");
+
+        return "users/faq";
 
     }
 
@@ -185,6 +203,7 @@ public class UserController {
         }
 
         logger.debug("saveOrUpdateLogin() : {}", "");
+
         UserLogin loginDetails = registrationService.loginUser(userLogin);
 
         if (loginDetails.isLoginSuccess()) {
@@ -272,6 +291,11 @@ public class UserController {
             List<Schedule> schedules = scheduleService.findAll();
 
             model.addAttribute("schedules", schedules);
+            if (null != httpSession.getAttribute("errorDetailsList")){
+                List<ErrorDetails> errorDetailsList = (List<ErrorDetails>)httpSession.getAttribute("errorDetailsList");
+                model.addAttribute("errorDetailsList", errorDetailsList);
+                httpSession.removeAttribute("errorDetailsList");
+            }
 
             httpSession.setMaxInactiveInterval(5 * 60);
             return "users/update_result";
@@ -309,9 +333,13 @@ public class UserController {
 
             if (null != schedule
                     && null != schedule.getWinner()) {
+                List<ErrorDetails> errorDetailsList = ResultValidator.isMatchResultValid(schedule);
+                if (errorDetailsList.size() > 0 ){
+                    httpSession.setAttribute("errorDetailsList" , errorDetailsList);
+                    return "redirect:/updateResult";
+                }
                 Integer totalMatches = scheduleService.totalMatches(schedule.getMatchDay());
                 isUpdateSuccess = scheduleService.updateMatchResult(schedule);
-
                 SchedulePrediction schedulePrediction = matchUpdates.setUpdates(schedule, scheduleService, registrationService);
                 Result result = MatchUpdates.mapResult(schedule, schedulePrediction);
 
@@ -510,7 +538,8 @@ public class UserController {
             model.remove("registerErrorDetails");
         }
 
-        List<ErrorDetails> registerErrorDetails = formValidator.isRegisterValid(register);
+        List<Restrictions> restrictionsList = registrationService.getRestrictions();
+        List<ErrorDetails> registerErrorDetails = formValidator.isRegisterValid(register, restrictionsList.get(0));
 
         if (null != registerErrorDetails
                 && registerErrorDetails.size() > 0) {
