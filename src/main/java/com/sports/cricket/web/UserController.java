@@ -206,7 +206,8 @@ public class UserController {
 
         UserLogin loginDetails = registrationService.loginUser(userLogin);
 
-        if (loginDetails.isLoginSuccess()) {
+        if ( null != loginDetails
+                && loginDetails.isLoginSuccess()) {
             model.addAttribute("session", loginDetails);
             //model.addAttribute("msg", "User logged in");
             httpSession.setAttribute("login", loginDetails);
@@ -217,8 +218,7 @@ public class UserController {
 
             return "redirect:/showPredictions";
         } else {
-            model.addAttribute("msg", "User Login Failed!");
-            httpSession.setAttribute("msg", "User Login Failed");
+            httpSession.setAttribute("msg", "Invalid email or password..!!");
             return "redirect:/login";
         }
     }

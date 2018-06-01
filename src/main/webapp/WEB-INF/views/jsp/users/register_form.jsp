@@ -129,12 +129,12 @@
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     <div class='col-md-11'>
-                                        <input class='form-control' id='id_password' placeholder='password' name="password" type='text'>
+                                        <input class='form-control' id='id_password' placeholder='password' name="password" type='password'>
                                     </div>
                                 </div>
                                 <div class='form-group internal'>
                                     <div class='col-md-11'>
-                                        <input class='form-control' id='id_confirm_password' placeholder='Confirm Password' name="confirmPassword" type='text'>
+                                        <input class='form-control' id='id_confirm_password' placeholder='Confirm Password' name="confirmPassword" type='password'>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +185,7 @@
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     <div class='col-md-11'>
-                                        <input class='form-control' id='id_security_answer' placeholder='Security Question Answer' name="securityAnswer" type='text'>
+                                        <input class='form-control' id='id_security_answer' placeholder='Security Question Answer' name="securityAnswer" type='password'>
                                     </div>
                                 </div>
                             </div>
@@ -195,7 +195,7 @@
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     <div class='col-md-11'>
-                                        <input class='form-control' id='id_security' placeholder='Admin Security Code' name="security" type='text'>
+                                        <input class='form-control' id='id_security' placeholder='Admin Security Code' name="security" type='password'>
                                     </div>
                                 </div>
                             </div>

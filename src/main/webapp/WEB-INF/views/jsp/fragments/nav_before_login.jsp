@@ -29,8 +29,8 @@
                 <li><a href="/login">Login</a></li>
             </ul>
         </li>
-        <li><a href="/faq" class="">FAQ's</a></li>
-        <li><a href="contactus.html" class="">Contact Us</a></li>
+        <li><a href="#" class="">FAQ's</a></li>
+        <li><a href="#" class="">Contact Us</a></li>
     </ul>
 
 </nav>

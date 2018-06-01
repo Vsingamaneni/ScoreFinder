@@ -17,7 +17,7 @@ public class FormValidator {
     public List<ErrorDetails> isLoginValid(UserLogin userLogin){
 
         errorsList = new ArrayList<>();
-        ErrorDetails errorDetails = null;
+        ErrorDetails errorDetails;
 
         if(null == userLogin){
             errorDetails = new ErrorDetails();
@@ -139,9 +139,15 @@ public class FormValidator {
             }
 
             if ( null != restrictions){
-                if( !restrictions.getSecurityCode().equalsIgnoreCase(register.getSecurity())){
+                if( null != restrictions.getSecurityCode()) {
+                    if (!restrictions.getSecurityCode().equalsIgnoreCase(register.getSecurity())) {
+                        errorDetails.setErrorField("securityCode");
+                        errorDetails.setErrorMessage("Security Code didn't match. Contact admin to get the right code");
+                        errorsList.add(errorDetails);
+                    }
+                } else{
                     errorDetails.setErrorField("securityCode");
-                    errorDetails.setErrorMessage("Security Code didn't match. Contact admin to get the right code");
+                    errorDetails.setErrorMessage("Security Code cannot be empty..!");
                     errorsList.add(errorDetails);
                 }
             }

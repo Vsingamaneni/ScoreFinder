@@ -1,6 +1,5 @@
 package com.sports.cricket.dao;
 
-import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Register;
 import com.sports.cricket.model.Restrictions;
 import com.sports.cricket.model.UserLogin;
@@ -13,7 +12,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,11 +101,44 @@ public class RegistrationDaoImpl implements RegistrationDao {
         Map<String, Object> params = new HashMap<>();
         params.put("email", userLogin.getEmail());
 
-        String selectSQL = "SELECT * FROM REGISTER where emailId = ?";
+        String selectSQL = "SELECT * FROM REGISTER where emailId = '" + userLogin.getEmail() + "'";
 
-       Register register = (Register) jdbcTemplate.queryForObject(selectSQL,new Object[] { userLogin.getEmail() }, new BeanPropertyRowMapper(Register.class));
+        Connection conn = null;
+        Statement statement;
+        ResultSet resultSet;
+        Register register =null;
 
-       if(null != register
+        try {
+            conn = dataSource.getConnection();
+            conn.prepareStatement(selectSQL);
+
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(selectSQL);
+
+            while(resultSet.next()){
+                register = new Register();
+                register.setfName(resultSet.getString("fName"));
+                register.setlName(resultSet.getString("lName"));
+                register.setMemberId(resultSet.getInt("memberId"));
+                register.setIsActive(resultSet.getString("isActive"));
+                register.setRole(resultSet.getString("role"));
+                register.setEncryptedPass(resultSet.getString("encryptedPass"));
+                register.setSaltKey(resultSet.getString("saltKey"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                }
+            }
+        }
+
+
+        if(null != register
             && null != register.getEncryptedPass() && null != register.getSaltKey()){
                if(!VerifyProvidedPassword.decryptPassword(userLogin.getPassword(), register)){
                    System.out.println("Passwords mismatch");
