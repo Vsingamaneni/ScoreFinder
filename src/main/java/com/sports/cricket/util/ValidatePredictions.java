@@ -111,4 +111,16 @@ public class ValidatePredictions {
 
         return predictionList;
     }
+
+    public static List<Schedule> isScheduleAfterRegistration(List<Schedule> scheduleList , String registeredDate) throws ParseException {
+
+        List<Schedule> finalSchedule = scheduleList;
+
+        for ( Schedule schedule : scheduleList){
+           if (ValidateDeadline.isPredictionAfterRegistration(registeredDate, schedule.getStartDate())){
+                finalSchedule.remove(schedule);
+           }
+        }
+     return finalSchedule;
+    }
 }

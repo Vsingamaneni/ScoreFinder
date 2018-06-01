@@ -139,7 +139,7 @@
                                 <button class='btn-lg btn-primary' type='submit' onclick="post('${updateUrl}')">Update</button>
                             </div>
                             <div class='col-md-3'>
-                                <button class='btn-lg btn-danger' style='float:right' type='submit'><a href="/showPredictions" style="color:white;">Cancel</a></button>
+                                <button class='btn-lg btn-danger' style='float:right'><a href="/showPredictions" style="color:white;">Cancel</a></button>
                             </div>
                         </div>
                     </form>

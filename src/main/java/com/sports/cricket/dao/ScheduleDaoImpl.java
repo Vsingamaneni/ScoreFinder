@@ -203,7 +203,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
     @Override
     public boolean authorizeMember(Integer memberID) {
 
-        String sql = "UPDATE REGISTER SET isActive = 'Y' where memberId = ?";
+        String sql = "UPDATE REGISTER SET isActive = 'Y' , isAdminActivated = 'Y' where memberId = ?";
 
 
         Connection conn = null;

@@ -141,11 +141,13 @@ public class FormValidator {
             if ( null != restrictions){
                 if( null != restrictions.getSecurityCode()) {
                     if (!restrictions.getSecurityCode().equalsIgnoreCase(register.getSecurity())) {
+                        errorDetails = new ErrorDetails();
                         errorDetails.setErrorField("securityCode");
                         errorDetails.setErrorMessage("Security Code didn't match. Contact admin to get the right code");
                         errorsList.add(errorDetails);
                     }
                 } else{
+                    errorDetails = new ErrorDetails();
                     errorDetails.setErrorField("securityCode");
                     errorDetails.setErrorMessage("Security Code cannot be empty..!");
                     errorsList.add(errorDetails);

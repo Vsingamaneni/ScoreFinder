@@ -76,7 +76,7 @@
         </c:if>
 
         <div style="width: 1000px; margin: 0 auto;">
-            <h1>Hello ${user_name}, Below is the transaction history ..! </h1>
+            <h1>Hello ${user_name}, Below is your summary ..! </h1>
             <br />
             <table class="table table-striped">
                 <thead>

@@ -72,10 +72,18 @@
 
         <br />
 
+        <c:if test="${fn:containsIgnoreCase(userLogin.isAdminActivated, 'N')}">
+                <div class="alert alert-${css} alert-dismissible" role="alert">
+                    <h2 style="color:darkslateblue;font-size:15px;text-decoration:none;font-family:Comic Sans MS"><strong>Contact the admin to activate your account..!!</strong></h2>
+                </div>
+        </c:if>
+
+        <c:if test="${fn:containsIgnoreCase(userLogin.isAdminActivated, 'Y')}">
         <c:if test="${not empty msg}">
             <div class="alert alert-${css} alert-dismissible" role="alert">
-                <strong>${msg}</strong>
+                <h2 style="color:darkslateblue;font-size:15px;text-decoration:none;font-family:Comic Sans MS"><strong>${msg}</strong></h2>
             </div>
+        </c:if>
         </c:if>
 
         <div style="width: 1000px; margin: 0 auto;">
@@ -102,6 +110,7 @@
                             <td style="text-align:left;">${userLogin.email}</td>
                             <td style="text-align:left;">${userLogin.role}</td>
                             <td style="text-align:left;">
+                            <c:if test="${fn:containsIgnoreCase(userLogin.isAdminActivated, 'Y')}">
                                <spring:url value="/member/${userLogin.memberId}/optOut/${action_out}" var="optOutUrl" />
                                <spring:url value="/member/${userLogin.memberId}/optOut/${action_in}" var="optInUrl" />
                                <c:if test="${fn:containsIgnoreCase(userLogin.isActive, 'Y')}">
@@ -117,6 +126,7 @@
                                    <button class="btn btn-danger"> In Active</button>
                                    <button class="btn btn-info" onclick="location.href='${optInUrl}'">Activate</button>
                                </c:if>
+                            </c:if>
                         </tr>
                     </c:if>
             </table>

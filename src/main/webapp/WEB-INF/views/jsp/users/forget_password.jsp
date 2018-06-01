@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -53,6 +54,14 @@
     <header>
 
         <jsp:include page="../fragments/nav_before_login.jsp" />
+
+        <br /><br />
+
+        <c:if test="${not empty errorDetails}">
+            <div class="alert alert-${css} alert-dismissible" role="alert">
+                <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"><strong>${errorDetails.errorMessage}</strong></h2>
+            </div>
+        </c:if>
 
         <div class='container' style="width: 1000px;">
             <div class='panel panel-primary dialog-panel'>

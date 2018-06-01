@@ -12,6 +12,8 @@ public class Register {
 
     private String lName;
 
+    private String registeredTime;
+
     private String emailId;
 
     private String confirmEmailId;
@@ -41,6 +43,8 @@ public class Register {
     private String isActive;
 
     private String role;
+
+    private String isAdminActivated;
 
     public int getMemberId() {
         return memberId;
@@ -80,6 +84,15 @@ public class Register {
 
     public void setlName(String lName) {
         this.lName = lName;
+    }
+
+
+    public String getRegisteredTime() {
+        return registeredTime;
+    }
+
+    public void setRegisteredTime(String registeredTime) {
+        this.registeredTime = registeredTime;
     }
 
     public String getEmailId() {
@@ -200,5 +213,13 @@ public class Register {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getIsAdminActivated() {
+        return isAdminActivated;
+    }
+
+    public void setIsAdminActivated(String isAdminActivated) {
+        this.isAdminActivated = isAdminActivated;
     }
 }

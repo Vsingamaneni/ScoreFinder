@@ -12,6 +12,8 @@ public class UserLogin {
 
    private String lastName;
 
+   private String registeredTime;
+
    private boolean isLoginSuccess;
 
    private String role;
@@ -19,6 +21,8 @@ public class UserLogin {
    private boolean isLimitReached;
 
    private String isActive;
+
+   private String isAdminActivated;
 
     public String getEmail() {
         return email;
@@ -90,5 +94,21 @@ public class UserLogin {
 
     public void setIsActive(String isActive) {
         this.isActive = isActive;
+    }
+
+    public String getRegisteredTime() {
+        return registeredTime;
+    }
+
+    public void setRegisteredTime(String registeredTime) {
+        this.registeredTime = registeredTime;
+    }
+
+    public String getIsAdminActivated() {
+        return isAdminActivated;
+    }
+
+    public void setIsAdminActivated(String isAdminActivated) {
+        this.isAdminActivated = isAdminActivated;
     }
 }

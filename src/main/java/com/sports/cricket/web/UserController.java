@@ -208,6 +208,7 @@ public class UserController {
 
         if ( null != loginDetails
                 && loginDetails.isLoginSuccess()) {
+
             model.addAttribute("session", loginDetails);
             //model.addAttribute("msg", "User logged in");
             httpSession.setAttribute("login", loginDetails);
@@ -215,6 +216,11 @@ public class UserController {
             httpSession.setAttribute("userLastName", loginDetails.getLastName());
             httpSession.setAttribute("role", loginDetails.getRole());
             httpSession.setAttribute("session", userLogin);
+
+            if (loginDetails.getIsAdminActivated().equalsIgnoreCase("N")){
+                httpSession.setAttribute("msg", "Please contact the admin to activate your account..!");
+                return "redirect:/profile";
+            }
 
             return "redirect:/showPredictions";
         } else {
@@ -254,8 +260,10 @@ public class UserController {
 
             boolean isOptOutSuccess = registrationService.optOutUser(memberId, action);
 
-            if (isOptOutSuccess) {
+            if (isOptOutSuccess && ( null != action && action.equalsIgnoreCase("N"))) {
                 httpSession.setAttribute("msg", "You have successfully Opted out.. !!");
+            }else if (isOptOutSuccess && ( null != action && action.equalsIgnoreCase("Y"))) {
+                httpSession.setAttribute("msg", "You have successfully activated ..!!");
             }
 
             httpSession.setMaxInactiveInterval(5 * 60);
@@ -435,6 +443,7 @@ public class UserController {
 
             List<Schedule> schedules = ValidatePredictions.validateSchedule(scheduleService.scheduleList());
             List<Prediction> predictions = scheduleService.findPredictions(userLogin.getMemberId());
+            schedules = ValidatePredictions.isScheduleAfterRegistration(schedules, register.getRegisteredTime());
             List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
 
             model.addAttribute("predictions", predictions);
@@ -573,6 +582,9 @@ public class UserController {
 
             model.addAttribute("session", userLogin);
             model.addAttribute("isAuthSuccess", isAuthSuccess);
+            if (isAuthSuccess){
+                userLogin.setIsAdminActivated("Y");
+            }
             httpSession.setAttribute("login", userLogin);
 
             return "redirect:/showAllUsers";
@@ -633,6 +645,13 @@ public class UserController {
     @RequestMapping(value = "/forget", method = RequestMethod.GET)
     public String forgetPassword(Model model, HttpSession httpSession) {
 
+        if ( null != httpSession.getAttribute("errorDetails")){
+            ErrorDetails errorDetails = (ErrorDetails)httpSession.getAttribute("errorDetails");
+            model.addAttribute("errorDetails", errorDetails);
+            httpSession.removeAttribute("errorDetails");
+            return "users/forget_password";
+        }
+
         Register register = new Register();
 
         logger.debug("forgetPassword()");
@@ -650,9 +669,8 @@ public class UserController {
     public String resetPasswordAfterLogin(Model model, HttpSession httpSession) {
 
         logger.debug("resetPasswordAfterLogin()");
-        Register userDetails = null;
+        Register userDetails;
         if (null != httpSession.getAttribute("login")) {
-
             UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
             userDetails = registrationService.getUser(userLogin.getEmail());
             Register register = new Register();
@@ -675,7 +693,24 @@ public class UserController {
         Register userDetails = null;
 
         if (null != register.getEmailId()) {
+            if ( register.getEmailId() != register.getConfirmEmailId()){
+                ErrorDetails errorDetails = new ErrorDetails();
+                errorDetails.setErrorField("emailID");
+                errorDetails.setErrorMessage("Both email ID's didn't match..!!");
+                model.addAttribute("errorDetails", errorDetails);
+                httpSession.setAttribute("errorDetails", errorDetails);
+                return "redirect:/forget";
+            }
             userDetails = registrationService.getUser(register.getEmailId());
+        }
+
+        if (null == userDetails){
+            ErrorDetails errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("login");
+            errorDetails.setErrorMessage("Invalid Email ID");
+            model.addAttribute("errorDetails", errorDetails);
+            httpSession.setAttribute("errorDetails", errorDetails);
+            return "redirect:/forget";
         }
 
         logger.debug("forgetPassword()");
