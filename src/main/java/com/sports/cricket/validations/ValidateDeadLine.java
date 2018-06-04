@@ -28,8 +28,7 @@ public class ValidateDeadLine {
         return predictionList;
     }
 
-
-    private static List<Prediction> getDefaultPredictions(Schedule schedule, List<Register> registerList, List<Prediction> predictionList){
+    private static List<Prediction> getDefaultPredictions(Schedule schedule, List<Register> registerList, List<Prediction> predictionList) throws ParseException {
 
         Prediction defaultPrediction;
         List<Prediction> finalPredictionList = predictionList;
@@ -39,7 +38,9 @@ public class ValidateDeadLine {
 
         for(Register register : registerList){
             if(register.getIsActive().equalsIgnoreCase("y")) {
-                memberList.add(register.getMemberId());
+                if(!ValidateDeadline.isPredictionAfterRegistration(register.getRegisteredTime(), schedule.getStartDate())) {
+                    memberList.add(register.getMemberId());
+                }
             }
         }
 
@@ -72,5 +73,33 @@ public class ValidateDeadLine {
         }
 
         return finalPredictionList;
+    }
+
+    public static List<Prediction> mapScheduleToPredictions(List<Schedule> scheduleList, List<Prediction> predictionList){
+
+        for (Schedule schedule : scheduleList){
+            for (Prediction prediction : predictionList){
+                if (schedule.getMatchNumber() != prediction.getMatchNumber()){
+                    continue;
+                }else{
+                    prediction.setCanPredict(schedule.isCanPredict());
+                }
+            }
+        }
+
+        return predictionList;
+    }
+
+    public static List<Prediction> isUpdatePossible(Schedule schedule, List<Prediction> predictionList){
+
+            for (Prediction prediction : predictionList){
+                if (schedule.getMatchNumber() != prediction.getMatchNumber()){
+                    continue;
+                }else{
+                    prediction.setCanPredict(schedule.isCanPredict());
+                }
+        }
+
+        return predictionList;
     }
 }

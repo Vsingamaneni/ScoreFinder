@@ -3,7 +3,6 @@ package com.sports.cricket.util;
 import com.sports.cricket.model.*;
 import com.sports.cricket.service.RegistrationService;
 import com.sports.cricket.service.ScheduleService;
-import com.sports.cricket.validations.ResultValidator;
 import com.sports.cricket.validations.ValidateDeadLine;
 
 import java.util.ArrayList;
@@ -37,13 +36,14 @@ public class MatchUpdates {
         } else if (schedule.getWinner().equalsIgnoreCase(schedule.getAwayTeam())) {
             result.setWinningAmount(schedulePrediction.getAwayWinAmount());
         } else if (schedule.getWinner().equalsIgnoreCase("draw")) {
-            result.setWinningAmount((new Integer(0)).doubleValue());
+            result.setWinningAmount(schedulePrediction.getDrawWinAmount());
         } else if (schedule.getWinner().equalsIgnoreCase("default")) {
             result.setWinningAmount((new Integer(0)).doubleValue());
         }
 
         result.setHomeTeamCount(schedulePrediction.getHomeTeamCount());
         result.setAwayTeamCount(schedulePrediction.getAwayTeamCount());
+        result.setDrawTeamCount(schedulePrediction.getDrawTeamCount());
         result.setNotPredictedCount(schedulePrediction.getNotPredicted());
         result.setMatchDay(schedule.getMatchDay());
 
@@ -74,6 +74,8 @@ public class MatchUpdates {
                     standings.setWonAmount(schedulePrediction.getHomeWinAmount());
                 }else if(standings.getWinner().equalsIgnoreCase(standings.getAwayTeam())) {
                     standings.setWonAmount(schedulePrediction.getAwayWinAmount());
+                }else if(standings.getWinner().equalsIgnoreCase("draw")){
+                    standings.setWonAmount(schedulePrediction.getDrawWinAmount());
                 }
                 standings.setLostAmount((new Integer(0)).doubleValue());
             }else{
@@ -82,6 +84,18 @@ public class MatchUpdates {
             }
 
             standingsList.add(standings);
+        }
+
+        return standingsList;
+    }
+
+    public static List<Standings> mapStandings(List<Standings> standingsList){
+
+        double netAmount = 0;
+
+        for (Standings standings : standingsList){
+            netAmount = netAmount - standings.getLostAmount() + standings.getWonAmount();
+            standings.setNetAmount(netAmount);
         }
 
         return standingsList;

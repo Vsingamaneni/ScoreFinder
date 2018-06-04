@@ -34,4 +34,36 @@ public class ResultValidator {
         return errorsList;
     }
 
+    public static List<ErrorDetails> isValid(Prediction prediction){
+
+        List<ErrorDetails> errorDetailsList = new ArrayList<>();
+
+        if ( null == prediction){
+            ErrorDetails errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("Prediction");
+            errorDetails.setErrorMessage("Please select your prediction");
+            errorDetailsList.add(errorDetails);
+        }
+
+        if (null != prediction
+                && prediction.getFirstName().equalsIgnoreCase("   --- SELECT ---    ")){
+            ErrorDetails errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("Name");
+            errorDetails.setErrorMessage("Please select a valid Name");
+            errorDetailsList.add(errorDetails);
+        }
+
+        if ( null != prediction
+                && null != prediction.getSelected()){
+            if (prediction.getSelected().equalsIgnoreCase("--- SELECT ---")){
+                ErrorDetails errorDetails = new ErrorDetails();
+                errorDetails.setErrorField("Selected Field");
+                errorDetails.setErrorMessage("Please select a valid prediction");
+                errorDetailsList.add(errorDetails);
+            }
+        }
+
+        return  errorDetailsList;
+    }
+
 }

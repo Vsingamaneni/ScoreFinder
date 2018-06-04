@@ -12,6 +12,8 @@ public class Schedule {
 
     private String winner;
 
+    private Integer possibleResult;
+
     private boolean isactive;
 
     private Integer matchFee;
@@ -58,6 +60,14 @@ public class Schedule {
 
     public void setWinner(String winner) {
         this.winner = winner;
+    }
+
+    public Integer getPossibleResult() {
+        return possibleResult;
+    }
+
+    public void setPossibleResult(Integer possibleResult) {
+        this.possibleResult = possibleResult;
     }
 
     public boolean isIsactive() {

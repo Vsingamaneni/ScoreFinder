@@ -16,6 +16,7 @@ import com.sports.cricket.util.ValidatePredictions;
 import com.sports.cricket.validations.ErrorDetails;
 import com.sports.cricket.validations.FormValidator;
 import com.sports.cricket.validations.ResultValidator;
+import com.sports.cricket.validations.ValidateDeadLine;
 import com.sports.cricket.validator.LoginValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -400,6 +401,7 @@ public class UserController {
             httpSession.setAttribute("session", userLogin);
 
             List<Standings> standingsList = LeaderBoardDetails.getStandings(scheduleService.getLeaderBoard(), userLogin.getMemberId());
+            standingsList = MatchUpdates.mapStandings(standingsList);
 
             model.addAttribute("standingsList", standingsList);
 
@@ -445,6 +447,7 @@ public class UserController {
             List<Prediction> predictions = scheduleService.findPredictions(userLogin.getMemberId());
             schedules = ValidatePredictions.isScheduleAfterRegistration(schedules, register.getRegisteredTime());
             List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
+            predictions = ValidateDeadLine.mapScheduleToPredictions(schedules, predictions);
 
             model.addAttribute("predictions", predictions);
             model.addAttribute("schedules", finalSchedule);
@@ -614,31 +617,32 @@ public class UserController {
 
     // Show Current Predictions
     @RequestMapping(value = "/currentPredictions", method = RequestMethod.GET)
-    public String showCurrentPredictions(Model model, HttpSession httpSession) {
+    public String showCurrentPredictions(Model model, HttpSession httpSession) throws ParseException {
 
         logger.debug("showCurrentPredictions()");
 
         UserLogin userLogin = (UserLogin) httpSession.getAttribute("login");
 
-        if (null != userLogin.getRole() && !userLogin.getRole().equalsIgnoreCase("admin")) {
-            httpSession.setAttribute("msg", "You need to be an admin to view this page.!");
-            return "redirect:/showPredictions";
-        }
         model.addAttribute("session", userLogin);
         model.addAttribute("login", userLogin);
         model.addAttribute("userLogin", userLogin);
-        List<Schedule> currentSchedule = scheduleService.findAll();
+        List<Schedule> currentSchedule = ValidatePredictions.validateSchedule(scheduleService.findAll());
 
         List<SchedulePrediction> schedulePredictionsList = new ArrayList<>();
         for (Schedule schedule : currentSchedule) {
 
             SchedulePrediction matchDetails = matchUpdates.setUpdates(schedule, scheduleService, registrationService);
+            ValidateDeadLine.isUpdatePossible(matchDetails.getSchedule(), matchDetails.getPrediction());
             schedulePredictionsList.add(matchDetails);
         }
 
         model.addAttribute("schedulePredictions", schedulePredictionsList);
 
-        return "users/prediction_list";
+        if (userLogin.getRole().equalsIgnoreCase("admin")) {
+            return "users/prediction_list";
+        }else {
+            return "users/users_match_predictions";
+        }
     }
 
     // Forget Password
@@ -752,6 +756,12 @@ public class UserController {
 
         logger.debug("predictMatch() : {}", memberId, matchNumber);
 
+        if (null != httpSession.getAttribute("errorDetailsList")) {
+            List<ErrorDetails> errorDetailsList = (List<ErrorDetails>)httpSession.getAttribute("errorDetailsList");
+            model.addAttribute("errorDetailsList", errorDetailsList);
+            httpSession.removeAttribute("errorDetailsList");
+        }
+
         Schedule schedule = scheduleService.findById(matchNumber);
 
         Prediction prediction = new Prediction();
@@ -761,7 +771,6 @@ public class UserController {
         model.addAttribute("session", httpSession.getAttribute("session"));
 
         return "users/prediction";
-
     }
 
     // show update form
@@ -825,6 +834,12 @@ public class UserController {
 
         logger.debug("savePrediction() : {}", memberId, memberId);
 
+        List<ErrorDetails> errorDetailsList = ResultValidator.isValid(prediction);
+        if (errorDetailsList.size() > 0 ){
+            httpSession.setAttribute("errorDetailsList", errorDetailsList);
+
+            return "redirect:/match/"+prediction.getMemberId()+"/"+prediction.getMatchNumber()+"/predict";
+        }
         boolean savePrediction = scheduleService.savePrediction(prediction);
 
         //Prediction prediction = new Prediction();

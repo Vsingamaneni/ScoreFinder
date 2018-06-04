@@ -20,6 +20,7 @@
             <ul>
                 <li><a href="/profile">Profile</a></li>
                 <li><a href="/showPredictions">Predictions</a></li>
+                <li><a href="/currentPredictions">MatchDay Predictions</a></li>
                 <li><a href="/standings">Standings</a></li>
                 <li><a href="/history">History</a></li>
                 <li><a href="/forget">Change Password</a></li>

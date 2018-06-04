@@ -100,7 +100,7 @@
                             <td style="text-align:left;"> ${standings.winner}</td>
                             <td style="text-align:left;">${standings.wonAmount}</td>
                             <td style="text-align:left;">${standings.lostAmount}</td>
-                            <td style="text-align:left;">${standings.wonAmount - standings.lostAmount} </td>
+                            <td style="text-align:left;">${standings.netAmount} </td>
                         </tr>
                     </c:forEach>
                 </c:if>

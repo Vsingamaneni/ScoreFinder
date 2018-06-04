@@ -18,6 +18,8 @@ public class Result {
 
     private Integer awayTeamCount;
 
+    private Integer drawTeamCount;
+
     private Integer notPredictedCount;
 
     private Integer matchDay;
@@ -84,6 +86,14 @@ public class Result {
 
     public void setAwayTeamCount(Integer awayTeamCount) {
         this.awayTeamCount = awayTeamCount;
+    }
+
+    public Integer getDrawTeamCount() {
+        return drawTeamCount;
+    }
+
+    public void setDrawTeamCount(Integer drawTeamCount) {
+        this.drawTeamCount = drawTeamCount;
     }
 
     public Integer getNotPredictedCount() {

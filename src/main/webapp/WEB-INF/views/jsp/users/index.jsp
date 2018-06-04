@@ -23,6 +23,7 @@
     <spring:url value="/resources/core/css/clock.css" var="clockCss" />
     <spring:url value="/resources/core/css/footer.css" var="footerCss" />
     <spring:url value="/resources/core/css/login.css" var="loginCss" />
+    <spring:url value="/resources/core/js/timer/flipclock.css" var="flipClockcss" />
     <link href="${homeCss}" rel="stylesheet" />
     <link href="${clockCss}" rel="stylesheet" />
     <link href="${footerCss}" rel="stylesheet" />
@@ -36,11 +37,19 @@
 
     <!-- js -->
     <spring:url value="/resources/core/js/index.js" var="timerJs" />
+   <%-- <spring:url value="/resources/core/js/timer/flipclock.js" var="clockJs" />--%>
+    <script src="${timerJs}"></script>
+
 
     <c:if test="${not empty user}">
         <c:set var="user_name" value="${user.firstName}"/>
         <c:set var="role" value="${user.role}"/>
     </c:if>
+
+    <%--<link rel="stylesheet" href=href="${flipClockcss}">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="${clockJs}"></script>
+--%>
 
     <body>
     <div style="width: 1250px; margin: 0 auto;">
@@ -124,6 +133,30 @@
                         </li>
 
                     </ul>
+
+                   <%-- <div class="clock" style="margin:2em;"></div>
+                    <script type="text/javascript">
+                        var clock;
+
+                        $(document).ready(function() {
+                            var clock;
+
+                            clock = $('.clock').FlipClock({
+                                clockFace: 'DailyCounter',
+                                autoStart: false,
+                                callbacks: {
+                                    stop: function() {
+                                        $('.message').html('The clock has stopped!')
+                                    }
+                                }
+                            });
+
+                            clock.setTime(10);
+                            clock.setCountdown(true);
+                            clock.start();
+
+                        });
+                    </script>--%>
 
                 </c:forEach>
             </c:otherwise>

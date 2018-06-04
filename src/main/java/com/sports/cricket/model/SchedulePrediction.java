@@ -12,13 +12,17 @@ public class SchedulePrediction {
 
     private Integer awayTeamCount;
 
+    private Integer drawTeamCount;
+
     private Integer notPredicted;
 
     private double homeWinAmount;
 
-    private boolean isDeadlinReached;
-
     private double awayWinAmount;
+
+    private double drawWinAmount;
+
+    private boolean isDeadlinReached;
 
     public Schedule getSchedule() {
         return schedule;
@@ -52,6 +56,14 @@ public class SchedulePrediction {
         this.awayTeamCount = awayTeamCount;
     }
 
+    public Integer getDrawTeamCount() {
+        return drawTeamCount;
+    }
+
+    public void setDrawTeamCount(Integer drawTeamCount) {
+        this.drawTeamCount = drawTeamCount;
+    }
+
     public Integer getNotPredicted() {
         return notPredicted;
     }
@@ -74,6 +86,14 @@ public class SchedulePrediction {
 
     public void setAwayWinAmount(double awayWinAmount) {
         this.awayWinAmount = awayWinAmount;
+    }
+
+    public double getDrawWinAmount() {
+        return drawWinAmount;
+    }
+
+    public void setDrawWinAmount(double drawWinAmount) {
+        this.drawWinAmount = drawWinAmount;
     }
 
     public boolean isDeadlinReached() {

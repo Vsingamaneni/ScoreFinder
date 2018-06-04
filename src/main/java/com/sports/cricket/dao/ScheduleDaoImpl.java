@@ -56,7 +56,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
     @Override
     public Schedule findById(Integer matchNumber) {
 
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("matchNumber", matchNumber);
 
         String sql = "SELECT * FROM SCHEDULE where matchNumber = ?";
@@ -341,8 +341,8 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
         boolean isSuccess = false;
 
-        String sql = "INSERT INTO RESULTS(matchNumber, homeTeam, awayTeam, startDate, winner, winningAmount, homeTeamCount, awayTeamCount, notPredictedCount, matchDay)" +
-                "VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO RESULTS(matchNumber, homeTeam, awayTeam, startDate, winner, winningAmount, homeTeamCount, awayTeamCount, notPredictedCount, matchDay, drawTeamCount)" +
+                "VALUES (?,?,?,?,?,?,?,?,?,?," +result.getDrawTeamCount()+")";
 
 
         Connection conn = null;
@@ -359,7 +359,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
             ps.setInt(7, result.getHomeTeamCount());
             ps.setInt(8, result.getAwayTeamCount());
             ps.setInt(9, result.getNotPredictedCount());
-            ps.setInt(10, result.getMatchNumber());
+            ps.setInt(10, result.getMatchDay());
 
             ps.executeUpdate();
             ps.close();

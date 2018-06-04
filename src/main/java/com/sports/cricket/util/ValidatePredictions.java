@@ -60,6 +60,7 @@ public class ValidatePredictions {
 
         Integer homeTeamCount = 0;
         Integer awayTeamCount = 0;
+        Integer drawCount = 0;
         Integer notSelectedCount = 0;
 
         for(Prediction prediction : predictionList){
@@ -67,6 +68,8 @@ public class ValidatePredictions {
                 homeTeamCount = homeTeamCount+1;
             }else if(prediction.getSelected().equalsIgnoreCase(awayTeam)){
                 awayTeamCount = awayTeamCount+1;
+            }else if(prediction.getSelected().equalsIgnoreCase("draw")){
+                drawCount = drawCount+1;
             }else if(prediction.getSelected().equalsIgnoreCase(notSelected)){
                 notSelectedCount = notSelectedCount+1;
             }
@@ -74,6 +77,7 @@ public class ValidatePredictions {
 
         schedulePrediction.setHomeTeamCount(homeTeamCount);
         schedulePrediction.setAwayTeamCount(awayTeamCount);
+        schedulePrediction.setDrawTeamCount(drawCount);
         schedulePrediction.setNotPredicted(notSelectedCount);
 
         try {
@@ -82,13 +86,19 @@ public class ValidatePredictions {
                 if (homeTeamCount == 0 ){
                     schedulePrediction.setHomeWinAmount(0);
                 }else {
-                    schedulePrediction.setHomeWinAmount((schedule.getMatchFee() * (awayTeamCount + notSelectedCount)) / homeTeamCount);
+                    schedulePrediction.setHomeWinAmount((schedule.getMatchFee() * (awayTeamCount + drawCount + notSelectedCount)) / homeTeamCount);
                 }
 
                 if (awayTeamCount == 0 ) {
                     schedulePrediction.setAwayWinAmount(0);
                 }else {
-                    schedulePrediction.setAwayWinAmount((schedule.getMatchFee() * (homeTeamCount + notSelectedCount)) / awayTeamCount);
+                    schedulePrediction.setAwayWinAmount((schedule.getMatchFee() * (homeTeamCount + drawCount + notSelectedCount)) / awayTeamCount);
+                }
+
+                if (drawCount == 0 ) {
+                    schedulePrediction.setDrawWinAmount(0);
+                }else {
+                    schedulePrediction.setDrawWinAmount((schedule.getMatchFee() * (homeTeamCount + awayTeamCount + notSelectedCount)) / drawCount);
                 }
             }
         } catch (ParseException e) {
@@ -114,7 +124,7 @@ public class ValidatePredictions {
 
     public static List<Schedule> isScheduleAfterRegistration(List<Schedule> scheduleList , String registeredDate) throws ParseException {
 
-        List<Schedule> finalSchedule = scheduleList;
+        List<Schedule> finalSchedule = new ArrayList<>(scheduleList);
 
         for ( Schedule schedule : scheduleList){
            if (ValidateDeadline.isPredictionAfterRegistration(registeredDate, schedule.getStartDate())){
@@ -123,4 +133,5 @@ public class ValidatePredictions {
         }
      return finalSchedule;
     }
+
 }

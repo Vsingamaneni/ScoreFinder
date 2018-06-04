@@ -52,9 +52,9 @@
 <body>
 
 <div style="width: 1250px; margin: 0 auto;">
-    <header>
+        <header>
 
-        <nav class="navbar navbar-inverse " style="background-color: #082a3e">
+            <nav class="navbar navbar-inverse " style="background-color: #082a3e">
             <div class="container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="${urlHome}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Indian Premier League</a>
@@ -67,8 +67,6 @@
             </div>
         </nav>
 
-        <header>
-
             <c:if test="${role.equalsIgnoreCase('admin')}">
                 <jsp:include page="../fragments/nav_admin.jsp"/>
             </c:if>
@@ -76,10 +74,19 @@
             <c:if test="${role.equalsIgnoreCase('member')}">
                 <jsp:include page="../fragments/nav_after_login.jsp"/>
             </c:if>
-
+        </header>
     <spring:url value="/match/${user_id}/add" var="predictionUrl" />
     <spring:url value="/showPredictions" var="cancelUrl" />
 
+    <c:if test="${not empty errorDetailsList}">
+        <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> Please fix the below errors..!!</h2>
+    </c:if>
+    <c:forEach var="errorDetails" items="${errorDetailsList}">
+        <c:if test="${not empty errorDetails.errorMessage}" >
+            <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> *** ${errorDetails.errorMessage} </h2>
+        </c:if>
+    </c:forEach>
+    <br /><br /><br />
         <div style="width: 60%; margin: 0 auto;">
 
             <div class='container'>
@@ -92,7 +99,8 @@
                             <div class='form-group'>
                                 <label class='control-label col-md-2 col-md-offset-2' for='id_event'>Match</label>
                                 <div class='col-md-2'>
-                                    <select class='form-control' id='id_event' name="event">
+                                    <select class='form-control' id='id_event' name="event" style="min-width:150px;">
+                                        <option>   --- SELECT ---    </option>
                                         <option>${fn:toUpperCase(scheduleForm.homeTeam)} vs ${fn:toUpperCase(scheduleForm.awayTeam)}</option>
                                     </select>
                                 </div>
@@ -104,7 +112,8 @@
                             <div class='form-group'>
                                 <label class='control-label col-md-2 col-md-offset-2' for='id_name'>Name</label>
                                 <div class='col-md-2'>
-                                    <select class='form-control' id='id_name' name="firstName">
+                                    <select class='form-control' id='id_name' name="firstName" style="min-width:150px; ">
+                                        <option>   --- SELECT ---    </option>
                                         <option>${user_name}</option>
                                     </select>
                                 </div>
@@ -112,9 +121,13 @@
                             <div class='form-group'>
                                 <label class='control-label col-md-2 col-md-offset-2' for='id_selected'>Your Choice</label>
                                 <div class='col-md-2'>
-                                    <select class='form-control' id='id_gender' name="selected">
-                                        <option>${fn:toUpperCase(scheduleForm.homeTeam)}</option>
-                                        <option>${fn:toUpperCase(scheduleForm.awayTeam)}</option>
+                                    <select class='form-control' id='id_selected' name="selected" style="min-width:150px; ">
+                                            <option>   --- SELECT ---    </option>
+                                            <option>${fn:toUpperCase(scheduleForm.homeTeam)}</option>
+                                            <option>${fn:toUpperCase(scheduleForm.awayTeam)}</option>
+                                        <c:if test="${scheduleForm.possibleResult == 3}">
+                                            <option>DRAW</option>
+                                        </c:if>
                                     </select>
                                 </div>
                             </div>
@@ -132,10 +145,43 @@
                 </div>
             </div>
         </div>
+    <br /><br /><br />
+     <footer>
+
+                    <div class="top">
+                        <ul class="page-width">
+                            <li>
+                                <h4>About Us</h4>
+                                <p>
+                                    A fun place for all of our friends to have a common platform to test our cricketing skils. Participate in every match day and predict the winning team and we award you points based on the winner.
+                                    If you are an expert in cricket analysis, come give it a try and see where you stand among others.The first placed winner will be awarded with a special prize.
+                                </p>
+                            </li>
+
+                            <li>
+                                <h4>QUERIES ?</h4>
+                                <a href="tel:+1-617-378-1238" class="phone">+1-617-378-1238</a>
+                                <a href="mailto:vamsi.singamaneni@gmail.com" class="mail">vamsi.singamaneni@gmail.com</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <div class="bottom">
+                        <ul class="page-width">
+                            <li>
+                                &copy; All rights Reserved @ Vamsi Krishna Singamaneni
+                            </li>
+                            <li>
+                                <a href="#">Copyrights</a>
+                                <a href="#">Terms of Use </a>
+                                <a href="#">Privacy Policy</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </footer>
 
 </div>
-
-<jsp:include page="../fragments/footer.jsp" />
-
 </body>
 </html>

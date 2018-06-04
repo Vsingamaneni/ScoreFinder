@@ -24,6 +24,8 @@ public class Standings {
 
     private double lostAmount;
 
+    private double netAmount;
+
     public Integer getId() {
         return id;
     }
@@ -110,5 +112,13 @@ public class Standings {
 
     public void setLostAmount(double lostAmount) {
         this.lostAmount = lostAmount;
+    }
+
+    public double getNetAmount() {
+        return netAmount;
+    }
+
+    public void setNetAmount(double netAmount) {
+        this.netAmount = netAmount;
     }
 }
