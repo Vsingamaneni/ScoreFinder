@@ -100,4 +100,16 @@ public class MatchUpdates {
 
         return standingsList;
     }
+
+    public static List<Schedule> setLineNumbersToSchedule(List<Schedule> scheduleList){
+
+        int count = 0;
+
+        for (Schedule schedule : scheduleList){
+            schedule.setLineNumber(count);
+            count = count+1;
+        }
+
+        return scheduleList;
+    }
 }

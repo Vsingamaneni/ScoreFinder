@@ -189,6 +189,7 @@ public class RegistrationDaoImpl implements RegistrationDao {
                 register = new Register();
                 register.setfName(resultSet.getString("fName"));
                 register.setlName(resultSet.getString("lName"));
+                register.setEmailId(resultSet.getString("emailId"));
                 register.setMemberId(resultSet.getInt("memberId"));
                 register.setIsActive(resultSet.getString("isActive"));
                 register.setRegisteredTime(resultSet.getString("registeredTime"));

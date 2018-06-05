@@ -3,6 +3,7 @@ package com.sports.cricket.validations;
 import com.sports.cricket.model.Prediction;
 import com.sports.cricket.model.Register;
 import com.sports.cricket.model.Schedule;
+import com.sports.cricket.service.ScheduleService;
 import com.sports.cricket.util.ValidateDeadline;
 import org.springframework.util.CollectionUtils;
 
@@ -102,4 +103,36 @@ public class ValidateDeadLine {
 
         return predictionList;
     }
+
+    public static List<Schedule> getScheduleList(List<Schedule> scheduleList, ScheduleService scheduleService) throws ParseException {
+
+        List<Schedule> timerSchedule = new ArrayList<>();
+        int activeMatchDay = 0;
+        int activeMatchNumber = 0;
+        int nextActiveMatch = 0;
+
+        for (Schedule schedule: scheduleList){
+            if (!schedule.isIsactive()){
+                continue;
+            }else {
+                activeMatchDay = schedule.getMatchDay();
+                activeMatchNumber = schedule.getMatchNumber();
+
+                boolean isDeadlineReached = ValidateDeadline.isDeadLineReached(schedule.getStartDate());
+                if (isDeadlineReached){
+                    int totalMatches = scheduleService.totalMatches(activeMatchDay);
+                    if (totalMatches > 1){
+                        timerSchedule.add(scheduleService.findById(activeMatchNumber + 1));
+                    } else if (totalMatches == 1){
+                        timerSchedule = scheduleService.getScheduleByMatchDay(activeMatchDay+1);
+                    }
+                }else{
+                    timerSchedule.add(schedule);
+                }
+            }
+        }
+
+        return timerSchedule;
+    }
+
 }

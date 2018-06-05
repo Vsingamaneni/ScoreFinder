@@ -65,7 +65,6 @@ header #head-top ul li a
 	transition: all 0.5s ease;
 }
 
-
 #clockdiv{
 	font-family: sans-serif;
 	display: inline-block;
@@ -87,6 +86,51 @@ header #head-top ul li a
 	background: gray;
 	display: inline-block;
 }
+
+#clockdiv0{
+	font-family: sans-serif;
+	display: inline-block;
+	font-weight: 100;
+	text-align: center;
+	font-size: 30px;
+}
+
+#clockdiv0 > div{
+	padding: 10px;
+	border-radius: 3px;
+	background: #082a3e;
+	display: inline-block;
+}
+
+#clockdiv0 div > span{
+	padding: 15px;
+	border-radius: 3px;
+	background: gray;
+	display: inline-block;
+}
+
+#clockdiv1{
+	font-family: sans-serif;
+	display: inline-block;
+	font-weight: 100;
+	text-align: center;
+	font-size: 30px;
+}
+
+#clockdiv1 > div{
+	padding: 10px;
+	border-radius: 3px;
+	background: #082a3e;
+	display: inline-block;
+}
+
+#clockdiv1 div > span{
+	padding: 15px;
+	border-radius: 3px;
+	background: gray;
+	display: inline-block;
+}
+
 
 .smalltext{
 	padding-top: 5px;

@@ -419,6 +419,36 @@ public class ScheduleDaoImpl implements ScheduleDao {
         return result;
     }
 
+    @Override
+    public List<Schedule> getScheduleByMatchDay(Integer matchDay) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("matchNumber", matchDay);
+
+        String sql = "SELECT * FROM SCHEDULE where matchDay = ?";
+
+        List<Schedule> schedules = jdbcTemplate.query(sql, new Object[]{matchDay},  rs -> {
+
+                List<Schedule> scheduleList = new ArrayList<>();
+                while(rs.next()){
+                    Schedule schedule = new Schedule();
+
+
+                    schedule.setMatchNumber(rs.getInt("matchNumber"));
+                    schedule.setHomeTeam(rs.getString("homeTeam"));
+                    schedule.setAwayTeam(rs.getString("awayTeam"));
+                    schedule.setIsactive(rs.getBoolean("isActive"));
+                    schedule.setMatchDay(rs.getInt("matchDay"));
+                    schedule.setMatchFee(rs.getInt("matchFee"));
+                    schedule.setStartDate(rs.getString("startDate"));
+
+                    scheduleList.add(schedule);
+                }
+                return scheduleList;
+            });
+
+        return schedules;
+    }
+
     private SqlParameterSource getSqlParameterByModel(Prediction prediction) {
 
         MapSqlParameterSource paramSource = new MapSqlParameterSource();

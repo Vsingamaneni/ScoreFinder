@@ -100,7 +100,6 @@
                                 <label class='control-label col-md-2 col-md-offset-2' for='id_event'>Match</label>
                                 <div class='col-md-2'>
                                     <select class='form-control' id='id_event' name="event" style="min-width:150px;">
-                                        <option>   --- SELECT ---    </option>
                                         <option>${fn:toUpperCase(scheduleForm.homeTeam)} vs ${fn:toUpperCase(scheduleForm.awayTeam)}</option>
                                     </select>
                                 </div>

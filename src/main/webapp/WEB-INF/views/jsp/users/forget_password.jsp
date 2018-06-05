@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class='form-group'>
-                            <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Email ID</label>
+                            <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Confirm Email ID</label>
                             <div class='col-md-6'>
                                 <div class='form-group'>
                                     <div class='col-md-11'>

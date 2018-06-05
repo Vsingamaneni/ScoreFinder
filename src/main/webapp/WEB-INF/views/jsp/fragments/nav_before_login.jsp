@@ -17,12 +17,12 @@
     <ul class="navigation">
         <li><a href="/" class="active">Home</a></li>
                 <li><a href="/register">Registration</a>
-                    <ul>
+                    <%--<ul>
                         <li><a href="/register">IPL</a></li>
                         <li><a href="#">Soccer</a></li>
                         <li><a href="#">Kabadi</a>
                         </li>
-                    </ul>
+                    </ul>--%>
                 </li>
         <li><a href="/login" class="">My Account</a>
             <ul>

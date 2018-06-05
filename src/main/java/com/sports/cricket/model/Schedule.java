@@ -2,6 +2,8 @@ package com.sports.cricket.model;
 
 public class Schedule {
 
+    private Integer lineNumber;
+
     private Integer matchNumber;
 
     private String homeTeam;
@@ -21,6 +23,14 @@ public class Schedule {
     private boolean canPredict;
 
     private Integer matchDay;
+
+    public Integer getLineNumber() {
+        return lineNumber;
+    }
+
+    public void setLineNumber(Integer lineNumber) {
+        this.lineNumber = lineNumber;
+    }
 
     public Integer getMatchNumber() {
         return matchNumber;

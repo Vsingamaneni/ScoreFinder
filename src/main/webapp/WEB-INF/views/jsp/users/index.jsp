@@ -1,19 +1,20 @@
-<%@ page import="com.sports.cricket.model.Schedule" %>
-<%@ page import="java.util.List" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: v0s004a
   Date: 4/30/18
   Time: 12:03 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page import="com.sports.cricket.model.Schedule" %>
+<%@ page import="java.util.List" %>
 <%@ page session="false"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
-    <title>IPL score predictor</title>
-    <meta name="description" content="Cricket" />
+    <title>Score predictor</title>
+    <meta name="description" content="score finder" />
     <meta charset="utf-8">
     <!--Fav Icon:-->
     <link rel="shortcut icon" href="/resources/core/images/cricket.ico" />
@@ -37,7 +38,6 @@
 
     <!-- js -->
     <spring:url value="/resources/core/js/index.js" var="timerJs" />
-   <%-- <spring:url value="/resources/core/js/timer/flipclock.js" var="clockJs" />--%>
     <script src="${timerJs}"></script>
 
 
@@ -46,18 +46,13 @@
         <c:set var="role" value="${user.role}"/>
     </c:if>
 
-    <%--<link rel="stylesheet" href=href="${flipClockcss}">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="${clockJs}"></script>
---%>
-
     <body>
     <div style="width: 1250px; margin: 0 auto;">
         <header>
             <div id="head-top">
                 <ul class="page-width">
                     <li class="logo">
-                        <a href="${userUrl}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Indian Premier League</a>
+                        <a href="${userUrl}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Score Finder</a>
                     </li>
                     <c:if test="${not empty user_name}">
                         <li class="right">
@@ -68,7 +63,7 @@
                     <li class="right">
                         <a style="text-decoration:none;">
                             <marquee onmouseover="stop();" onmouseout="start();" scrollAmount="20" scrollDelay="300" direction="side" width="100%"  style="margin-top: 0px">
-                                <a href="/" class="new1" style="color:white;font-size:19px;text-decoration:none;font-family:Comic Sans MS">	IPL is live today. &nbsp;&nbsp;&nbsp;  Sign on to find your score.</a></marquee>
+                                <a href="/" class="new1" style="color:white;font-size:19px;text-decoration:none;font-family:Comic Sans MS">	Matches are live today. &nbsp;&nbsp;&nbsp;  Sign on to find your score.</a></marquee>
                         </a>
                     </li>
                     </c:if>
@@ -95,6 +90,7 @@
             </c:when>
             <c:otherwise>
                 <c:forEach var="schedule" items="${schedules}">
+                    <var count =0></var>
                     <table style=" margin: 0px auto;">
                         <tr>
                             <td><img src="/resources/core/images/teams/${schedule.homeTeam}.jpg" alt="Home Team Image Missing" style="width:250px;height:250px;"></td>
@@ -109,7 +105,7 @@
 
                             <h4>COUNTDOWN CLOCK	</h4>
                             <hr>
-                            <div id="clockdiv">
+                            <div id="clockdiv${schedule.lineNumber}">
 
                                 <div>
                                     <span class="days"></span>
@@ -129,34 +125,51 @@
                                 </div>
                             </div>
 
-                            <script src="${timerJs}"></script>
                         </li>
+                        <script type="text/javascript">
+                            initializeClock('clockdiv${schedule.lineNumber}', new Date(Date.parse("${schedule.startDate}")));
+                            function getTimeRemaining(endtime) {
+                                var t = Date.parse(endtime) - Date.parse(new Date());
+                                var seconds = Math.floor((t / 1000) % 60);
+                                var minutes = Math.floor((t / 1000 / 60) % 60);
+                                var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+                                var days = Math.floor(t / (1000 * 60 * 60 * 24));
+                                return {
+                                    'total': t,
+                                    'days': days,
+                                    'hours': hours,
+                                    'minutes': minutes,
+                                    'seconds': seconds
+                                };
+                            }
 
-                    </ul>
+                            function initializeClock(id, endtime) {
+                                var clock = document.getElementById(id);
+                                var daysSpan = clock.querySelector('.days');
+                                var hoursSpan = clock.querySelector('.hours');
+                                var minutesSpan = clock.querySelector('.minutes');
+                                var secondsSpan = clock.querySelector('.seconds');
 
-                   <%-- <div class="clock" style="margin:2em;"></div>
-                    <script type="text/javascript">
-                        var clock;
+                                function updateClock() {
+                                    var t = getTimeRemaining(endtime);
 
-                        $(document).ready(function() {
-                            var clock;
+                                    daysSpan.innerHTML = t.days;
+                                    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+                                    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+                                    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
-                            clock = $('.clock').FlipClock({
-                                clockFace: 'DailyCounter',
-                                autoStart: false,
-                                callbacks: {
-                                    stop: function() {
-                                        $('.message').html('The clock has stopped!')
+                                    if (t.total <= 0) {
+                                        clearInterval(timeinterval);
                                     }
                                 }
-                            });
 
-                            clock.setTime(10);
-                            clock.setCountdown(true);
-                            clock.start();
+                                updateClock();
+                                var timeinterval = setInterval(updateClock, 1000);
+                            }
 
-                        });
-                    </script>--%>
+                        </script>
+
+                    </ul>
 
                 </c:forEach>
             </c:otherwise>
@@ -172,10 +185,9 @@
 
         <ul id="logos" class="page-width">
             <li>
-                <p align="center"> IPL tournament 2018 is in progress.
-                    Registrations are open now and will be closed on 10-May.</p>
+                <p align="center"> Fifa world cup tournament 2018 is about to commence.
+                    Registrations are open now and will be closed on 10-June 2018.</p>
             </li>
-
         </ul>
 
 
@@ -186,8 +198,8 @@
                     <li>
                         <h4>About Us</h4>
                         <p>
-                            A fun place for all of our friends to have a common platform to test our cricketing skils. Participate in every match day and predict the winning team and we award you points based on the winner.
-                            If you are an expert in cricket analysis, come give it a try and see where you stand among others.The first placed winner will be awarded with a special prize.
+                            A fun place for all of our friends to have a common platform to test our predicting skils. Participate in every match day and predict the winning team and we award you points based on the winner.
+                            If you are an expert in soccer analysis, come give it a try and see where you stand among others.The first placed winner will be awarded with a special prize.
                         </p>
                     </li>
 

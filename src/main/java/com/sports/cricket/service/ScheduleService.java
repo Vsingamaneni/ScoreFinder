@@ -41,4 +41,6 @@ public interface ScheduleService {
 
     List<Standings> getLeaderBoard();
 
+    List<Schedule> getScheduleByMatchDay(Integer matchDay);
+
 }

@@ -3,8 +3,11 @@ package com.sports.cricket.validations;
 import com.sports.cricket.model.Register;
 import com.sports.cricket.model.Restrictions;
 import com.sports.cricket.model.UserLogin;
+import com.sports.cricket.service.RegistrationService;
+import com.sports.cricket.service.ScheduleService;
 import com.sports.cricket.validator.EmailValidator;
 
+import javax.servlet.Registration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,6 +175,68 @@ public class FormValidator {
                 errorDetails = new ErrorDetails();
                 errorDetails.setErrorField("terms");
                 errorDetails.setErrorMessage("You must accept terms and conditions to register!!");
+                errorsList.add(errorDetails);
+            }
+        }
+
+        return errorsList;
+    }
+
+    public List<ErrorDetails> isUpdateValid(Register register, RegistrationService registrationService){
+
+        errorsList = new ArrayList<>();
+        ErrorDetails errorDetails;
+
+        if (null == register){
+            errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("All Fields");
+            errorDetails.setErrorMessage("PLease fill the below form");
+            errorsList.add(errorDetails);
+        }
+
+        if (null != register
+                && register.getSecurityQuestion().equalsIgnoreCase("      -- SELECT --     ")){
+            errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("Security Question");
+            errorDetails.setErrorMessage("Please select your security question");
+            errorsList.add(errorDetails);
+        }
+
+        if (null != register
+                && null != register.getSecurityAnswer()){
+            Register userDetails = registrationService.getUser(register.getEmailId());
+            if ( userDetails.getSecurityAnswer() != register.getSecurityAnswer()){
+                errorDetails = new ErrorDetails();
+                errorDetails.setErrorField("Security Answer");
+                errorDetails.setErrorMessage("Security Answer didn't match");
+                errorsList.add(errorDetails);
+            }
+        }
+
+        if (null != register
+                && null == register.getPassword()){
+            errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("Password");
+            errorDetails.setErrorMessage("Password cannot be empty");
+            errorsList.add(errorDetails);
+        }
+
+        if (null != register
+                && null == register.getConfirmPassword()){
+            errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("Confirm Password");
+            errorDetails.setErrorMessage("Confirm Password cannot be empty");
+            errorsList.add(errorDetails);
+        }
+
+
+        if (null != register
+                && null != register.getPassword()
+                && null != register.getConfirmPassword()){
+            if (register.getPassword() != register.getConfirmPassword()){
+                errorDetails = new ErrorDetails();
+                errorDetails.setErrorField("Password mismatch");
+                errorDetails.setErrorMessage("Password and Confirm Password mismatch");
                 errorsList.add(errorDetails);
             }
         }

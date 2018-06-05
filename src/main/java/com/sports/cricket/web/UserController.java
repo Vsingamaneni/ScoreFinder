@@ -12,6 +12,7 @@ import com.sports.cricket.service.RegistrationService;
 import com.sports.cricket.service.ScheduleService;
 import com.sports.cricket.util.LeaderBoardDetails;
 import com.sports.cricket.util.MatchUpdates;
+import com.sports.cricket.util.ValidateDeadline;
 import com.sports.cricket.util.ValidatePredictions;
 import com.sports.cricket.validations.ErrorDetails;
 import com.sports.cricket.validations.FormValidator;
@@ -76,7 +77,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String showHomePage(Model model, HttpSession httpSession) {
+    public String showHomePage(Model model, HttpSession httpSession) throws ParseException {
 
         if (null != httpSession.getAttribute("user")) {
             userLogin.setFirstName(httpSession.getAttribute("user").toString());
@@ -86,7 +87,10 @@ public class UserController {
         }
 
         logger.debug("showHomePage()");
-        model.addAttribute("schedules", scheduleService.findAll());
+        List<Schedule> scheduleList = scheduleService.scheduleList();
+        scheduleList = MatchUpdates.setLineNumbersToSchedule(ValidateDeadLine.getScheduleList(scheduleList, scheduleService));
+
+        model.addAttribute("schedules", scheduleList);
         return "users/index";
 
     }
@@ -734,6 +738,15 @@ public class UserController {
 
         logger.debug("inside updatePassword()");
         boolean isUpdateSuccess = false;
+
+        List<ErrorDetails> errorDetailsList = formValidator.isUpdateValid(register, registrationService);
+
+        if (errorDetailsList.size() > 0){
+            httpSession.setAttribute("errorDetailsList", errorDetailsList);
+            return "redirect:/forget";
+        }
+
+
         if (null != register.getEmailId()) {
             isUpdateSuccess = registrationService.updateUser(register);
         }

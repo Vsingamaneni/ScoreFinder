@@ -55,7 +55,7 @@
         <div id="head-top">
             <ul class="page-width">
                 <li class="logo">
-                    <a href="${userUrl}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Indian Premier League</a>
+                    <a href="${userUrl}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Score Finder</a>
                 </li>
                 <c:if test="${not empty user_name}">
                     <li class="right">
@@ -66,7 +66,7 @@
                     <li class="right">
                         <a style="text-decoration:none;">
                             <marquee onmouseover="stop();" onmouseout="start();" scrollAmount="20" scrollDelay="300" direction="side" width="100%"  style="margin-top: 0px">
-                                <a href="/" class="new1" style="color:white;font-size:19px;text-decoration:none;font-family:Comic Sans MS">	IPL is live today. &nbsp;&nbsp;&nbsp;  Sign on to find your score.</a></marquee>
+                                <a href="/" class="new1" style="color:white;font-size:19px;text-decoration:none;font-family:Comic Sans MS">	Matches are live today. &nbsp;&nbsp;&nbsp;  Sign on to find your score.</a></marquee>
                         </a>
                     </li>
                 </c:if>
@@ -87,6 +87,16 @@
         <c:if test="${empty role}">
         <jsp:include page="../fragments/nav_before_login.jsp" />
         </c:if>
+
+        <c:if test="${not empty errorDetailsList}">
+            <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> Please fix the below errors..!!</h2>
+        </c:if>
+        <c:forEach var="errorDetails" items="${errorDetailsList}">
+            <c:if test="${not empty errorDetails.errorMessage}" >
+                <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> *** ${errorDetails.errorMessage} </h2>
+            </c:if>
+        </c:forEach>
+        <br /><br /><br />
 
         <br />
         <div class='container' style="width: 1000px;">

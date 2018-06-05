@@ -62,17 +62,17 @@ public class LeaderBoardDetails {
 
     public static boolean isLimitReached(List<Standings> standingsList, Integer memberId, Integer maxLimit){
 
-        double lostAmount = 0;
+        double netAmount = 0;
         double maxLimitValue = (double)maxLimit;
 
         for(Standings standings : standingsList){
             if(standings.getMemberId() == memberId)
             {
-                lostAmount = lostAmount + standings.getLostAmount();
+                netAmount = netAmount - standings.getLostAmount() + standings.getWonAmount();
             }
         }
 
-        if(lostAmount > maxLimitValue){
+        if(netAmount <(Math.abs(maxLimitValue) * -1 )){
             return true;
         }
 
