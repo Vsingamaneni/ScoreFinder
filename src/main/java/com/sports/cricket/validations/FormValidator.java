@@ -13,6 +13,8 @@ import java.util.List;
 
 public class FormValidator {
 
+    private static final String EMPTY_STRING ="";
+
     EmailValidator emailValidator = new EmailValidator();
 
     List<ErrorDetails> errorsList = null;
@@ -202,10 +204,17 @@ public class FormValidator {
             errorsList.add(errorDetails);
         }
 
+
         if (null != register
-                && null != register.getSecurityAnswer()){
+                && null == register.getSecurityAnswer() || register.getSecurityAnswer().equals(EMPTY_STRING)) {
+            errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("Security Answer");
+            errorDetails.setErrorMessage("Security Answer cannot be empty..!");
+            errorsList.add(errorDetails);
+        } else if (null != register
+                && null != register.getSecurityAnswer()) {
             Register userDetails = registrationService.getUser(register.getEmailId());
-            if ( userDetails.getSecurityAnswer() != register.getSecurityAnswer()){
+            if (!userDetails.getSecurityAnswer().trim().equalsIgnoreCase(register.getSecurityAnswer().trim())) {
                 errorDetails = new ErrorDetails();
                 errorDetails.setErrorField("Security Answer");
                 errorDetails.setErrorMessage("Security Answer didn't match");
@@ -214,7 +223,7 @@ public class FormValidator {
         }
 
         if (null != register
-                && null == register.getPassword()){
+                && null == register.getPassword() || register.getPassword().equals(EMPTY_STRING)){
             errorDetails = new ErrorDetails();
             errorDetails.setErrorField("Password");
             errorDetails.setErrorMessage("Password cannot be empty");
@@ -222,7 +231,7 @@ public class FormValidator {
         }
 
         if (null != register
-                && null == register.getConfirmPassword()){
+                && null == register.getConfirmPassword() || register.getConfirmPassword().equals(EMPTY_STRING)){
             errorDetails = new ErrorDetails();
             errorDetails.setErrorField("Confirm Password");
             errorDetails.setErrorMessage("Confirm Password cannot be empty");
@@ -232,11 +241,54 @@ public class FormValidator {
 
         if (null != register
                 && null != register.getPassword()
-                && null != register.getConfirmPassword()){
-            if (register.getPassword() != register.getConfirmPassword()){
+                && null != register.getConfirmPassword()
+                && !register.getConfirmPassword().equals(EMPTY_STRING)
+                && !register.getPassword().equals(EMPTY_STRING)){
+            if (!register.getPassword().trim().equals(register.getConfirmPassword().trim())){
                 errorDetails = new ErrorDetails();
                 errorDetails.setErrorField("Password mismatch");
                 errorDetails.setErrorMessage("Password and Confirm Password mismatch");
+                errorsList.add(errorDetails);
+            }
+        }
+
+        return errorsList;
+    }
+
+    public List<ErrorDetails> isEmailValid(Register register){
+
+        errorsList = new ArrayList<>();
+        ErrorDetails errorDetails;
+
+        if(null == register){
+            errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("EmailId");
+            errorDetails.setErrorMessage("Please provide the required details in the form..!");
+            errorsList.add(errorDetails);
+        }
+
+        if (null != register
+                && null == register.getEmailId()){
+            errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("EmailId");
+            errorDetails.setErrorMessage("Email ID cannot be null..!");
+            errorsList.add(errorDetails);
+        }
+
+        if (null != register
+                && null == register.getConfirmEmailId()){
+            errorDetails = new ErrorDetails();
+            errorDetails.setErrorField("Confirm EmailId");
+            errorDetails.setErrorMessage("Confirm Email ID cannot be null..!");
+            errorsList.add(errorDetails);
+        }
+
+        if (null != register
+                && null != register.getConfirmEmailId() && null != register.getEmailId()){
+            if (!register.getEmailId().trim().equalsIgnoreCase(register.getConfirmEmailId().trim())) {
+                errorDetails = new ErrorDetails();
+                errorDetails.setErrorField("Email Mismatch");
+                errorDetails.setErrorMessage("Email id's you provided didn't match..!");
                 errorsList.add(errorDetails);
             }
         }

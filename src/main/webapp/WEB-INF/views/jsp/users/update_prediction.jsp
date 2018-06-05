@@ -130,6 +130,9 @@
                                 <select class='form-control' id='id_gender' name="selected">
                                     <option>${fn:toUpperCase(scheduleForm.homeTeam)}</option>
                                     <option>${fn:toUpperCase(scheduleForm.awayTeam)}</option>
+                                    <c:if test="${scheduleForm.possibleResult == 3}">
+                                        <option>DRAW</option>
+                                    </c:if>
                                 </select>
                             </div>
                         </div>

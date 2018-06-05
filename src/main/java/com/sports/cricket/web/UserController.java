@@ -653,10 +653,10 @@ public class UserController {
     @RequestMapping(value = "/forget", method = RequestMethod.GET)
     public String forgetPassword(Model model, HttpSession httpSession) {
 
-        if ( null != httpSession.getAttribute("errorDetails")){
-            ErrorDetails errorDetails = (ErrorDetails)httpSession.getAttribute("errorDetails");
-            model.addAttribute("errorDetails", errorDetails);
-            httpSession.removeAttribute("errorDetails");
+        if ( null != httpSession.getAttribute("errorDetailsList")){
+            List<ErrorDetails> errorDetailsList = (List<ErrorDetails>)httpSession.getAttribute("errorDetailsList");
+            model.addAttribute("errorDetailsList", errorDetailsList);
+            httpSession.removeAttribute("errorDetailsList");
             return "users/forget_password";
         }
 
@@ -700,24 +700,22 @@ public class UserController {
         logger.debug("resetPassword()");
         Register userDetails = null;
 
-        if (null != register.getEmailId()) {
-            if ( register.getEmailId() != register.getConfirmEmailId()){
-                ErrorDetails errorDetails = new ErrorDetails();
-                errorDetails.setErrorField("emailID");
-                errorDetails.setErrorMessage("Both email ID's didn't match..!!");
-                model.addAttribute("errorDetails", errorDetails);
-                httpSession.setAttribute("errorDetails", errorDetails);
-                return "redirect:/forget";
-            }
+        List<ErrorDetails> errorDetailsList = formValidator.isEmailValid(register);
+
+        if (errorDetailsList.size() > 0){
+            httpSession.setAttribute("errorDetailsList", errorDetailsList);
+            return "redirect:/forget";
+        } else {
             userDetails = registrationService.getUser(register.getEmailId());
         }
+
 
         if (null == userDetails){
             ErrorDetails errorDetails = new ErrorDetails();
             errorDetails.setErrorField("login");
             errorDetails.setErrorMessage("Invalid Email ID");
-            model.addAttribute("errorDetails", errorDetails);
-            httpSession.setAttribute("errorDetails", errorDetails);
+            errorDetailsList.add(errorDetails);
+            httpSession.setAttribute("errorDetailsList", errorDetailsList);
             return "redirect:/forget";
         }
 

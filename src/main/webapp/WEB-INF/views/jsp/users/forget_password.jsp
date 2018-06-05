@@ -57,11 +57,16 @@
 
         <br /><br />
 
-        <c:if test="${not empty errorDetails}">
-            <div class="alert alert-${css} alert-dismissible" role="alert">
-                <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"><strong>${errorDetails.errorMessage}</strong></h2>
-            </div>
+        <c:if test="${not empty errorDetailsList}">
+            <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> Please fix the below errors..!!</h2>
         </c:if>
+        <c:forEach var="errorDetails" items="${errorDetailsList}">
+            <c:if test="${not empty errorDetails.errorMessage}" >
+                <h2 style="color:red;font-size:15px;text-decoration:none;font-family:Comic Sans MS"> *** ${errorDetails.errorMessage} </h2>
+            </c:if>
+        </c:forEach>
+
+        <br /><br />
 
         <div class='container' style="width: 1000px;">
             <div class='panel panel-primary dialog-panel'>
