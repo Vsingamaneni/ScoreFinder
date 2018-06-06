@@ -94,7 +94,7 @@
                     <table style=" margin: 0px auto;">
                         <tr>
                             <td><img src="/resources/core/images/teams/${schedule.homeTeam}.jpg" alt="Home Team Image Missing" style="width:250px;height:250px;"></td>
-                            <td><img style=" display: block; margin-left: auto; margin-right: auto; width: 50px;" src="${vs}" alt="Mountain View" style="width:50px;height:50px;"></td>
+                            <td><img style=" display: block; margin-left: auto; margin-right: auto; width: 50px;" src="${vs}" alt="Vs Missing" style="width:50px;height:50px;"></td>
                             <td><img src="/resources/core/images/teams/${schedule.awayTeam}.jpg" alt="Away Team Image Missing" style="width:250px;height:250px;"></td>
                         </tr>
                     </table>

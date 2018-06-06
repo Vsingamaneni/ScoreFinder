@@ -38,6 +38,12 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.cloud.sql/mysql-socket-factory -->
+		<!--<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>mysql-socket-factory</artifactId>
+			<version>1.0.1</version>
+		</dependency>-->
 		<!-- Spring Web
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -54,11 +60,11 @@
 		</dependency>
 
 		<!-- HyperSQL DB -->
-		<dependency>
+		<!--<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>${hsqldb.version}</version>
-		</dependency>
+		</dependency>-->
 
 
 		<dependency>
