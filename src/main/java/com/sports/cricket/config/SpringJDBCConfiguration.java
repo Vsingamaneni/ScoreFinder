@@ -16,8 +16,8 @@ public class SpringJDBCConfiguration {
         //MySQL database we are using
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         // Google cloud URL - 35.194.225.158
-        //dataSource.setUrl("jdbc:mysql://35.201.185.22:3306/sports");
-        dataSource.setUrl("jdbc:mysql://google/sports?cloudSqlInstance=scorefinder-206414:asia-east1:scorefinderapp&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;");
+        dataSource.setUrl("jdbc:mysql://35.201.185.22:3306/sports");
+        //dataSource.setUrl("jdbc:mysql://google/sports?cloudSqlInstance=scorefinder-206414:asia-east1:scorefinderapp&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;");
         dataSource.setUsername("root");
         dataSource.setPassword("");
 
