@@ -37,7 +37,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
     @Override
     public List<Schedule> findAll() {
-        String sql = "SELECT * FROM schedule where isActive = TRUE";
+        String sql = "SELECT * FROM SCHEDULE where isActive = TRUE";
 
         List<Schedule> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Schedule.class));
 

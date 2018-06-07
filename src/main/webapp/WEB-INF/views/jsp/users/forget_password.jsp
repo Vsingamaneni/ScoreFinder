@@ -74,7 +74,7 @@
                     <h5 style="text-align: left;">Forgot Your Password ? Fill in the email details to get you in Again.</h5>
                 </div>
                 <div class='panel-body'>
-                    <form action="/resetPassword" modelAttribute="registerForm" method="POST" class='form-horizontal' role='form'>
+                    <form action="${resetPasswordUrl}" modelAttribute="registerForm" method="POST" class='form-horizontal' role='form'>
                         <br />
                         <div class='form-group'>
                             <label class='control-label col-md-2 col-md-offset-2' for='id_email'>Email ID</label>
@@ -101,7 +101,7 @@
                                 <button class='btn-lg btn-primary' type='submit' onclick="post('${resetPasswordUrl}')">Reset Password</button>
                             </div>
                             <div class='col-md-3'>
-                                <button class='btn-lg btn-danger' style='float:right' type='submit' <%--onclick="post('${cancelUrl}')"--%>><a href="/index" style="color:white;">Cancel</a></button>
+                                <button class='btn-lg btn-danger' style='float:right' type='submit'><a href="/index" style="color:white;">Cancel</a></button>
                             </div>
                         </div>
                     </form>

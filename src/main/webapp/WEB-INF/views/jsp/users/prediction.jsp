@@ -113,7 +113,7 @@
                                 <div class='col-md-2'>
                                     <select class='form-control' id='id_name' name="firstName" style="min-width:150px; ">
                                         <option>   --- SELECT ---    </option>
-                                        <option>${user_name}</option>
+                                        <option>${fn:toUpperCase(user_name)}</option>
                                     </select>
                                 </div>
                             </div>

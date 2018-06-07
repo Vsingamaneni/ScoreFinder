@@ -819,7 +819,6 @@ public class UserController {
         model.addAttribute("scheduleForm", schedule);
         model.addAttribute("predictionForm", prediction);
         model.addAttribute("session", httpSession.getAttribute("session"));
-        httpSession.setAttribute("msg", "Update for match " + prediction.getHomeTeam() + " vs " + prediction.getAwayTeam() + " is saved successfully ..!! ");
 
         return "users/update_prediction";
 

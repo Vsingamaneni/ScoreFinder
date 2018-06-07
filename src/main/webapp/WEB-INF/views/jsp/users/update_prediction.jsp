@@ -107,7 +107,7 @@
                         <div class='form-group'>
                             <label class='control-label col-md-2 col-md-offset-2' for='id_event'>Match</label>
                             <div class='col-md-2'>
-                                <select class='form-control' id='id_event' name="event">
+                                <select class='form-control' id='id_event' name="event" style="min-width:150px;">
                                     <option>${fn:toUpperCase(scheduleForm.homeTeam)} vs ${fn:toUpperCase(scheduleForm.awayTeam)}</option>
                                 </select>
                             </div>
@@ -119,13 +119,13 @@
                         <div class='form-group'>
                             <label class='control-label col-md-2 col-md-offset-2' for='id_name'>Name</label>
                             <div class='col-md-2'>
-                                <select class='form-control' id='id_name' name="firstName">
-                                    <option>${user_name}</option>
+                                <select class='form-control' id='id_name' name="firstName" style="min-width:150px;">
+                                    <option>${fn:toUpperCase(user_name)}</option>
                                 </select>
                             </div>
                         </div>
                         <div class='form-group'>
-                            <label class='control-label col-md-2 col-md-offset-2' for='id_selected'>Your Choice</label>
+                            <label class='control-label col-md-2 col-md-offset-2' for='id_selected' style="min-width:150px;">Your Choice</label>
                             <div class='col-md-2'>
                                 <select class='form-control' id='id_gender' name="selected">
                                     <option>${fn:toUpperCase(scheduleForm.homeTeam)}</option>
@@ -142,7 +142,7 @@
                                 <button class='btn-lg btn-primary' type='submit' onclick="post('${updateUrl}')">Update</button>
                             </div>
                             <div class='col-md-3'>
-                                <button class='btn-lg btn-danger' style='float:right'><a href="/showPredictions" style="color:white;">Cancel</a></button>
+                                <button class='btn-lg btn-danger' style='float:right' type='submit'><a href="/showPredictions" style="color:white;">Cancel</a></button>
                             </div>
                         </div>
                     </form>
