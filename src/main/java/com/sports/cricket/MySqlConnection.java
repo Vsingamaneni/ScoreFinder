@@ -1,11 +1,14 @@
+/*
 package com.sports.cricket;
 
 import java.io.IOException;
 import java.sql.*;
 
+*/
 /**
  * A sample app that connects to a Cloud SQL instance and lists all available tables in a database.
- */
+ *//*
+
 public class MySqlConnection {
     public static void main(String[] args) throws IOException, SQLException {
         // TODO: fill this in
@@ -24,12 +27,14 @@ public class MySqlConnection {
         // (not recommended).
         String password = "";
 
+*/
 /*        //[START doc-example]
         String jdbcUrl = String.format(
                 "jdbc:mysql://google/%s?cloudSqlInstance=%s"
                         + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false",
                 databaseName,
-                instanceConnectionName);*/
+                instanceConnectionName);*//*
+
 
         //35.201.185.22 -- scorefinder
         //35.194.225.158 -- firstapp
@@ -60,4 +65,4 @@ public class MySqlConnection {
             System.out.println(e.getMessage());
         }
     }
-}
+}*/

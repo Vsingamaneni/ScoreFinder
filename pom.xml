@@ -21,9 +21,9 @@
           project:region:instance for Cloud SQL 2nd Generation or
           project:instance        for Cloud SQL 1st Generation
         -->
-        <INSTANCE_CONNECTION_NAME>scorefinder-206414:asia-east1:scorefinderapp</INSTANCE_CONNECTION_NAME>
-        <user>root</user>
-        <password></password>
+        <INSTANCE_CONNECTION_NAME>scorefinderapp</INSTANCE_CONNECTION_NAME>
+        <user>vamsi</user>
+        <password>rooney</password>
         <database>sports</database>
 
     </properties>
@@ -111,13 +111,18 @@
         </dependency>
 -->
 
-
-        <!--<dependency>
+        <dependency>
             <groupId>com.google.cloud.sql</groupId>
             <artifactId>mysql-socket-factory</artifactId>
             <version>1.0.8</version>
-        </dependency>-->
+        </dependency>
 
+        <!--<dependency>
+            <groupId>com.google.appengine</groupId>
+            <artifactId>appengine-maven-plugin</artifactId>
+            <version>1.9.59</version>
+        </dependency>
+-->
 <!--        <dependency>
             <groupId>com.google.cloud.sql</groupId>
             <artifactId>mysql-socket-factory-connector-j-6</artifactId>
@@ -162,7 +167,15 @@
                 </configuration>
             </plugin>
 
-
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>1.9.54</version>
+                <configuration>
+                    <deploy.promote>true</deploy.promote>
+                    <deploy.stopPreviousVersion>true</deploy.stopPreviousVersion>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

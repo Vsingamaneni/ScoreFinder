@@ -6,7 +6,7 @@
     <!--<service>cloudsql</service>
 
     <system-properties>
-        <property name="cloudsql" value="jdbc:mysql://google/sports?useSSL=false&amp;cloudSqlInstance=scorefinder-206414:asia-east1:scorefinderapp&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;user=root&amp;password=" />
-    </system-properties>-->
-
+        <property name="cloudsql" value="jdbc:mysql://google/sports?useSSL=false&amp;cloudSqlInstance=scorefinderapp&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;user=vamsi&amp;password=rooney" />
+    </system-properties>
+-->
 </appengine-web-app>
