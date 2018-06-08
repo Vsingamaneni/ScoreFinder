@@ -22,7 +22,7 @@
 <nav style="font-weight:bold; margin: 30px auto;">
 
     <ul class="navigation">
-        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/index" class="active">Home</a></li>
         <li><a href="/profile">My Account</a>
             <ul>
                 <li><a href="/profile">Profile</a></li>

@@ -44,7 +44,7 @@
         <div id="head-top">
             <ul class="page-width">
                 <li class="logo">
-                    <a href="${userUrl}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Indian Premier League</a>
+                    <a href="${userUrl}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Score Finder</a>
                 </li>
                 <c:if test="${not empty user_name}">
                     <li class="right">

@@ -51,7 +51,7 @@
     <nav class="navbar navbar-inverse " style="background-color: #082a3e">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="${urlHome}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Indian Premier League</a>
+                <a class="navbar-brand" href="${urlHome}" style="color:white;font-size:20px;text-decoration:none;font-family:Comic Sans MS">Score Finder</a>
             </div>
             <div id="navbar">
                 <ul class="nav navbar-nav navbar-right">
