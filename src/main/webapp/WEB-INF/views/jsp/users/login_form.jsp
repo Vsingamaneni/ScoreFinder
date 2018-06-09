@@ -84,8 +84,8 @@
                 <li>
                     <h4>About Us</h4>
                     <p>
-                        A fun place for all of our friends to have a common platform to test our cricketing skils. Participate in every match day and predict the winning team and we award you points based on the winner.
-                        If you are an expert in cricket analysis, come give it a try and see where you stand among others.The first placed winner will be awarded with a special prize.
+                        A fun place for all of our friends to have a common platform to test our sporting skills. Participate in every match day and predict the winning team and we award you points based on the winner.
+                        If you are an expert in sports analysis, come give it a try and see where you stand among others.The first placed winner will be awarded with a special prize.
                     </p>
                 </li>
 

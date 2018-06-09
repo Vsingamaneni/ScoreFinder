@@ -17,18 +17,8 @@
     <ul class="navigation">
         <li><a href="/" class="active">Home</a></li>
                 <li><a href="/register">Registration</a>
-                    <%--<ul>
-                        <li><a href="/register">IPL</a></li>
-                        <li><a href="#">Soccer</a></li>
-                        <li><a href="#">Kabadi</a>
-                        </li>
-                    </ul>--%>
                 </li>
-        <li><a href="/login" class="">My Account</a>
-            <ul>
-                <li><a href="/login">Login</a></li>
-            </ul>
-        </li>
+        <li><a href="/login" class="">login</a></li>
         <li><a href="#" class="">FAQ's</a></li>
         <li><a href="#" class="">Contact Us</a></li>
     </ul>

@@ -73,6 +73,14 @@ public class UserController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, HttpSession httpSession) {
         logger.debug("index()");
+
+        if (null != httpSession.getAttribute("user")) {
+            userLogin.setFirstName(httpSession.getAttribute("user").toString());
+            userLogin.setLastName(httpSession.getAttribute("userLastName").toString());
+            userLogin.setRole(httpSession.getAttribute("role").toString());
+            model.addAttribute("user", userLogin);
+        }
+
         return "redirect:/index";
     }
 
