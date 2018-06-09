@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
     <runtime>java8</runtime>
+    <application>scorefinder-206414</application>
     <threadsafe>true</threadsafe>
+    <version>1</version>
 
-    <!--<service>cloudsql</service>
+    <service>cloudsql</service>
 
     <system-properties>
-        <property name="cloudsql" value="jdbc:mysql://google/sports?useSSL=false&amp;cloudSqlInstance=scorefinderapp&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;user=vamsi&amp;password=rooney" />
+        <property name="cloudsql" value="jdbc:mysql://google/${database}?useSSL=false&amp;cloudSqlInstance=${INSTANCE_CONNECTION_NAME}&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;user=${user}&amp;password=${password}" />
     </system-properties>
--->
 </appengine-web-app>

@@ -8,14 +8,22 @@
     <name>Score Finder App</name>
 
     <properties>
-        <jdk.version>1.7</jdk.version>
+        <jdk.version>1.8</jdk.version>
         <spring.version>5.0.5.RELEASE</spring.version>
         <hsqldb.version>2.3.2</hsqldb.version>
         <logback.version>1.1.3</logback.version>
         <jcl.slf4j.version>1.7.12</jcl.slf4j.version>
         <jstl.version>1.2</jstl.version>
         <servletapi.version>3.1.0</servletapi.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <INSTANCE_CONNECTION_NAME>scorefinder-206414:asia-east1:scorefinderapp</INSTANCE_CONNECTION_NAME>
+        <user>root</user>
+        <password></password>
+        <database>sports</database>
     </properties>
 
     <dependencies>
@@ -84,6 +92,12 @@
             <version>1.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.cloud.sql</groupId>
+            <artifactId>mysql-socket-factory</artifactId>
+            <version>1.0.8</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -114,6 +128,12 @@
                         </resource>
                     </webResources>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.appengine</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>1.9.64</version>
             </plugin>
         </plugins>
     </build>

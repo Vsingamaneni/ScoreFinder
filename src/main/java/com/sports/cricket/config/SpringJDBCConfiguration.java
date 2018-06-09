@@ -15,10 +15,18 @@ public class SpringJDBCConfiguration {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://node73943-scorefinder.whelastic.net/sports");
+        //dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        // Google cloud URL - 35.194.225.158
+        dataSource.setUrl(System.getProperty("cloudsql"));
+        //dataSource.setUrl("jdbc:mysql://35.201.185.22:3306/sports");
+        //dataSource.setUrl("jdbc:mysql://google/sports?cloudSqlInstance=scorefinder-206414:asia-east1:scorefinderapp&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;");
+        //dataSource.setUrl("jdbc:mysql://google/sports?cloudSqlInstance=scorefinderapp&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=vamsi&password=rooney&useSSL=false");
+        //dataSource.setUsername("root");
+        //dataSource.setPassword("");
+        //dataSource.setPassword("BNIers16706");
+        /*dataSource.setUrl("jdbc:mysql://node73943-scorefinder.whelastic.net/sports");
         dataSource.setUsername("root");
-        dataSource.setPassword("BNIers16706");
+        dataSource.setPassword("BNIers16706");*/
 
         return dataSource;
     }
