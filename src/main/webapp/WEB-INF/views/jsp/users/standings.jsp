@@ -15,7 +15,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href="/resources/core/images/cricket.ico" />
+    <title>Current Standings</title>
+    <link rel="shortcut icon" href="/resources/core/images/football.ico" />
 
     <!--CSS Styles:-->
     <spring:url value="/resources/core/css/home.css" var="homeCss" />

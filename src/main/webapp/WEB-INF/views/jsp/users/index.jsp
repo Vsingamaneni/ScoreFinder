@@ -11,13 +11,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
-    <title>Score predictor</title>
+    <title>Score Finder</title>
     <meta name="description" content="score finder" />
     <meta charset="utf-8">
     <!--Fav Icon:-->
-    <link rel="shortcut icon" href="/resources/core/images/cricket.ico" />
+    <link rel="shortcut icon" href="/resources/core/images/football.ico" />
 
     <!--CSS Styles:-->
     <spring:url value="/resources/core/css/home.css" var="homeCss" />
@@ -93,9 +94,14 @@
                     <var count =0></var>
                     <table style=" margin: 0px auto;">
                         <tr>
-                            <td><img src="/resources/core/images/teams/${schedule.homeTeam}.jpg" alt="Home Team Image Missing" style="width:250px;height:250px;"></td>
+                            <td><img src="/resources/core/images/teams/${schedule.homeTeam}.jpg" alt="Home Team Image Missing" style="width:150px;height:150px;"></td>
                             <td><img style=" display: block; margin-left: auto; margin-right: auto; width: 50px;" src="${vs}" alt="Vs Missing" style="width:50px;height:50px;"></td>
-                            <td><img src="/resources/core/images/teams/${schedule.awayTeam}.jpg" alt="Away Team Image Missing" style="width:250px;height:250px;"></td>
+                            <td><img src="/resources/core/images/teams/${schedule.awayTeam}.jpg" alt="Away Team Image Missing" style="width:150px;height:150px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="color:#082a3e;font-size:20px;text-decoration:none;font-family:Comic Sans MS;text-align: center;">${fn:toUpperCase(schedule.homeTeam)}</td>
+                            <td style="color:#082a3e;font-size:20px;text-decoration:none;font-family:Comic Sans MS;text-align: center;">vs</td>
+                            <td style="color:#082a3e;font-size:20px;text-decoration:none;font-family:Comic Sans MS;text-align: center;">${fn:toUpperCase(schedule.awayTeam)}</td>
                         </tr>
                     </table>
 

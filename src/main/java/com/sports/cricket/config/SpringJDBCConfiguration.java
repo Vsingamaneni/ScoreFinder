@@ -43,14 +43,14 @@ public class SpringJDBCConfiguration {
     }*/
 
     // Google Cloud connection
-    @Bean
+    /*@Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUrl(System.getProperty("cloudsql"));
         return dataSource;
-    }
+    }*/
 
-    /*// Local MySQL details
+    // Local MySQL details
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -60,7 +60,7 @@ public class SpringJDBCConfiguration {
         dataSource.setPassword("");
 
         return dataSource;
-    }*/
+    }
 
     @Bean
     public JdbcTemplate jdbcTemplate() {

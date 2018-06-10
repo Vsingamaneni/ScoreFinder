@@ -13,6 +13,10 @@
 <html lang="en">
 
 <body>
+<title>Logout</title>
+
+<!--Fav Icon:-->
+<link rel="shortcut icon" href="/resources/core/images/football.ico" />
 <div style="width: 1250px; margin: 0 auto;">
     <jsp:include page="../fragments/header.jsp" />
 <div class="container">

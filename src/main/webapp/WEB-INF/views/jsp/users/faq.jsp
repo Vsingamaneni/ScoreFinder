@@ -15,7 +15,7 @@
 <meta name="description" content="Cricket" />
 <meta charset="utf-8">
 <!--Fav Icon:-->
-<link rel="shortcut icon" href="/resources/core/images/cricket.ico" />
+<link rel="shortcut icon" href="/resources/core/images/football.ico" />
 
 <!--CSS Styles:-->
 <spring:url value="/resources/core/css/home.css" var="homeCss" />
