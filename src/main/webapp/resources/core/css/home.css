@@ -1,8 +1,12 @@
 */*Set's border, padding and margin to 0 for all values*/
 {
-	padding: 0px;
-	margin: 0px;
-	border: 0px;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+html, body {
+	height: 100%;
 }
 
 body{
@@ -169,6 +173,28 @@ header #head-top ul li a
 }
 
 #clockdiv3 div > span{
+	padding: 15px;
+	border-radius: 3px;
+	background: gray;
+	display: inline-block;
+}
+
+#clockdiv4{
+	font-family: sans-serif;
+	display: inline-block;
+	font-weight: 100;
+	text-align: center;
+	font-size: 30px;
+}
+
+#clockdiv4 > div{
+	padding: 10px;
+	border-radius: 3px;
+	background: #082a3e;
+	display: inline-block;
+}
+
+#clockdiv4 div > span{
 	padding: 15px;
 	border-radius: 3px;
 	background: gray;

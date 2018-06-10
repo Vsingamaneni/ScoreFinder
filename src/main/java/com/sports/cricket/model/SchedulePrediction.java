@@ -1,8 +1,11 @@
 package com.sports.cricket.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SchedulePrediction {
+public class SchedulePrediction implements Serializable {
+
+    private static final long serialVersionUID = 7126472295622776147L;
 
     private Schedule schedule;
 

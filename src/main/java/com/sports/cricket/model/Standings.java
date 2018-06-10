@@ -1,6 +1,10 @@
 package com.sports.cricket.model;
 
-public class Standings {
+import java.io.Serializable;
+
+public class Standings implements Serializable {
+
+    private static final long serialVersionUID = 7526442295622776147L;
 
     private Integer id;
 

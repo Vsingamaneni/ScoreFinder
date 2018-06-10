@@ -34,14 +34,12 @@
     <link href="${registerCss}" rel="stylesheet" />
 
     <link href='https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-    <link href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css' rel='stylesheet' type='text/css'>
-    <link href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/css/bootstrap-switch.css' rel='stylesheet' type='text/css'>
-    <link href='https://davidstutz.github.io/bootstrap-multiselect/css/bootstrap-multiselect.css' rel='stylesheet' type='text/css'>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js' type='text/javascript'></script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js' type='text/javascript'></script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js' type='text/javascript'></script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/js/bootstrap-switch.min.js' type='text/javascript'></script>
-    <script src='https://davidstutz.github.io/bootstrap-multiselect/js/bootstrap-multiselect.js' type='text/javascript'></script>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css' rel='stylesheet' type='text/css'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/css/bootstrap-switch.css' rel='stylesheet' type='text/css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js' type='text/javascript'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js' type='text/javascript'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js' type='text/javascript'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/js/bootstrap-switch.min.js' type='text/javascript'></script>
 
     <spring:url value="/showPredictions" var="showPredictionUrl" />
     <c:if test="${not empty session}">
@@ -154,41 +152,7 @@
 
         <br /><br /><br /><br />
 
-        <footer>
-
-            <div class="top">
-                <ul class="page-width">
-                    <li>
-                        <h4>About Us</h4>
-                        <p>
-                            A fun place for all of our friends to have a common platform to test our cricketing skils. Participate in every match day and predict the winning team and we award you points based on the winner.
-                            If you are an expert in cricket analysis, come give it a try and see where you stand among others.The first placed winner will be awarded with a special prize.
-                        </p>
-                    </li>
-
-                    <li>
-                        <h4>QUERIES ?</h4>
-                        <a href="tel:+1-617-378-1238" class="phone">+1-617-378-1238</a>
-                        <a href="mailto:vamsi.singamaneni@gmail.com" class="mail">vamsi.singamaneni@gmail.com</a>
-                    </li>
-                </ul>
-            </div>
-
-
-            <div class="bottom">
-                <ul class="page-width">
-                    <li>
-                        &copy; All rights Reserved @ Vamsi Krishna Singamaneni
-                    </li>
-                    <li>
-                        <a href="#">Copyrights</a>
-                        <a href="#">Terms of Use </a>
-                        <a href="#">Privacy Policy</a>
-                    </li>
-                </ul>
-            </div>
-
-        </footer>
+    <jsp:include page="../fragments/nav_footer.jsp"/>
 </div>
 </body>
 </html>

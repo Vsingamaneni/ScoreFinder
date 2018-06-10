@@ -1,6 +1,10 @@
 package com.sports.cricket.model;
 
-public class Register {
+import java.io.Serializable;
+
+public class Register implements Serializable {
+
+    private static final long serialVersionUID = 2521472295622176148L;
 
     private int memberId;
 

@@ -1,6 +1,10 @@
 package com.sports.cricket.model;
 
-public class Schedule {
+import java.io.Serializable;
+
+public class Schedule implements Serializable {
+
+    private static final long serialVersionUID = 6526472295622776147L;
 
     private Integer lineNumber;
 

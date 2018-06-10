@@ -94,16 +94,6 @@
                         <td style="text-align:left;">${register.isActive}</td>
                         <td style="text-align:left;">
                                 <spring:url value="/member/${register.memberId}/authorize" var="userUrl" />
-                                <%--<c:if test="${!register.isActive.equalsIgnoreCase('Y')}">
-                                    <button class="btn btn-info" onclick="location.href='${userUrl}'">Authorize</button>
-                                </c:if>--%>
-                                <%--<spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/view" var="userUrl" />
-                                <spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/update" var="updateUrl" />
-                                <spring:url value="/prediction/${predictions.predictionId}/delete" var="deleteUrl" />
-
-                                <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                                <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                                <button class="btn btn-danger" onclick="location.href=('${deleteUrl}')">Delete</button></td>--%>
                     </tr>
                     </c:if>
                 </c:forEach>
@@ -135,14 +125,6 @@
                         <td style="text-align:left;">
                             <spring:url value="/member/${register.memberId}/authorize" var="userUrl" />
                             <button class="btn btn-info" onclick="location.href='${userUrl}'">Authorize</button>
-
-                            <%--<spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/view" var="userUrl" />
-                            <spring:url value="/prediction/${session.memberId}/${predictions.matchNumber}/update" var="updateUrl" />
-                            <spring:url value="/prediction/${predictions.predictionId}/delete" var="deleteUrl" />
-
-                            <button class="btn btn-info" onclick="location.href='${userUrl}'">View</button>
-                            <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-                            <button class="btn btn-danger" onclick="location.href=('${deleteUrl}')">Delete</button></td>--%>
                     </tr>
                     </c:if>
                 </c:forEach>
@@ -154,41 +136,7 @@
 
     <br /><br /><br /><br /><br /><br />
 
-    <footer>
-
-        <div class="top">
-            <ul class="page-width">
-                <li>
-                    <h4>About Us</h4>
-                    <p>
-                        A fun place for all of our friends to have a common platform to test our cricketing skils. Participate in every match day and predict the winning team and we award you points based on the winner.
-                        If you are an expert in cricket analysis, come give it a try and see where you stand among others.The first placed winner will be awarded with a special prize.
-                    </p>
-                </li>
-
-                <li>
-                    <h4>QUERIES ?</h4>
-                    <a href="tel:+1-617-378-1238" class="phone">+1-617-378-1238</a>
-                    <a href="mailto:vamsi.singamaneni@gmail.com" class="mail">vamsi.singamaneni@gmail.com</a>
-                </li>
-            </ul>
-        </div>
-
-
-        <div class="bottom">
-            <ul class="page-width">
-                <li>
-                    &copy; All rights Reserved @ Vamsi Krishna Singamaneni
-                </li>
-                <li>
-                    <a href="#">Copyrights</a>
-                    <a href="#">Terms of Use </a>
-                    <a href="#">Privacy Policy</a>
-                </li>
-            </ul>
-        </div>
-
-    </footer>
+    <jsp:include page="../fragments/nav_footer.jsp"/>
 
 </div>
 </body>

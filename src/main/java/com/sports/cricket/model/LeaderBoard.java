@@ -1,6 +1,10 @@
 package com.sports.cricket.model;
 
-public class LeaderBoard {
+import java.io.Serializable;
+
+public class LeaderBoard implements Serializable {
+
+    private static final long serialVersionUID = 522472595622271147L;
 
     private Integer rank;
 

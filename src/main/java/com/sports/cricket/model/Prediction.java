@@ -1,6 +1,10 @@
 package com.sports.cricket.model;
 
-public class Prediction {
+import java.io.Serializable;
+
+public class Prediction implements Serializable {
+
+    private static final long serialVersionUID = 1526412295622076127L;
 
     private Integer predictionId;
 

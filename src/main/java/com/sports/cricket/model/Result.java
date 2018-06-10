@@ -1,6 +1,10 @@
 package com.sports.cricket.model;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable {
+
+    private static final long serialVersionUID = 7526472295622776127L;
 
     private Integer matchNumber;
 
