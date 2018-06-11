@@ -16,6 +16,8 @@ public class Schedule implements Serializable {
 
     private String startDate;
 
+    private String utcStartDate;
+
     private String winner;
 
     private Integer possibleResult;
@@ -115,5 +117,13 @@ public class Schedule implements Serializable {
 
     public void setMatchDay(Integer matchDay) {
         this.matchDay = matchDay;
+    }
+
+    public String getUtcStartDate() {
+        return utcStartDate;
+    }
+
+    public void setUtcStartDate(String utcStartDate) {
+        this.utcStartDate = utcStartDate;
     }
 }

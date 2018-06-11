@@ -94,9 +94,9 @@
                     <var count =0></var>
                     <table style=" margin: 0px auto;">
                         <tr>
-                            <td><img src="/resources/core/images/teams/${schedule.homeTeam}.jpg" alt="Home Team Image Missing" style="width:150px;height:150px;"></td>
-                            <td><img style=" display: block; margin-left: auto; margin-right: auto; width: 50px;" src="${vs}" alt="Vs Missing" style="width:50px;height:50px;"></td>
-                            <td><img src="/resources/core/images/teams/${schedule.awayTeam}.jpg" alt="Away Team Image Missing" style="width:150px;height:150px;"></td>
+                            <td><img src="/resources/core/images/teams/${schedule.homeTeam}.jpg" alt="Home Team Image Missing" style="width:150px;height:150px;border-radius: 50%;"></td>
+                            <td><img style=" display: block; margin-left: auto; margin-right: auto; width: 50px;" src="${vs}" alt="Vs Missing" style="width:30px;height:30px;"></td>
+                            <td><img src="/resources/core/images/teams/${schedule.awayTeam}.jpg" alt="Away Team Image Missing" style="width:150px;height:150px;border-radius: 50%;"></td>
                         </tr>
                         <tr>
                             <td style="color:#082a3e;font-size:20px;text-decoration:none;font-family:Comic Sans MS;text-align: center;">${fn:toUpperCase(schedule.homeTeam)}</td>
@@ -133,9 +133,10 @@
 
                         </li>
                         <script type="text/javascript">
-                            initializeClock('clockdiv${schedule.lineNumber}', new Date(Date.parse("${schedule.startDate}")));
+                            var now = new Date();
+                            initializeClock('clockdiv${schedule.lineNumber}', new Date(Date.parse("${schedule.utcStartDate}")).toUTCString());
                             function getTimeRemaining(endtime) {
-                                var t = Date.parse(endtime) - Date.parse(new Date());
+                                var t = Date.parse(endtime) - Date.parse(new Date(now.getTime() + now.getTimezoneOffset() * 60000));
                                 var seconds = Math.floor((t / 1000) % 60);
                                 var minutes = Math.floor((t / 1000 / 60) % 60);
                                 var hours = Math.floor((t / (1000 * 60 * 60)) % 24);

@@ -9,8 +9,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -18,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Repository
@@ -25,6 +24,8 @@ public class ScheduleDaoImpl implements ScheduleDao {
 
     DataSource dataSource;
     JdbcTemplate jdbcTemplate;
+
+    private static final String DATE_FORMAT = "dd-M-yyyy hh:mm:ss a";
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -99,7 +100,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
             ps.setString(4, prediction.getAwayTeam());
             ps.setString(5, prediction.getFirstName());
             ps.setString(6, prediction.getSelected());
-            ps.setString(7, getTime().toString());
+            ps.setString(7, getTime());
 
             ps.executeUpdate();
             ps.close();
@@ -131,7 +132,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
             conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, prediction.getSelected());
-            ps.setString(2, getTime().toString());
+            ps.setString(2, getTime());
             ps.setInt(3, prediction.getPredictionId());
 
 
@@ -449,20 +450,7 @@ public class ScheduleDaoImpl implements ScheduleDao {
         return schedules;
     }
 
-    private SqlParameterSource getSqlParameterByModel(Prediction prediction) {
-
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("memberId", prediction.getMemberId());
-        paramSource.addValue("matchNumber", prediction.getMatchNumber());
-        paramSource.addValue("homeTeam", prediction.getHomeTeam());
-        paramSource.addValue("awayTeam", prediction.getAwayTeam());
-        paramSource.addValue("selected", prediction.getSelected());
-        paramSource.addValue("predictedTime", getTime().toString());
-
-        return paramSource;
-    }
-
-    private LocalDateTime getTime(){
-        return java.time.LocalDateTime.now();
+    private String getTime(){
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_FORMAT));
     }
 }

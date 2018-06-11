@@ -3,12 +3,12 @@
     <runtime>java8</runtime>
     <application>scorefinder-206414</application>
     <threadsafe>true</threadsafe>
-    <version>4</version>
+    <version>fifa</version>
     <sessions-enabled>true</sessions-enabled>
 
-    <service>cloudsql</service>
+    <service>worldcup</service>
 
     <system-properties>
-        <property name="cloudsql" value="jdbc:mysql://google/${database}?useSSL=false&amp;cloudSqlInstance=${INSTANCE_CONNECTION_NAME}&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;user=${user}&amp;password=${password}" />
+        <property name="worldcup" value="jdbc:mysql://google/${database}?useSSL=false&amp;cloudSqlInstance=${INSTANCE_CONNECTION_NAME}&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;user=${user}&amp;password=${password}" />
     </system-properties>
 </appengine-web-app>

@@ -10,10 +10,7 @@ import javax.servlet.http.HttpSession;
 import com.sports.cricket.model.*;
 import com.sports.cricket.service.RegistrationService;
 import com.sports.cricket.service.ScheduleService;
-import com.sports.cricket.util.LeaderBoardDetails;
-import com.sports.cricket.util.MatchUpdates;
-import com.sports.cricket.util.ValidateDeadline;
-import com.sports.cricket.util.ValidatePredictions;
+import com.sports.cricket.util.*;
 import com.sports.cricket.validations.ErrorDetails;
 import com.sports.cricket.validations.FormValidator;
 import com.sports.cricket.validations.ResultValidator;
@@ -407,6 +404,8 @@ public class UserController {
             List<Standings> standingsList = LeaderBoardDetails.getStandings(scheduleService.getLeaderBoard(), userLogin.getMemberId());
             standingsList = MatchUpdates.mapStandings(standingsList);
 
+            standingsList = ConvertToIst.convertStandingsToIstDate(standingsList);
+
             model.addAttribute("standingsList", standingsList);
 
             httpSession.setMaxInactiveInterval(5 * 60);
@@ -452,6 +451,7 @@ public class UserController {
             schedules = ValidatePredictions.isScheduleAfterRegistration(schedules, register.getRegisteredTime());
             List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
             predictions = ValidateDeadLine.mapScheduleToPredictions(schedules, predictions);
+            predictions = ConvertToIst.convertToIstDate(predictions);
 
             model.addAttribute("predictions", predictions);
             model.addAttribute("schedules", finalSchedule);
@@ -638,6 +638,15 @@ public class UserController {
             SchedulePrediction matchDetails = matchUpdates.setUpdates(schedule, scheduleService, registrationService);
             ValidateDeadLine.isUpdatePossible(matchDetails.getSchedule(), matchDetails.getPrediction());
             schedulePredictionsList.add(matchDetails);
+
+        }
+
+        if (schedulePredictionsList.size() > 0){
+            for (SchedulePrediction schedulePrediction : schedulePredictionsList){
+                if (schedulePrediction.getPrediction() != null){
+                    ConvertToIst.convertToIstDate(schedulePrediction.getPrediction());
+                }
+            }
         }
 
         model.addAttribute("schedulePredictions", schedulePredictionsList);
