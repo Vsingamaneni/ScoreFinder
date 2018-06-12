@@ -192,7 +192,7 @@
 
         <ul id="logos" class="page-width">
             <li>
-                <p align="center"> FIFA world cup tournament 2018 is about to commence.
+                <p style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS;"> FIFA world cup tournament 2018 is about to commence.
                     Registrations are open now and will be closed soon.</p>
             </li>
         </ul>

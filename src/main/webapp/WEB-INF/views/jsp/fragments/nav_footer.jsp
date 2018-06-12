@@ -13,7 +13,7 @@
         <ul class="page-width">
             <li>
                 <h4>About Us</h4>
-                <p>
+                <p style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS;">
                     A fun place for all of our friends to have a common platform to test your sporting skills. Participate in every match day and predict the winning team and we award you points based on the winner.
                     If you are an expert in sports analysis, come give it a try and see where you stand among your friends.
                 </p>
@@ -21,8 +21,7 @@
 
             <li>
                 <h4>QUERIES ?</h4>
-                <a href="tel:+1-617-378-1238" class="phone">+1-617-378-1238</a>
-                <a href="mailto:vamsi.singamaneni@gmail.com" class="mail">vamsi.singamaneni@gmail.com</a>
+                <a href="mailto:vamsi.singamaneni@gmail.com" class="mail" style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS;">Mail to : scorefinderFifa18@gmail.com</a>
             </li>
         </ul>
     </div>
