@@ -38,8 +38,8 @@ public class ValidatePredictions {
 
         if(!CollectionUtils.isEmpty(scheduleList)){
             for(Schedule schedule : scheduleList){
-                if(null != schedule.getStartDate()){
-                    if(ValidateDeadline.isPredictionValid(schedule.getStartDate())){
+                if(null != schedule.getUtcStartDate()){
+                    if(ValidateDeadline.isPredictionValid(schedule.getUtcStartDate())){
                         schedule.setCanPredict(true);
                     }else{
                         schedule.setCanPredict(false);
@@ -81,7 +81,7 @@ public class ValidatePredictions {
         schedulePrediction.setNotPredicted(notSelectedCount);
 
         try {
-            if(ValidateDeadline.isDeadLineReached(schedule.getStartDate())){
+            if(ValidateDeadline.isDeadLineReached(schedule.getUtcStartDate())){
                 schedulePrediction.setDeadlinReached(true);
                 if (homeTeamCount == 0 ){
                     schedulePrediction.setHomeWinAmount(0);
@@ -127,7 +127,7 @@ public class ValidatePredictions {
         List<Schedule> finalSchedule = new ArrayList<>(scheduleList);
 
         for ( Schedule schedule : scheduleList){
-           if (ValidateDeadline.isPredictionAfterRegistration(registeredDate, schedule.getStartDate())){
+           if (ValidateDeadline.isPredictionAfterRegistration(registeredDate, schedule.getUtcStartDate())){
                 finalSchedule.remove(schedule);
            }
         }

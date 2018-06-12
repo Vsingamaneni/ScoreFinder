@@ -16,7 +16,7 @@ public class ValidateDeadLine {
     public static List<Prediction> validatePredictions(Schedule schedule, List<Prediction> predictionList, List<Register> registerList){
 
         try {
-            if(!ValidateDeadline.isDeadLineReached(schedule.getStartDate())){
+            if(!ValidateDeadline.isDeadLineReached(schedule.getUtcStartDate())){
                 return predictionList;
             }else{
                 predictionList = getDefaultPredictions(schedule, registerList, predictionList);
@@ -39,7 +39,7 @@ public class ValidateDeadLine {
 
         for(Register register : registerList){
             if(register.getIsActive().equalsIgnoreCase("y")) {
-                if(!ValidateDeadline.isPredictionAfterRegistration(register.getRegisteredTime(), schedule.getStartDate())) {
+                if(!ValidateDeadline.isPredictionAfterRegistration(register.getRegisteredTime(), schedule.getUtcStartDate())) {
                     memberList.add(register.getMemberId());
                 }
             }
@@ -109,7 +109,6 @@ public class ValidateDeadLine {
         List<Schedule> timerSchedule = new ArrayList<>();
         int activeMatchDay = 0;
         int activeMatchNumber = 0;
-        int nextActiveMatch = 0;
 
         for (Schedule schedule: scheduleList){
             if (!schedule.isIsactive()){
@@ -118,7 +117,7 @@ public class ValidateDeadLine {
                 activeMatchDay = schedule.getMatchDay();
                 activeMatchNumber = schedule.getMatchNumber();
 
-                boolean isDeadlineReached = ValidateDeadline.isDeadLineReached(schedule.getStartDate());
+                boolean isDeadlineReached = ValidateDeadline.isDeadLineReached(schedule.getUtcStartDate());
                 if (isDeadlineReached){
                     int totalMatches = scheduleService.totalMatches(activeMatchDay);
                     if (totalMatches > 1){
