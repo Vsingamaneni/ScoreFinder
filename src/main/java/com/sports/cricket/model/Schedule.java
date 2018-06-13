@@ -18,6 +18,8 @@ public class Schedule implements Serializable {
 
     private String utcStartDate;
 
+    private String utcFormatDate;
+
     private String winner;
 
     private Integer possibleResult;
@@ -68,6 +70,14 @@ public class Schedule implements Serializable {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public String getUtcFormatDate() {
+        return utcFormatDate;
+    }
+
+    public void setUtcFormatDate(String utcFormatDate) {
+        this.utcFormatDate = utcFormatDate;
     }
 
     public String getWinner() {

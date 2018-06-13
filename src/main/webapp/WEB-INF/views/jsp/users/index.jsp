@@ -134,7 +134,7 @@
                         </li>
                         <script type="text/javascript">
                             var now = new Date();
-                            initializeClock('clockdiv${schedule.lineNumber}', new Date(Date.parse("${schedule.utcStartDate}")).toUTCString());
+                            initializeClock('clockdiv${schedule.lineNumber}', new Date(Date.parse("${schedule.utcFormatDate}")).toUTCString());
                             function getTimeRemaining(endtime) {
                                 var t = Date.parse(endtime) - Date.parse(new Date(now.getTime() + now.getTimezoneOffset() * 60000));
                                 var seconds = Math.floor((t / 1000) % 60);

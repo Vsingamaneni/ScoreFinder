@@ -433,7 +433,6 @@ public class ScheduleDaoImpl implements ScheduleDao {
                 while(rs.next()){
                     Schedule schedule = new Schedule();
 
-
                     schedule.setMatchNumber(rs.getInt("matchNumber"));
                     schedule.setHomeTeam(rs.getString("homeTeam"));
                     schedule.setAwayTeam(rs.getString("awayTeam"));
@@ -441,6 +440,8 @@ public class ScheduleDaoImpl implements ScheduleDao {
                     schedule.setMatchDay(rs.getInt("matchDay"));
                     schedule.setMatchFee(rs.getInt("matchFee"));
                     schedule.setStartDate(rs.getString("startDate"));
+                    schedule.setUtcStartDate(rs.getString("utcStartDate"));
+                    schedule.setUtcFormatDate(rs.getString("utcFormatDate"));
 
                     scheduleList.add(schedule);
                 }
