@@ -42,15 +42,14 @@ public class SpringJDBCConfiguration {
         return dataSource;
     }*/
 
-    /*// Google Cloud connection
+    // Google Cloud connection
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUrl(System.getProperty("worldcup"));
         return dataSource;
     }
-*/
-    // Local MySQL details
+    /*// Local MySQL details
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -60,7 +59,7 @@ public class SpringJDBCConfiguration {
         dataSource.setPassword("");
 
         return dataSource;
-    }
+    }*/
 
     @Bean
     public JdbcTemplate jdbcTemplate() {

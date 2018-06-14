@@ -106,6 +106,8 @@
                         <input type=hidden id="matchDay" name="matchDay" value="${schedule.matchDay}">
                         <input type=hidden id="matchFee" name="matchFee" value="${schedule.matchFee}">
                         <input type=hidden id="startDate" name="startDate" value="${schedule.startDate}">
+                        <input type=hidden id="utcStartDate" name="utcStartDate" value="${schedule.utcStartDate}">
+                        <input type=hidden id="utcFormatDate" name="utcFormatDate" value="${schedule.utcFormatDate}">
                         <td style="text-align:left;">
                             <select class='form-control' id='id_winner' name="winner" style=" width:100px;">
                                 <option>--SELECT--</option>
