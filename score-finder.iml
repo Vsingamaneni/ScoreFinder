@@ -36,11 +36,6 @@
         <option name="dockerDirectory" value="$MODULE_DIR$/src/main/docker" />
       </configuration>
     </facet>
-    <facet type="google-app-engine" name="Google App Engine">
-      <configuration>
-        <sdk-home-path>$MAVEN_REPOSITORY$/com/google/appengine/appengine-java-sdk/1.9.64/appengine-java-sdk/appengine-java-sdk-1.9.64</sdk-home-path>
-      </configuration>
-    </facet>
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />

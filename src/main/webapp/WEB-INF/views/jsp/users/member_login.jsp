@@ -76,6 +76,39 @@
             </div>
         </c:if>
 
+        <c:if test="${!role.equalsIgnoreCase('admin')}">
+        <div style="width: 1000px; margin: 0 auto;">
+            <h1>Admin Prediction(s)</h1>
+
+        <c:if test="${not empty adminPredictionList}">
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#Game</th>
+                    <th>Fixture</th>
+                    <th>Admin Prediction</th>
+                    <th>Predicted Time</th>
+                </tr>
+                </thead>
+
+                <c:forEach var="predictions" items="${adminPredictionList}">
+                    <tr style="color:black;font-size:20px;text-decoration:none;font-family:'Comic Sans MS';">
+                        <td style="text-align:left;"> ${predictions.matchNumber}</td>
+                        <td style="text-align:left;">${predictions.homeTeam} vs ${predictions.awayTeam}</td>
+                        <td style="text-align:left;">${predictions.selected}</td>
+                        <td style="text-align:left;">${predictions.predictedTime}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:if>
+        <c:if test="${empty adminPredictionList}">
+            <p style="font-weight: bold; size: 15px;"> Admin is lazy, Didn't predict yet..!</p>
+        </c:if>
+        </div>
+        <br /><br /><br /><br /><br />
+        </c:if>
+
         <div style="width: 1000px; margin: 0 auto;">
         <h1>My Predictions</h1>
 

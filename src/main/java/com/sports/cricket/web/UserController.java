@@ -453,6 +453,14 @@ public class UserController {
             predictions = ValidateDeadLine.mapScheduleToPredictions(schedules, predictions);
             predictions = ConvertToIst.convertToIstDate(predictions);
 
+            if (null != userLogin.getRole()
+                    && !userLogin.getRole().equalsIgnoreCase("admin")){
+                List<Prediction> adminPredictionList = scheduleService.findPredictions(1);
+                List<Schedule> scheduleList = scheduleService.scheduleList();
+                adminPredictionList = ValidatePredictions.adminPredictions(scheduleList, adminPredictionList);
+                model.addAttribute("adminPredictionList", adminPredictionList);
+            }
+
             model.addAttribute("predictions", predictions);
             model.addAttribute("schedules", finalSchedule);
 

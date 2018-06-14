@@ -134,4 +134,21 @@ public class ValidatePredictions {
      return finalSchedule;
     }
 
+    public static List<Prediction> adminPredictions(List<Schedule> scheduleList, List<Prediction> predictionList) {
+
+        List<Prediction> adminPredictions = new ArrayList<>();
+
+        for (Schedule schedule : scheduleList) {
+            if (!schedule.isIsactive()) {
+                continue;
+            }
+            for (Prediction prediction : predictionList) {
+                if (schedule.getMatchNumber() == prediction.getMatchNumber()) {
+                    adminPredictions.add(prediction);
+                }
+            }
+        }
+        return adminPredictions;
+    }
+
 }

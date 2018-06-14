@@ -76,7 +76,7 @@
             </div>
         </c:if>
 
-        <div style="width: 1000px; margin: 0 auto;">
+        <div style="width: 1100px; margin: 0 auto;">
             <h1>Match Day Predictions</h1>
 
 
