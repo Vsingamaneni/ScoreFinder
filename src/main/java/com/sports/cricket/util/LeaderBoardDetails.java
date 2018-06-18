@@ -82,7 +82,7 @@ public class LeaderBoardDetails {
 
         @Override
         public int compare(LeaderBoard l1, LeaderBoard l2) {
-            if(l1.getWonAmount() < l2.getWonAmount()){
+            if(l1.getTotal() < l2.getTotal()){
                 return 1;
             } else {
                 return -1;

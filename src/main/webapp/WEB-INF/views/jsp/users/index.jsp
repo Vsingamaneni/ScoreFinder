@@ -133,9 +133,9 @@
 
                         </li>
                         <script type="text/javascript">
-                            var now = new Date();
                             initializeClock('clockdiv${schedule.lineNumber}', new Date(Date.parse("${schedule.utcFormatDate}")).toUTCString());
                             function getTimeRemaining(endtime) {
+                                var now = new Date();
                                 var t = Date.parse(endtime) - Date.parse(new Date(now.getTime() + now.getTimezoneOffset() * 60000));
                                 var seconds = Math.floor((t / 1000) % 60);
                                 var minutes = Math.floor((t / 1000 / 60) % 60);
@@ -192,8 +192,7 @@
 
         <ul id="logos" class="page-width">
             <li>
-                <p style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS;"> FIFA world cup tournament 2018 is about to commence.
-                    Registrations are open now and will be closed soon.</p>
+                <p style="color:white;font-size:15px;text-decoration:none;font-family:Comic Sans MS;"> FIFA world cup tournament 2018 is in progress.</p>
             </li>
         </ul>
 

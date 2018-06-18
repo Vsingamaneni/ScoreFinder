@@ -23,7 +23,7 @@
 
     <ul class="navigation">
         <li><a href="/index" class="active">Home</a></li>
-        <li><a href="/profile">My Account</a>
+        <li><a href="#">My Account</a>
             <ul>
                 <li><a href="/profile">Profile</a></li>
                 <li><a href="/showPredictions">Predictions</a></li>
