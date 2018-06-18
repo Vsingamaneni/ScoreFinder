@@ -421,6 +421,15 @@ public class ScheduleDaoImpl implements ScheduleDao {
     }
 
     @Override
+    public List<Standings> getLeaderBoard(Integer memberId) {
+        String sql = "SELECT * FROM STANDINGS where memberId = "+memberId;
+
+        List<Standings> result = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Standings.class));
+
+        return result;
+    }
+
+    @Override
     public List<Schedule> getScheduleByMatchDay(Integer matchDay) {
         Map<String, Object> params = new HashMap<>();
         params.put("matchNumber", matchDay);

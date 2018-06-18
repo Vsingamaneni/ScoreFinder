@@ -101,6 +101,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public List<Standings> getLeaderBoard(Integer memberId) {
+        return scheduleDao.getLeaderBoard(memberId);
+    }
+
+    @Override
     public List<Schedule> getScheduleByMatchDay(Integer matchDay) {
         return scheduleDao.getScheduleByMatchDay(matchDay);
     }

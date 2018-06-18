@@ -7,6 +7,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ValidatePredictions {
@@ -151,4 +153,20 @@ public class ValidatePredictions {
         return adminPredictions;
     }
 
+    public static List<Prediction> findCurrentPredictions(List<Schedule> scheduleList, List<Prediction> predictionList){
+
+        List<Prediction> currentPredictionList = new ArrayList<>();
+
+        for (Schedule schedule : scheduleList){
+            for (Prediction prediction : predictionList){
+
+                if (null == schedule.getWinner()
+                            && schedule.getMatchNumber() == prediction.getMatchNumber()){
+                        currentPredictionList.add(prediction);
+                    }
+                }
+            }
+
+        return currentPredictionList;
+    }
 }

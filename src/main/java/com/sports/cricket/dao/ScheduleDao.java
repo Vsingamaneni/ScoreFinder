@@ -41,5 +41,7 @@ public interface ScheduleDao {
 
     List<Standings> getLeaderBoard();
 
+    List<Standings> getLeaderBoard(Integer memberId);
+
     List<Schedule> getScheduleByMatchDay(Integer matchDay);
 }

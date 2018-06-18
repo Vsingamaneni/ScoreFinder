@@ -110,7 +110,7 @@
         </c:if>
 
         <div style="width: 1000px; margin: 0 auto;">
-        <h1>My Predictions</h1>
+        <h1>Active Predictions</h1>
 
         <table class="table table-striped">
             <thead>

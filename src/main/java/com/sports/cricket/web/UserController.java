@@ -379,7 +379,7 @@ public class UserController {
         return "redirect:/showPredictions";
     }
 
-    // Display predictions
+    // Display archive history
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public String showHistory(ModelMap model, HttpSession httpSession) {
 
@@ -401,8 +401,8 @@ public class UserController {
             httpSession.setAttribute("login", userLogin);
             httpSession.setAttribute("session", userLogin);
 
-            List<Standings> standingsList = LeaderBoardDetails.getStandings(scheduleService.getLeaderBoard(), userLogin.getMemberId());
-            standingsList = MatchUpdates.mapStandings(standingsList);
+            List<Standings> standingsList = scheduleService.getLeaderBoard(userLogin.getMemberId());
+            //standingsList = MatchUpdates.mapStandings(standingsList);
 
             standingsList = ConvertToIst.convertStandingsToIstDate(standingsList);
 
@@ -451,6 +451,7 @@ public class UserController {
             schedules = ValidatePredictions.isScheduleAfterRegistration(schedules, register.getRegisteredTime());
             List<Schedule> finalSchedule = ValidatePredictions.validatePrediction(schedules, predictions);
             predictions = ValidateDeadLine.mapScheduleToPredictions(schedules, predictions);
+            predictions = ValidatePredictions.findCurrentPredictions(schedules, predictions);
             predictions = ConvertToIst.convertToIstDate(predictions);
 
             if (null != userLogin.getRole()

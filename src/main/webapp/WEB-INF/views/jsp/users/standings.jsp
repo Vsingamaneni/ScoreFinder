@@ -76,7 +76,7 @@
             </div>
         </c:if>
 
-        <div style="width: 1000px; margin: 0 auto;">
+        <div style="width: 1100px; margin: 0 auto;">
             <h1>Hello ${user_name}, Below is your summary ..! </h1>
             <br />
             <table class="table table-striped">
@@ -84,11 +84,11 @@
                 <tr>
                     <th>Match#</th>
                     <th>Fixture</th>
+                    <th>Prediction Time</th>
                     <th>Selected</th>
                     <th>Winner</th>
-                    <th>Won</th>
-                    <th>Lost</th>
-                    <th>Net</th>
+                    <th>+</th>
+                    <th>-</th>
                 </tr>
                 </thead>
 
@@ -97,11 +97,11 @@
                         <tr style="color:black;font-size:20px;text-decoration:none;font-family:Comic Sans MS">
                             <td style="text-align:left;"> ${standings.matchNumber}</td>
                             <td style="text-align:left;"> ${standings.homeTeam} vs ${standings.awayTeam}</td>
+                            <td style="text-align:left;"> ${standings.predictedDate}</td>
                             <td style="text-align:left;"> ${standings.selected}</td>
                             <td style="text-align:left;"> ${standings.winner}</td>
                             <td style="text-align:left;">${standings.wonAmount}</td>
                             <td style="text-align:left;">${standings.lostAmount}</td>
-                            <td style="text-align:left;">${standings.netAmount} </td>
                         </tr>
                     </c:forEach>
                 </c:if>
